@@ -1,0 +1,49 @@
+https://www.wearephenix.com/
+
+#####Enquête de satisfaction:##############
+
+
+AvisEnquete(id,note,sujet,commentaire,dateheure)
+
+Sujet(id,libele,contexte)
+
+###########plateforme de recrutement:###########
+
+User_interne(id,user,mdp,droits)
+
+Poste(id,libele,locaux,date_debut,date_fin,salaire_propose,description)
+
+locaux(id,libele,numrue,rue,ville,cp)
+
+Metier(id,libelle,niveau_salaire)
+
+categorie_metier(id,libelle)
+
+##############site web commercial#########################
+
+User_externe(id,email,mdp,fonction,noteconfemp)
+
+
+
+																	  --client(adress)
+																	  |
+utilisateurs(id,nom,prenom,cb,telephone,email,date_inscription,avatar)--marchand(adresse,notepublic)
+																	  |
+																	  --livreur(transport,notepublic)
+
+
+produits(id,categorie,libele,regime_alimentaire,description_annonce,prix_de_base,reduction,image)
+
+categorie(id,libele)
+
+commande(id,type,date_debut,date_fin,quantite,jours,client)
+
+annonce(id,type,date_debut,date_fin,quantite,jours,proprietaire)
+
+images(id,path,adresse)
+Aviscommentaires(id,note,sujet,commentaire,dateheure,utilisateur)
+
+#######################application mobile pour les livreurs.###################
+
+
+
