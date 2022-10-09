@@ -25,7 +25,7 @@ User(id,email,mdp,fonction,noteconfemp,droits)
 candidater()
 																	  --client(adresse,Siren,libele,role,type)
 																	  |
-acteurs(id,nom,prenom,cb,telephone,email,date_inscription,avatar,validation_inscription)--entreprise(adresse,siret,libele,notepublic,role,type)
+utilisateur(id,nom,prenom,cb,telephone,email,date_inscription,avatar,validation_inscription)--entreprise(adresse,siret,libele,notepublic,role,type)
 																	  |
 																	  --livreur(transport,notepublic)
 																	  |
