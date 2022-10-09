@@ -9,8 +9,6 @@ Sujet(id,libele,contexte)
 
 ###########plateforme de recrutement:###########
 
-User_interne(id,user,mdp,droits)
-
 Poste(id,libele,locaux,date_debut,date_fin,salaire_propose,description)
 
 locaux(id,libele,numrue,rue,ville,cp)
@@ -21,19 +19,20 @@ categorie_metier(id,libelle)
 
 ##############site web commercial#########################
 
-User_externe(id,email,mdp,fonction,noteconfemp)
+User(id,email,mdp,fonction,noteconfemp,droits)
 
 
-
-																	  --client(adress)
+candidater()
+																	  --client(adresse,Siren,libele,role,type)
 																	  |
-utilisateurs(id,nom,prenom,cb,telephone,email,date_inscription,avatar)--entreprise(adresse,siret,libele,notepublic)
+acteurs(id,nom,prenom,cb,telephone,email,date_inscription,avatar,validation_inscription)--entreprise(adresse,siret,libele,notepublic,role,type)
 																	  |
 																	  --livreur(transport,notepublic)
+																	  |
+                                                                      -- candidat()
+Employés()
 
-
-
-produits(id,categorie,libele,regime_alimentaire,description_annonce,prix_de_base,reduction,image)
+produits(id,categorie,libele,regime_alimentaire,description_annonce,prix_de_base,reduction,image,poids_unite)
 
 categorie(id,libele)
 
