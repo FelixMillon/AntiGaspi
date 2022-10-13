@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Firecrest" company="" webLink="http://" view-date="2022-10-01" view-index="0" gantt-divider-location="330" resource-divider-location="300" version="3.1.3100" locale="fr_FR">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Nom" width="183" order="0"/>
+        <field id="tpd4" name="Date de début" width="72" order="1"/>
+        <field id="tpd5" name="Date de fin" width="71" order="2"/>
+        <option id="color.recent">
+            <![CDATA[#cccc00 #ffff33 #ffffcc #ccffcc #99ff99 #99ff66 #00ff00 #9966ff #6666ff #0033ff]]>
+        </option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nom" width="210" order="0"/>
+        <field id="1" name="Rôle par défaut" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="0" mon="0" tue="0" wed="0" thu="0" fri="0" sat="0"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="34" name="CODE" color="#ff0000" meeting="false" start="2022-10-05" duration="27" complete="0" thirdDate="2022-10-11" thirdDate-constraint="0" expand="true"/>
+        <task id="0" name="base_de_donne" color="#ff6666" meeting="false" start="2022-10-05" duration="11" complete="0" thirdDate="2022-10-05" thirdDate-constraint="0" expand="true"/>
+        <task id="21" name="js_intelligence" meeting="false" start="2022-10-13" duration="16" complete="0" expand="true">
+            <task id="42" name="espace_connection" color="#990033" meeting="false" start="2022-10-19" duration="10" complete="0" thirdDate="2022-10-22" thirdDate-constraint="0" expand="true"/>
+            <task id="43" name="affichage" color="#ff3333" meeting="false" start="2022-10-19" duration="5" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+            <task id="44" name="calcule_resultats" color="#ff3366" meeting="false" start="2022-10-13" duration="11" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+            <task id="45" name="securité" color="#ff6666" meeting="false" start="2022-10-24" duration="5" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        </task>
+        <task id="18" name="css_html_js" color="#ff3333" meeting="false" start="2022-10-24" duration="7" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="14" name="algorithme de modération" color="#990033" meeting="false" start="2022-10-13" duration="18" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="13" name="algorithme de confiance" color="#990066" meeting="false" start="2022-10-13" duration="18" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="35" name="DESIGN" color="#0033ff" meeting="false" start="2022-10-05" duration="27" complete="0" thirdDate="2022-10-11" thirdDate-constraint="0" expand="true"/>
+        <task id="5" name="charte_graphique" color="#6666ff" meeting="false" start="2022-10-12" duration="3" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="3" name="maquette figma" color="#9966ff" meeting="false" start="2022-10-15" duration="4" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="9" name="DOCUMENTATION" color="#00ff00" meeting="false" start="2022-10-05" duration="27" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="6" name="question" color="#99ff99" meeting="false" start="2022-10-13" duration="19" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="20" name="analyse de besoin" color="#99ff99" meeting="false" start="2022-10-05" duration="11" complete="0" thirdDate="2022-10-05" thirdDate-constraint="0" expand="true"/>
+        <task id="22" name="dictionnaire de données" color="#99ff66" meeting="false" start="2022-10-15" duration="4" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="2" name="powerpoint" color="#99ff99" meeting="false" start="2022-10-13" duration="19" complete="0" thirdDate="2022-10-29" thirdDate-constraint="0" expand="true"/>
+        <task id="27" name="diagramme cas d'utilisation" color="#ccffcc" meeting="false" start="2022-10-13" duration="6" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="29" name="recette technique" color="#ccffcc" meeting="false" start="2022-10-30" duration="2" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="30" name="recette metier" color="#ccffcc" meeting="false" start="2022-10-30" duration="2" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="37" name="ENVIRONNEMENT" color="#ffff33" meeting="false" start="2022-10-05" duration="27" complete="0" thirdDate="2022-10-11" thirdDate-constraint="0" expand="true"/>
+        <task id="25" name="git" color="#ffffcc" meeting="false" start="2022-10-13" duration="19" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="26" name="ci/cd" color="#cccc00" meeting="false" start="2022-10-13" duration="19" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="17" name="hebergement" color="#ffff33" meeting="false" start="2022-10-13" duration="8" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+        <task id="15" name="jira" color="#cccc00" meeting="false" start="2022-10-13" duration="6" complete="0" thirdDate="2022-10-13" thirdDate-constraint="0" expand="true"/>
+    </tasks>
+    <resources/>
+    <allocations/>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
