@@ -593,6 +593,7 @@ begin
     update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_client=old.id_consommateur;
     update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_entreprise=old.id_consommateur;
     update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_livreur=old.id_consommateur;
+    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_candidat=old.id_consommateur;
 end //
 delimiter ;
 
@@ -746,4 +747,4 @@ insert into livreur values(1,'jean_dupont@gmail.com','123','dupont','jean',null,
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
 insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim',null,'0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
-insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,2);
+insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
