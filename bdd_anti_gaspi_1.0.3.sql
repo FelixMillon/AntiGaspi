@@ -506,11 +506,21 @@ for each row
 begin
     if new.id_client is null
     then
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,2.5,new.tel,'attente');
+        set new.noteconfemp=2.5;
+        set new.valide='attente';
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.noteconfemp,new.tel,new.valide);
         set new.id_client = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_client = (select id_consommateur from consommateur where email=new.email)
+    and new.email = (select email from consommateur where id_consommateur = new.id_client)
+    and new.mdp = (select mdp from consommateur where id_consommateur = new.id_client)
+    and new.nom = (select nom from consommateur where id_consommateur = new.id_client)
+    and new.prenom = (select prenom from consommateur where id_consommateur = new.id_client)
+    and new.tel = (select tel from consommateur where id_consommateur = new.id_client)
     then
         set new.id_client = (select id_consommateur from consommateur where email=new.email);
+        set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
+        set new.valide  = (select valide from consommateur where email=new.email);
+        set new.date_inscription = (select date_inscription from consommateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -525,11 +535,21 @@ for each row
 begin
     if new.id_candidat is null
     then
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,2.5,new.tel,'attente');
+        set new.noteconfemp=2.5;
+        set new.valide='attente';
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.valide,new.tel,new.noteconfemp);
         set new.id_candidat = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_candidat = (select id_consommateur from consommateur where email=new.email)
+    and new.email = (select email from consommateur where id_consommateur = new.id_candidat)
+    and new.mdp = (select mdp from consommateur where id_consommateur = new.id_candidat)
+    and new.nom = (select nom from consommateur where id_consommateur = new.id_candidat)
+    and new.prenom = (select prenom from consommateur where id_consommateur = new.id_candidat)
+    and new.tel = (select tel from consommateur where id_consommateur = new.id_candidat)
     then
         set new.id_candidat = (select id_consommateur from consommateur where email=new.email);
+        set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
+        set new.valide  = (select valide from consommateur where email=new.email);
+        set new.date_inscription = (select date_inscription from consommateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -544,11 +564,21 @@ for each row
 begin
     if new.id_entreprise is null
     then
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,2.5,new.tel,'attente');
+        set new.noteconfemp=2.5;
+        set new.valide='attente';
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.valide,new.tel,new.noteconfemp);
         set new.id_entreprise = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_entreprise = (select id_consommateur from consommateur where email=new.email)
+    and new.email = (select email from consommateur where id_consommateur = new.id_entreprise)
+    and new.mdp = (select mdp from consommateur where id_consommateur = new.id_entreprise)
+    and new.nom = (select nom from consommateur where id_consommateur = new.id_entreprise)
+    and new.prenom = (select prenom from consommateur where id_consommateur = new.id_entreprise)
+    and new.tel = (select tel from consommateur where id_consommateur = new.id_entreprise)
     then
         set new.id_entreprise = (select id_consommateur from consommateur where email=new.email);
+        set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
+        set new.valide  = (select valide from consommateur where email=new.email);
+        set new.date_inscription = (select date_inscription from consommateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -563,11 +593,21 @@ for each row
 begin
     if new.id_livreur is null
     then
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,2.5,new.tel,'attente');
+        set new.noteconfemp=2.5;
+        set new.valide='attente';
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.noteconfemp,new.tel,new.valide);
         set new.id_livreur = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_livreur = (select id_consommateur from consommateur where email=new.email)
+    and new.email = (select email from consommateur where id_consommateur = new.id_livreur)
+    and new.mdp = (select mdp from consommateur where id_consommateur = new.id_livreur)
+    and new.nom = (select nom from consommateur where id_consommateur = new.id_livreur)
+    and new.prenom = (select prenom from consommateur where id_consommateur = new.id_livreur)
+    and new.tel = (select tel from consommateur where id_consommateur = new.id_livreur)
     then
         set new.id_livreur = (select id_consommateur from consommateur where email=new.email);
+        set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
+        set new.valide  = (select valide from consommateur where email=new.email);
+        set new.date_inscription = (select date_inscription from consommateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -741,9 +781,11 @@ insert into client values(null,'jean_dupont@gmail.com','123','dupont','jean',nul
 insert into client values(null,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,sysdate(),2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
 insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','123','Subra de Bieusse','Jean-Michel',null,sysdate(),2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
 insert into livreur values(null,'martinmatin@gmail.com','123','Matin','Martin',null,sysdate(),2.5,'0621248481','velo',null,null,'attente');
-insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,sysdate(),2.5,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier','attente');
-insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,sysdate(),2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association','attente');
+insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
+insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
 insert into livreur values(1,'jean_dupont@gmail.com','123','dupont','jean',null,sysdate(),2.5,'0123456789','scooter','electrique',null,'attente');
+insert into candidat values(1,'jean_dupont@gmail.com','123','dupont','jean',null,null,null,'0123456789','5','developpeur',null);
+insert into candidat values(null,'eric_tang@gmail.com','123','Tang','Eric',null,curdate(),null,'0178956789','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
 insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim',null,'0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
