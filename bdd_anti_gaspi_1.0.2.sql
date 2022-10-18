@@ -35,9 +35,9 @@ create table sujet
 )engine=innodb;
 
 
-create table consommateur
+create table consomateur
 (
-	id_consommateur int(5) not null,
+	id_consomateur int(5) not null,
 	email varchar(60) not null UNIQUE,
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
@@ -47,7 +47,7 @@ create table consommateur
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
     valide enum('valide','invalide','attente') not null,
-    primary key (id_consommateur)
+    primary key (id_consomateur)
 )engine=innodb;
 
 create table client
@@ -200,12 +200,12 @@ create table avis_enquete
 	reponse varchar(255) not null,
     note decimal(3, 2),
     id_sujet int(5) not null,
-    id_consommateur int(5) not null,
+    id_consomateur int(5) not null,
     primary key(id_avis_enquete),
     foreign key(id_sujet) references sujet(id_sujet)
     on update cascade
     on delete cascade,
-    foreign key(id_consommateur) references consommateur(id_consommateur)
+    foreign key(id_consomateur) references consomateur(id_consomateur)
     on update cascade
     on delete cascade
 )engine=innodb;
@@ -246,8 +246,8 @@ create table produit
 create table image
 (
 	id_image int(5) not null auto_increment,
-	path_image varchar(255),
-	url_image varchar(255),
+	path_image varchar(255) not null,
+	url_image varchar(255) not null,
     id_produit int(5),
     id_utilisateur int(5),
     primary key(id_image),
@@ -297,14 +297,14 @@ create table commentaire
 	titre varchar(50) not null,
     texte varchar(255) not null,
     note decimal(3, 2) not null,
-    id_consommateur_source int(5) not null,
-    id_consommateur_cible int(5),
+    id_consomateur_source int(5) not null,
+    id_consomateur_cible int(5),
     id_produit int(5),
     primary key(id_commentaire),
-    foreign key(id_consommateur_source) references consommateur(id_consommateur)
+    foreign key(id_consomateur_source) references consomateur(id_consomateur)
     on update cascade
     on delete cascade,
-    foreign key(id_consommateur_cible) references consommateur(id_consommateur)
+    foreign key(id_consomateur_cible) references consomateur(id_consomateur)
     on update cascade
     on delete cascade,
     foreign key(id_produit) references produit(id_produit)
@@ -456,24 +456,24 @@ create table moderer
     on delete cascade
 )engine=innodb;
 
-drop trigger if exists consommateur_before_insert;
+drop trigger if exists consomateur_before_insert;
 delimiter // 
-create trigger consommateur_before_insert 
-before insert on consommateur
+create trigger consomateur_before_insert 
+before insert on consomateur
 for each row
 begin
     insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.tel);
-    set new.id_consommateur = (select id from utilisateur where email=new.email);
+    set new.id_consomateur = (select id from utilisateur where email=new.email);
 end //
 delimiter ;
 
-drop trigger if exists consommateur_before_delete;
+drop trigger if exists consomateur_before_delete;
 delimiter // 
-create trigger consommateur_before_delete 
-before delete on consommateur
+create trigger consomateur_before_delete 
+before delete on consomateur
 for each row
 begin
-    delete from utilisateur where id=old.id_consommateur;
+    delete from utilisateur where id=old.id_consomateur;
 end //
 delimiter ;
 
@@ -504,52 +504,13 @@ create trigger client_before_insert
 before insert on client
 for each row
 begin
-    if new.id_client is null
+    if new.id_client=0
     then
-        set new.noteconfemp=2.5;
-        set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.noteconfemp,new.tel,new.valide);
-        set new.id_client = (select id_consommateur from consommateur where email=new.email);
-    elseif new.id_client = (select id_consommateur from consommateur where email=new.email)
-    and new.email = (select email from consommateur where id_consommateur = new.id_client)
-    and new.mdp = (select mdp from consommateur where id_consommateur = new.id_client)
-    and new.nom = (select nom from consommateur where id_consommateur = new.id_client)
-    and new.prenom = (select prenom from consommateur where id_consommateur = new.id_client)
-    and new.tel = (select tel from consommateur where id_consommateur = new.id_client)
+        insert into consomateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,2.5,new.tel,'attente');
+        set new.id_client = (select id_consomateur from consomateur where email=new.email);
+    elseif new.id_client = (select id_consomateur from consomateur where email=new.email)
     then
-        set new.id_client = (select id_consommateur from consommateur where email=new.email);
-        set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
-        set new.valide  = (select valide from consommateur where email=new.email);
-        set new.date_inscription = (select date_inscription from consommateur where email=new.email);
-    else
-        signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
-    end if;
-end //
-delimiter ;
-
-drop trigger if exists candidat_before_insert;
-delimiter // 
-create trigger candidat_before_insert 
-before insert on candidat
-for each row
-begin
-    if new.id_candidat is null
-    then
-        set new.noteconfemp=2.5;
-        set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.valide,new.tel,new.noteconfemp);
-        set new.id_candidat = (select id_consommateur from consommateur where email=new.email);
-    elseif new.id_candidat = (select id_consommateur from consommateur where email=new.email)
-    and new.email = (select email from consommateur where id_consommateur = new.id_candidat)
-    and new.mdp = (select mdp from consommateur where id_consommateur = new.id_candidat)
-    and new.nom = (select nom from consommateur where id_consommateur = new.id_candidat)
-    and new.prenom = (select prenom from consommateur where id_consommateur = new.id_candidat)
-    and new.tel = (select tel from consommateur where id_consommateur = new.id_candidat)
-    then
-        set new.id_candidat = (select id_consommateur from consommateur where email=new.email);
-        set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
-        set new.valide  = (select valide from consommateur where email=new.email);
-        set new.date_inscription = (select date_inscription from consommateur where email=new.email);
+        set new.id_client = (select id_consomateur from consomateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -562,23 +523,13 @@ create trigger entreprise_before_insert
 before insert on entreprise
 for each row
 begin
-    if new.id_entreprise is null
+    if new.id_entreprise=0
     then
-        set new.noteconfemp=2.5;
-        set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.valide,new.tel,new.noteconfemp);
-        set new.id_entreprise = (select id_consommateur from consommateur where email=new.email);
-    elseif new.id_entreprise = (select id_consommateur from consommateur where email=new.email)
-    and new.email = (select email from consommateur where id_consommateur = new.id_entreprise)
-    and new.mdp = (select mdp from consommateur where id_consommateur = new.id_entreprise)
-    and new.nom = (select nom from consommateur where id_consommateur = new.id_entreprise)
-    and new.prenom = (select prenom from consommateur where id_consommateur = new.id_entreprise)
-    and new.tel = (select tel from consommateur where id_consommateur = new.id_entreprise)
+        insert into consomateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,2.5,new.tel,'attente');
+        set new.id_entreprise = (select id_consomateur from consomateur where email=new.email);
+    elseif new.id_entreprise = (select id_consomateur from consomateur where email=new.email)
     then
-        set new.id_entreprise = (select id_consommateur from consommateur where email=new.email);
-        set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
-        set new.valide  = (select valide from consommateur where email=new.email);
-        set new.date_inscription = (select date_inscription from consommateur where email=new.email);
+        set new.id_entreprise = (select id_consomateur from consomateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -591,23 +542,13 @@ create trigger livreur_before_insert
 before insert on livreur
 for each row
 begin
-    if new.id_livreur is null
+    if new.id_livreur=0
     then
-        set new.noteconfemp=2.5;
-        set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.noteconfemp,new.tel,new.valide);
-        set new.id_livreur = (select id_consommateur from consommateur where email=new.email);
-    elseif new.id_livreur = (select id_consommateur from consommateur where email=new.email)
-    and new.email = (select email from consommateur where id_consommateur = new.id_livreur)
-    and new.mdp = (select mdp from consommateur where id_consommateur = new.id_livreur)
-    and new.nom = (select nom from consommateur where id_consommateur = new.id_livreur)
-    and new.prenom = (select prenom from consommateur where id_consommateur = new.id_livreur)
-    and new.tel = (select tel from consommateur where id_consommateur = new.id_livreur)
+        insert into consomateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,2.5,new.tel,'attente');
+        set new.id_livreur = (select id_consomateur from consomateur where email=new.email);
+    elseif new.id_livreur = (select id_consomateur from consomateur where email=new.email)
     then
-        set new.id_livreur = (select id_consommateur from consommateur where email=new.email);
-        set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
-        set new.valide  = (select valide from consommateur where email=new.email);
-        set new.date_inscription = (select date_inscription from consommateur where email=new.email);
+        set new.id_livreur = (select id_consomateur from consomateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -620,20 +561,19 @@ create trigger utilisateur_after_update
 after update on utilisateur
 for each row
 begin
-    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel where id_consommateur=old.id;
+    update consomateur set id_consomateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel where id_consomateur=old.id;
 end //
 delimiter ;
 
-drop trigger if exists consommateur_after_update;
+drop trigger if exists consomateur_after_update;
 delimiter // 
-create trigger consommateur_after_update 
-after update on consommateur
+create trigger consomateur_after_update 
+after update on consomateur
 for each row
 begin
-    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_client=old.id_consommateur;
-    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_entreprise=old.id_consommateur;
-    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_livreur=old.id_consommateur;
-    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_candidat=old.id_consommateur;
+    update client set id_client=new.id_consomateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_client=old.id_consomateur;
+    update entreprise set id_entreprise=new.id_consomateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_entreprise=old.id_consomateur;
+    update livreur set id_livreur=new.id_consomateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_livreur=old.id_consomateur;
 end //
 delimiter ;
 
@@ -654,7 +594,7 @@ before delete on client
 for each row
 begin
     if old.id_client not in (select id_entreprise from entreprise) and old.id_client not in (select id_livreur from livreur)
-        then delete from consommateur where id_consommateur=old.id_client;
+        then delete from consomateur where id_consomateur=old.id_client;
     end if;
 end //
 delimiter ;
@@ -666,7 +606,7 @@ before delete on entreprise
 for each row
 begin
     if old.id_entreprise not in (select id_client from client) and old.id_entreprise not in (select id_livreur from livreur)
-        then delete from consommateur where id_consommateur=old.id_entreprise;
+        then delete from consomateur where id_consomateur=old.id_entreprise;
     end if;
 end //
 delimiter ;
@@ -678,115 +618,17 @@ before delete on livreur
 for each row
 begin
     if old.id_livreur not in (select id_client from client) and old.id_livreur not in (select id_entreprise from entreprise)
-        then delete from consommateur where id_consommateur=old.id_livreur;
+        then delete from consomateur where id_consomateur=old.id_livreur;
     end if;
 end //
 delimiter ;
 
-drop trigger if exists candidat_before_delete;
-delimiter // 
-create trigger candidat_before_delete 
-before delete on candidat
-for each row
-begin
-    if old.id_candidat not in (select id_client from client) and old.id_candidat not in (select id_entreprise from entreprise)
-        then delete from consommateur where id_consommateur=old.id_candidat;
-    end if;
-end //
-delimiter ;
-
-drop trigger if exists image_before_insert;
-delimiter // 
-create trigger image_before_insert 
-before insert on image
-for each row
-begin
-    if new.id_produit is null and new.id_utilisateur is null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "L'image doit forcement concerner un utilisateur ou un produit";
-    elseif new.id_produit is not null and new.id_utilisateur is not null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "L'image doit concerner soit un utilisateur soit un produit";
-    elseif new.path_image is null and new.url_image is null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "L'image doit forcement avoir un path ou une url";
-    elseif new.path_image is not null and new.url_image is not null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "L'image doit avoir soit un path soit une url";
-    end if;
-end //
-delimiter ;
-
-drop trigger if exists image_before_update;
-delimiter // 
-create trigger image_before_update 
-before update on image
-for each row
-begin
-    if new.id_produit is null and new.id_utilisateur is null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "L'image doit forcement concerner un utilisateur ou un produit";
-    elseif new.id_produit is not null and new.id_utilisateur is not null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "L'image doit concerner soit un utilisateur soit un produit";
-    elseif new.path_image is null and new.url_image is null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "L'image doit forcement avoir un path ou une url";
-    elseif new.path_image is not null and new.url_image is not null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "L'image doit avoir soit un path soit une url";
-    end if;
-end //
-delimiter ;
-
-drop trigger if exists commentaire_before_insert;
-delimiter // 
-create trigger commentaire_before_insert 
-before insert on commentaire
-for each row
-begin
-    if new.id_consommateur_cible is null and new.id_produit is null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "Le commentaire doit forcement concerner un utilisateur ou un produit";
-    elseif new.id_consommateur_cible is not null and new.id_produit is not null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "Le commentaire doit concerner soit un utilisateur soit un produit";
-    elseif new.id_consommateur_cible is not null and new.id_consommateur_cible = new.id_consommateur_source
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "On ne peut pas se commenter soit-même";
-    elseif new.id_produit is not null and new.id_consommateur_source = (select id_entreprise from produit where id_produit=new.id_produit)
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "On ne peut pas commenter ses produits";
-    end if;
-end //
-delimiter ;
-
-drop trigger if exists commentaire_before_update;
-delimiter // 
-create trigger commentaire_before_update 
-before update on commentaire
-for each row
-begin
-    if new.id_consommateur_cible is null and new.id_produit is null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "Le commentaire doit forcement concerner un utilisateur ou un produit";
-    elseif new.id_consommateur_cible is not null and new.id_produit is not null
-    then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "Le commentaire doit concerner soit un utilisateur soit un produit";
-    end if;
-end //
-delimiter ;
-
-insert into client values(null,'jean_dupont@gmail.com','123','dupont','jean',null,sysdate(),2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
-insert into client values(null,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,sysdate(),2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
-insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','123','Subra de Bieusse','Jean-Michel',null,sysdate(),2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
-insert into livreur values(null,'martinmatin@gmail.com','123','Matin','Martin',null,sysdate(),2.5,'0621248481','velo',null,null,'attente');
-insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
-insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
+insert into client values(0,'jean_dupont@gmail.com','123','dupont','jean',null,sysdate(),2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
+insert into client values(0,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,sysdate(),2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
+insert into entreprise values(0,'aubonpainbiendecheznous@gmail.com','123','Subra de Bieusse','Jean-Michel',null,sysdate(),2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
+insert into livreur values(0,'martinmatin@gmail.com','123','Matin','Martin',null,sysdate(),2.5,'0621248481','velo',null,null,'attente');
+insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,sysdate(),2.5,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier','attente');
+insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,sysdate(),2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association','attente');
 insert into livreur values(1,'jean_dupont@gmail.com','123','dupont','jean',null,sysdate(),2.5,'0123456789','scooter','electrique',null,'attente');
-insert into candidat values(1,'jean_dupont@gmail.com','123','dupont','jean',null,null,null,'0123456789','5','developpeur',null);
-insert into candidat values(null,'eric_tang@gmail.com','123','Tang','Eric',null,curdate(),null,'0178956789','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
-insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim',null,'0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
-insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
-insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
+insert into employe values(0,'selimaouad@gmail.com','123','Aouad','Selim',null,'0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
