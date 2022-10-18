@@ -653,7 +653,7 @@ create trigger client_before_delete
 before delete on client
 for each row
 begin
-    if old.id_client not in (select id_entreprise from entreprise) and old.id_client not in (select id_livreur from livreur)
+    if old.id_client not in (select id_entreprise from entreprise) and old.id_client not in (select id_livreur from livreur) and old.id_client not in (select id_candidat from candidat)
         then delete from consommateur where id_consommateur=old.id_client;
     end if;
 end //
@@ -665,7 +665,7 @@ create trigger entreprise_before_delete
 before delete on entreprise
 for each row
 begin
-    if old.id_entreprise not in (select id_client from client) and old.id_entreprise not in (select id_livreur from livreur)
+    if old.id_entreprise not in (select id_client from client) and old.id_entreprise not in (select id_livreur from livreur) and old.id_entreprise not in (select id_candidat from candidat)
         then delete from consommateur where id_consommateur=old.id_entreprise;
     end if;
 end //
@@ -677,7 +677,7 @@ create trigger livreur_before_delete
 before delete on livreur
 for each row
 begin
-    if old.id_livreur not in (select id_client from client) and old.id_livreur not in (select id_entreprise from entreprise)
+    if old.id_livreur not in (select id_client from client) and old.id_livreur not in (select id_entreprise from entreprise) and old.id_livreur not in (select id_candidat from candidat)
         then delete from consommateur where id_consommateur=old.id_livreur;
     end if;
 end //
@@ -689,7 +689,7 @@ create trigger candidat_before_delete
 before delete on candidat
 for each row
 begin
-    if old.id_candidat not in (select id_client from client) and old.id_candidat not in (select id_entreprise from entreprise)
+    if old.id_candidat not in (select id_client from client) and old.id_candidat not in (select id_entreprise from entreprise) and old.id_candidat not in (select id_livreur from livreur)
         then delete from consommateur where id_consommateur=old.id_candidat;
     end if;
 end //
