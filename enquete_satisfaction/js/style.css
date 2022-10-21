@@ -1,3 +1,8 @@
 .colorHeader{
 background-color: #983628 ;   
 }
+
+#chart1 {
+    width: 300px;
+    margin: 0 auto;
+}

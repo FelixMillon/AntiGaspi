@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../js/style.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FireCrest | MAIN </title>
+</head>
+    <body>
+        <!-- <header>
+            <h1>Emplacement Header</h1>
+            <button type="button" id="btn" onclick="changePage('home')">home</button>
+            <button type="button" id="btn" onclick="changePage('page_1')">page 1</button>
+            <button type="button" id="btn" onclick="changePage('page_2')">page 2</button>
+        </header> -->
+        
+            <header class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-2 mb-4 border-bottom colorHeader">
+              <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <img src="../img/logo1.png" class="bi me-2 " style="width: 10vw;" role="img" alt="">
+              </a>
+        
+              <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="#" class="nav-link px-2 link-light">Collaborateur</a></li>
+                <li><a href="#" class="nav-link px-2 link-light">Assistance</a></li>
+                <li><a href="#" class="nav-link px-2 link-light">à propos</a></li>
+              </ul>
+        
+              <div class="nav col-md-3 text-end" style="padding-left: 17%; white-space: nowrap;">
+                <li><a href="#" class="nav-link px-2 link-light">Se Connecter</a></li>
+              </div>
+            </header>
+        
+
+        <main>
+            <h1>test2</h1>   
+        </main>
+
+          <div id="chart1" ></div>
+          <div id="chart2" ></div>
+          <div id="chart3" ></div>
+          <div id="chart4" ></div>
+
+
+            <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-3 border-top colorHeader">
+              <p class="col-md-4 mb-0 text-light" style="padding-left: 6%; white-space: nowrap;" >© 2022 FireCrest, Inc</p>
+          
+              <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+              </a>
+          
+              <ul class="nav col-md-4 justify-content-end" style="padding-right: 6%; white-space: nowrap;">
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Features</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Pricing</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-light">FAQs</a></li>
+                <li class="nav-item"><a href="#" class="nav-link px-2 text-light">About</a></li>
+              </ul>
+            </footer>
+          
+
+    </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+
+var options1 = {
+  chart: {
+    height: 280,
+    type: "radialBar",
+  },
+  series: [67, 84, 97, 61],
+  plotOptions: {
+    radialBar: {
+      dataLabels: {
+        total: {
+          show: true,
+          label: 'TOTAL'
+        }
+      }
+    }
+  },
+  labels: ['TEAM A', 'TEAM B', 'TEAM C', 'TEAM D']
+};
+new ApexCharts(document.querySelector("#chart1"), options1).render();
+
+var options = {
+  chart: {
+    height: 280,
+    type: 'donut',
+  },
+  series: [44, 55, 41, 17, 15],
+  labels: ["Livraison", "Produits", "Site", "SAV", "Autre"],
+  legend: {
+        show: false
+      },
+  plotOptions: {
+    pie: {
+      donut: {
+          size: '70%'
+        }
+      },
+
+  }
+};
+
+new ApexCharts(document.querySelector("#chart2"), options).render();
+
+var options = {
+  chart: {
+    height: 280,
+    width: 450,
+    type: 'bar'
+  },
+  plotOptions: {
+    bar: {
+      horizontal: true
+    }
+  },
+  series: [{
+    data: [{
+      x: 'category A',
+      y: 10
+    }, {
+      x: 'category B',
+      y: 18
+    }, {
+      x: 'category C',
+      y: 13
+    }]
+  }]
+}
+
+new ApexCharts(document.querySelector("#chart3"), options).render();
+
+var options = {
+          series: [{
+          name: 'Marine Sprite',
+          data: [44, 55, 41, 37, 22, 43, 21]
+        }, {
+          name: 'Striking Calf',
+          data: [53, 32, 33, 52, 13, 43, 32]
+        }, {
+          name: 'Tank Picture',
+          data: [12, 17, 11, 9, 15, 11, 20]
+        }, {
+          name: 'Bucket Slope',
+          data: [9, 7, 5, 8, 6, 9, 4]
+        }, {
+          name: 'Reborn Kid',
+          data: [25, 12, 19, 32, 25, 24, 10]
+        }],
+          chart: {
+          type: 'bar',
+          height: 350,
+          width: 500,
+          stacked: true,
+        },
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            dataLabels: {
+              total: {
+                enabled: true,
+                offsetX: 0,
+                style: {
+                  fontSize: '13px',
+                  fontWeight: 900
+                }
+              }
+            }
+          },
+        },
+        stroke: {
+          width: 1,
+          colors: ['#fff']
+        },
+        title: {
+          text: 'Fiction Books Sales'
+        },
+        xaxis: {
+          categories: [2008, 2009, 2010, 2011, 2012, 2013, 2014],
+          labels: {
+            formatter: function (val) {
+              return val + "K"
+            }
+          }
+        },
+        yaxis: {
+          title: {
+            text: undefined
+          },
+        },
+        tooltip: {
+          y: {
+            formatter: function (val) {
+              return val + "K"
+            }
+          }
+        },
+        fill: {
+          opacity: 1
+        },
+        legend: {
+          position: 'top',
+          horizontalAlign: 'left',
+          offsetX: 40
+        }
+        };
+
+        new ApexCharts(document.querySelector("#chart4"), options).render();
+
+ 
+</script>
