@@ -52,6 +52,11 @@ s'assurer que le body fera bien toute la hauteur de la surface d'affichage
     border-width: 3px;
 }
 
+.hautbas{
+    margin-top: 80px;
+    margin-bottom: 20px;
+}
+
 .bg-bleu{
     background-color: #124e78;
     color : white;
@@ -72,4 +77,25 @@ s'assurer que le body fera bien toute la hauteur de la surface d'affichage
 
 .row {
     --bs-gutter-x: 0.3rem;
+}
+
+.inscributton {
+    border-radius: 8px;
+    padding: 15px;
+    white-space: nowrap;
+    border-width: 0.25em;
+    border-color: #d74e09;
+    background-color: #f0f0c9;
+}
+
+.inscributton2 {
+    border-color: #d74e09;
+    background-color: #f0f0c9;
+    border-width: 0.15em;
+}
+
+.inscricase{
+    border-radius: 10px;
+    border-color: #d74e09;
+    border-width: 0.1em;
 }
