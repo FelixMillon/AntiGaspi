@@ -34,14 +34,16 @@
         
 
         <main>
-            <h1>test2</h1>   
+            <h1 style="text-align: center;">Dashboard</h1>   
         </main>
-
-          <div id="chart1" ></div>
-          <div id="chart2" ></div>
-          <div id="chart3" ></div>
-          <div id="chart4" ></div>
-
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-md-6" id="chart1" ></div>
+            <div class="col-md-6" id="chart2" ></div>
+            <div class="col-md-6" id="chart3" ></div>
+            <div class="col-md-6" id="chart4" ></div>
+          </div>
+        </div>
 
             <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-3 border-top colorHeader">
               <p class="col-md-4 mb-0 text-light" style="padding-left: 6%; white-space: nowrap;" >© 2022 FireCrest, Inc</p>
@@ -88,12 +90,14 @@ new ApexCharts(document.querySelector("#chart1"), options1).render();
 var options = {
   chart: {
     height: 280,
+    width: 500,
     type: 'donut',
   },
   series: [44, 55, 41, 17, 15],
   labels: ["Livraison", "Produits", "Site", "SAV", "Autre"],
   legend: {
-        show: false
+        show: true,
+        position: 'right',
       },
   plotOptions: {
     pie: {
@@ -110,7 +114,7 @@ new ApexCharts(document.querySelector("#chart2"), options).render();
 var options = {
   chart: {
     height: 280,
-    width: 450,
+    width: '100%',
     type: 'bar'
   },
   plotOptions: {
@@ -124,11 +128,31 @@ var options = {
       y: 10
     }, {
       x: 'category B',
-      y: 18
+      y: 12
     }, {
       x: 'category C',
       y: 13
-    }]
+    }, {
+      x: 'category D',
+      y: 15
+    }
+    , {
+      x: 'category E',
+      y: 17
+    }
+    , {
+      x: 'category F',
+      y: 20
+    }
+    , {
+      x: 'category G',
+      y: 22
+    }
+    , {
+      x: 'category H',
+      y: 30
+    }
+    ]
   }]
 }
 
@@ -154,7 +178,7 @@ var options = {
           chart: {
           type: 'bar',
           height: 350,
-          width: 500,
+          width: '100%',
           stacked: true,
         },
         plotOptions: {
