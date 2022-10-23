@@ -2,6 +2,8 @@ drop database if exists bdd_anti_gaspi;
 create database bdd_anti_gaspi;
 	use bdd_anti_gaspi;
 
+
+
 create table utilisateur
 (
 	id int(5) not null auto_increment,
@@ -9,7 +11,6 @@ create table utilisateur
 	mdp varchar(40) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
-    coor_banc varchar(255),
     tel varchar(20) not null,
     primary key (id)
 )engine=innodb;
@@ -42,7 +43,6 @@ create table consommateur
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
@@ -57,7 +57,6 @@ create table client
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
@@ -80,7 +79,6 @@ create table entreprise
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
@@ -97,6 +95,29 @@ create table entreprise
     primary key (id_entreprise)
 )engine=innodb;
 
+create table type_vehicule
+(
+	id_type_vehicule int(5) not null,
+	libelle varchar(100) not null,
+    primary key (id_type_vehicule)
+)engine=innodb;
+
+create table vehicule
+(
+    id_vehicule int(5) not null,
+    immatriculation varchar(100) UNIQUE,
+	poids_max decimal(6,2) not null,
+    annee_fabrication date not null,
+    volume decimal(3,2) not null,
+	energie enum('essence','diesel','biocarburant','electrique','hybride','mecanique') not null,
+    cons_100_km decimal(3,2) not null,
+    id_type_vehicule int(5) not null,
+    primary key (id_vehicule),
+    foreign key(id_type_vehicule) references type_vehicule(id_type_vehicule)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
 create table livreur
 (
 	id_livreur int(5) not null,
@@ -104,15 +125,16 @@ create table livreur
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
-    transport enum('utilitaire','voiture','velo','motocyclette','scooter','aucun') not null,
-    energie_transport enum('essence','diesel','biocarburant','electrique','hybride'),
+    id_vehicule int(5),
     notepublic decimal(3, 2),
     valide enum('valide','invalide','attente') not null,
-    primary key (id_livreur)
+    primary key (id_livreur),
+    foreign key(id_vehicule) references vehicule(id_vehicule)
+    on update cascade
+    on delete cascade
 )engine=innodb;
 
 create table candidat
@@ -122,7 +144,6 @@ create table candidat
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
@@ -147,7 +168,6 @@ create table manager
 	mdp varchar(40) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
-    coor_banc varchar(255),
     tel varchar(20) not null,
     fonction varchar(255) not null,
     salaire decimal(6,2) not null,
@@ -174,7 +194,6 @@ create table employe
 	mdp varchar(40) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
-    coor_banc varchar(255),
     tel varchar(20) not null,
     fonction varchar(255) not null,
     salaire_mensuel decimal(6,2) not null,
@@ -456,13 +475,28 @@ create table moderer
     on delete cascade
 )engine=innodb;
 
+create table donnee_bancaire
+(
+	id_donnee_bancaire int(5) not null auto_increment,
+	type_donnee varchar(100) not null,
+	carte varchar(40) not null UNIQUE,
+	iban varchar(40) not null UNIQUE,
+	bic varchar(40) not null UNIQUE,
+    validite date,
+    id int(5) not null,
+    primary key (id_donnee_bancaire),
+    foreign key(id) references utilisateur(id)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
 drop trigger if exists consommateur_before_insert;
 delimiter // 
 create trigger consommateur_before_insert 
 before insert on consommateur
 for each row
 begin
-    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.tel);
+    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel);
     set new.id_consommateur = (select id from utilisateur where email=new.email);
 end //
 delimiter ;
@@ -483,7 +517,7 @@ create trigger employe_before_insert
 before insert on employe
 for each row
 begin
-    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.tel);
+    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel);
     set new.id_employe= (select id from utilisateur where email=new.email);
 end //
 delimiter ;
@@ -508,7 +542,8 @@ begin
     then
         set new.noteconfemp=2.5;
         set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.noteconfemp,new.tel,new.valide);
+        set new.date_inscription=curdate();
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.valide);
         set new.id_client = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_client = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_client)
@@ -537,7 +572,8 @@ begin
     then
         set new.noteconfemp=2.5;
         set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.valide,new.tel,new.noteconfemp);
+        set new.date_inscription=curdate();
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.valide,new.tel,new.noteconfemp);
         set new.id_candidat = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_candidat = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_candidat)
@@ -566,7 +602,8 @@ begin
     then
         set new.noteconfemp=2.5;
         set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.valide,new.tel,new.noteconfemp);
+        set new.date_inscription=curdate();
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.valide,new.tel,new.noteconfemp);
         set new.id_entreprise = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_entreprise = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_entreprise)
@@ -595,7 +632,8 @@ begin
     then
         set new.noteconfemp=2.5;
         set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.noteconfemp,new.tel,new.valide);
+        set new.date_inscription=curdate();
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.valide);
         set new.id_livreur = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_livreur = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_livreur)
@@ -620,7 +658,7 @@ create trigger utilisateur_after_update
 after update on utilisateur
 for each row
 begin
-    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel where id_consommateur=old.id;
+    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel where id_consommateur=old.id;
 end //
 delimiter ;
 
@@ -630,10 +668,10 @@ create trigger consommateur_after_update
 after update on consommateur
 for each row
 begin
-    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_client=old.id_consommateur;
-    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_entreprise=old.id_consommateur;
-    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_livreur=old.id_consommateur;
-    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_candidat=old.id_consommateur;
+    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_client=old.id_consommateur;
+    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_entreprise=old.id_consommateur;
+    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_livreur=old.id_consommateur;
+    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_candidat=old.id_consommateur;
 end //
 delimiter ;
 
@@ -643,7 +681,7 @@ create trigger employe_after_update
 after update on employe
 for each row
 begin
-    update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel where id=old.id_employe;
+    update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel where id=old.id_employe;
 end //
 delimiter ;
 
@@ -777,16 +815,16 @@ begin
 end //
 delimiter ;
 
-insert into client values(null,'jean_dupont@gmail.com','123','dupont','jean',null,sysdate(),2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
-insert into client values(null,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,sysdate(),2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
-insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','123','Subra de Bieusse','Jean-Michel',null,sysdate(),2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
-insert into livreur values(null,'martinmatin@gmail.com','123','Matin','Martin',null,sysdate(),2.5,'0621248481','velo',null,null,'attente');
-insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
-insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
-insert into livreur values(1,'jean_dupont@gmail.com','123','dupont','jean',null,sysdate(),2.5,'0123456789','scooter','electrique',null,'attente');
-insert into candidat values(1,'jean_dupont@gmail.com','123','dupont','jean',null,null,null,'0123456789','5','developpeur',null);
-insert into candidat values(null,'eric_tang@gmail.com','123','Tang','Eric',null,curdate(),null,'0178956789','7','reseau',null);
+insert into client values(null,'jean_dupont@gmail.com','123','dupont','jean',null,2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
+insert into client values(null,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
+insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','123','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
+insert into livreur values(null,'martinmatin@gmail.com','123','Matin','Martin',null,2.5,'0621248481',null,null,'attente');
+insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
+insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
+insert into livreur values(1,'jean_dupont@gmail.com','123','dupont','jean',null,2.5,'0123456789',null,null,'attente');
+insert into candidat values(1,'jean_dupont@gmail.com','123','dupont','jean',null,null,'0123456789','5','developpeur',null);
+insert into candidat values(null,'eric_tang@gmail.com','123','Tang','Eric',null,null,'0178956789','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
-insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim',null,'0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
+insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim','0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
