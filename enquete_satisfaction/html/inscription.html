@@ -3,6 +3,7 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../js/style.css">
+    <link rel="stylesheet" href="../js/felix.css">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -43,15 +44,20 @@
                         <div class="row  flex-md-row mb-4 h-md-250 position-relative ">
                             <div class="col" >
                                 <div class="row justify-content-center align-items-center">
-                                    <div class="col">
-                                        <img src="../img/user.png" class="bd-placeholder-img " height="225" role="img" alt="">
-                                            <div class="d-flex justify-content-center align-items-center">
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn bg-beige text-dark fw-bold  btn-sm btn-outline-info borderbutton">Sélectionner</button>
-                                                    <button type="button" class="btn bg-beige text-dark fw-bold  btn-sm btn-outline-info borderbutton">Charger une image</button>
-                                                </div>
-                                            </div>                                                         
-                                    </div>                              
+                                  <div class="col-md-2 hautbas"></div>
+                                    <div class="col-md-6 hautbas">
+                                        <img src="../img/user.png" class="bd-placeholder-img " height="225" role="img" alt="">                                                      
+                                    </div>
+                                    <div class="col-md-2 hautbas"></div>
+                                    <div class="col-md-1"></div>        
+                                    <div class="col-md-8">
+                                      <div class="btn-group"style="text-align: center;">
+                                          <button type="button" class="btn inscributton2 bg-beige text-dark fw-bold  btn-sm borderbutton" style="width: 160px" id="bt1" onmouseover="changecolor(id)"onmouseout="backcolor(id)">Sélectionner</button>
+                                          <button type="button" class="btn inscributton2 bg-beige text-dark fw-bold  btn-sm borderbutton" style="width: 160px" id="bt2" onmouseover="changecolor(id)"onmouseout="backcolor(id)">Charger une image</button>
+                                      </div>
+                                  </div>  
+                                  <div class="col-md-1"></div>    
+                                                             
                                 </div>
                             </div>
                             
@@ -59,40 +65,43 @@
                                 <div class="row g-3">
 
                                     <div class="col-sm-6">
-                                      <input type="text" class="form-control" placeholder="Nom" value="" required="">
+                                      <input type="text" class="inscricase form-control" placeholder="Nom" value="" required="">
                                     </div>
                         
                                     <div class="col-sm-6">
-                                      <input type="text" class="form-control" placeholder="Prénom">
+                                      <input type="text" class="inscricase form-control" placeholder="Prénom">
                                     </div>
                         
                                     <div class="col-6">
-                                        <input type="text" class="form-control" placeholder="Email">
+                                        <input type="text" class="inscricase form-control" placeholder="Email">
                                     </div>
                         
                                     <div class="col-6">
-                                      <input type="text" class="form-control" placeholder="Numéro de téléphone">
+                                      <input type="text" class="inscricase form-control" placeholder="Numéro de téléphone">
                                     </div>
                         
                                     <div class="col-12">
-                                        <input type="text" class="form-control" placeholder="Adresse">
+                                        <input type="text" class="inscricase form-control" placeholder="Adresse">
                                     </div>
                         
                                     <div class="col-6">
-                                        <input type="text" class="form-control" placeholder="Code postal">
+                                        <input type="text" class="inscricase form-control" placeholder="Code postal">
                                     </div>
                                     
                                     <div class="col-6">
-                                        <input type="text" class="form-control" placeholder="Ville">
+                                        <input type="text" class="inscricase form-control" placeholder="Ville">
                                     </div>
 
                                     <div class="col-12" style="padding-top: 5%;">
-                                        <input type="text" class="form-control" placeholder="Mot de passe ">
+                                        <input type="text" class="inscricase form-control" placeholder="Mot de passe ">
                                     </div>
 
                                     
                                     <div class="col-12">
-                                        <input type="text" class="form-control" placeholder="Confirmer le mot de passe ">
+                                        <input type="text" class="inscricase form-control" placeholder="Confirmer le mot de passe ">
+                                    </div>
+                                    <div class="col-12" style="text-align: center;">
+                                      <button type="button" class="btn inscributton bg-beige text-dark fw-bold  btn-sm " id="bt3" onmouseover="changecolor(id)"onmouseout="backcolor(id)" style="width: 50%">S'enregistrer</button>
                                     </div>
 
 
@@ -122,3 +131,16 @@
     <script src="../js/front.js"></script>
     </body>
 </html>
+
+<script>
+
+function changecolor(id)
+{
+  document.getElementById(id).style.backgroundColor = "#d74e09";
+}
+function backcolor(id)
+{
+  document.getElementById(id).style.backgroundColor = "#f0f0c9";
+}
+
+</script>

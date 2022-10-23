@@ -36,7 +36,6 @@ s'assurer que le body fera bien toute la hauteur de la surface d'affichage
     background-clip: border-box;
     border: 1px solid rgba(0,0,0,.125);
     border-radius: 0.25rem;
-
 }
 
 .borderbutton{
