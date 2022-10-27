@@ -28,6 +28,7 @@ create table sujet
 	id_sujet int(5) not null auto_increment,
 	libelle varchar(100) not null,
 	question varchar(255) not null,
+    type_question enum('note','note_image','qcm','qcm_image','qcu','qcu_image'),
     id_enquete int(5) not null,
     primary key (id_sujet),
     foreign key(id_enquete) references enquete(id_enquete)
@@ -828,3 +829,16 @@ insert into planning values(null,'equipe developpement','https://equiplaning.com
 insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim','0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
+insert into enquete values(null,'test','enquete de test');
+insert into sujet values(null,'question 1 note','ceci est une question note','note',1);
+insert into sujet values(null,'question 2 note_image','ceci est une question note_image','note_image',1);
+insert into sujet values(null,'question 3 qcm','ceci est une question qcm','qcm',1);
+insert into sujet values(null,'question 4 qcm_image','ceci est une question qcm_image','qcm_image',1);
+insert into sujet values(null,'question 5 qcu','ceci est une question qcu','qcu',1);
+insert into sujet values(null,'question 6 qcu_image','ceci est une question qcu_image','qcu_image',1);
+insert into sujet values(null,'question 7 note','ceci est une question note','note',1);
+insert into sujet values(null,'question 8 note_image','ceci est une question note_image','note_image',1);
+insert into sujet values(null,'question 9 qcm','ceci est une question qcm','qcm',1);
+insert into sujet values(null,'question 10 qcm_image','ceci est une question qcm_image','qcm_image',1);
+insert into sujet values(null,'question 11 qcu','ceci est une question qcu','qcu',1);
+insert into sujet values(null,'question 12 qcu_image','ceci est une question qcu_image','qcu_image',1);
