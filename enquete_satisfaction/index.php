@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="js/style.css">
     <link rel="stylesheet" href="js/style_ambrine.css">
 	<link rel="stylesheet" href="js/felix.css">
-	<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,6 +51,8 @@
 	<li class="nav-item"><a href="#" class="nav-link px-2 text-light">Mentions légales</a></li>
 	<li class="nav-item"><a href="#" class="nav-link px-2 text-light">Conditions générle d'uilisation</a></li>
 	</ul>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="js/gestion_cookies.js"></script>
 </footer>
 </body>
 </html>
