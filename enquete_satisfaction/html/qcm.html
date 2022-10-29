@@ -49,27 +49,30 @@
                             <div class="row">
                               <label class="reponse" > QCM :</label>
                               <div class="col-md-3 reponse">
-                                <input class="checkbox-round" type="checkbox" id="rep1" name="rep1"/> Reponse 1
+                                <input class="reponse" type="radio" id="1" /> Reponse 1 G
                               </div>
 
                               <div class="col-md-3 reponse">
-                                <input class="checkbox-round" type="checkbox" id="rep2" name="rep2"/> Reponse 2
+                                <input class="reponse" type="radio" id="2"/> Reponse 2
                               </div>
 
                               <div class="col-md-3 reponse">
-                                <input class="checkbox-round" type="checkbox" id="rep3" name="rep3"/> Reponse 3
+                                <input  class="reponse" type="radio" id="3"/> Reponse 3 G
                               </div>
 
                               <div class="col-md-3 reponse">
-                                <input class="checkbox-round" type="checkbox" id="rep4" name="rep4"/> Reponse 4
-                              </div>    
+                                <input class="reponse" type="radio" id="4"/> Reponse 4
+                              </div> 
                             </div>
-                            
+
+                            <div id="qcm"></div>
+                      
                             <div class="question">
                               <button class="btn btn-secondary"> 👈🏼 </button>
                       
-                              <button class="btn btn-primary"> 👉🏼 </button>
+                              <button class="btn btn-primary" onclick="qcm('questionmultiple',4)"> 👉🏼 </button>
                             </div>
+
                           </div>  
                         </fieldset>
                       </div>
@@ -93,7 +96,8 @@
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Conditions générle d'uilisation</a></li>
               </ul>
             </footer>
-          
+    
+      <script   type="text/javascript" src="../js/cookieqcm.js"></script>
     <script src="../js/front.js"></script>
     </body>
 </html>
