@@ -26,8 +26,11 @@ create table enquete
 create table sujet
 (
 	id_sujet int(5) not null auto_increment,
+    numquestion int(3) not null,
 	libelle varchar(100) not null,
 	question varchar(255) not null,
+    type_question enum('note','note_image','qcm','qcm_image','qcu','qcu_image'),
+    reponse varchar(255),
     id_enquete int(5) not null,
     primary key (id_sujet),
     foreign key(id_enquete) references enquete(id_enquete)
@@ -66,7 +69,7 @@ create table client
     cp varchar(10) not null,
     siren varchar(100),
     libelle varchar(100),
-    role_represenant varchar(100),
+    role_representant varchar(100),
     type_cli enum('particulier','association','entreprise') not null,
     valide enum('valide','invalide','attente') not null,
     primary key (id_client)
@@ -196,7 +199,7 @@ create table employe
     prenom varchar(50) not null,
     tel varchar(20) not null,
     fonction varchar(255) not null,
-    salaire_mensuel decimal(6,2) not null,
+    salaire decimal(6,2) not null,
     niveau_diplome varchar(100) not null,
     date_embauche date not null,
     date_depart date,
@@ -233,7 +236,7 @@ create table categorie_produit
 (
 	id_categorie int(5) not null auto_increment,
 	libelle varchar(100) not null,
-	descriptions varchar(255) not null,
+	description varchar(255) not null,
     primary key(id_categorie)
 )engine=innodb;
 
@@ -241,7 +244,7 @@ create table produit
 (
 	id_produit int(5) not null auto_increment,
 	libelle varchar(100) not null,
-	descriptions varchar(255) not null,
+	description varchar(255) not null,
     regime_alim enum('crudivore','vegan','vegetalien','vegetarien','glutenfree'),
     numrue_depot varchar(50) not null,
     rue_depot varchar(100) not null,
@@ -335,7 +338,7 @@ create table categorie_metier
 (
     id_cat_met int(5) not null auto_increment,
     libelle varchar(100) not null,
-    descriptions varchar(255) not null,
+    description varchar(255) not null,
     primary key(id_cat_met)
 )engine=innodb;
 
@@ -369,7 +372,7 @@ create table poste
 	date_debut date not null,
 	date_fin date,
 	salaire_propose decimal(5, 2) not null,
-    descriptions varchar(255) not null,
+    description varchar(255) not null,
     type_poste enum('cdi','cdd','contrat_prestation'),
     id_local int(5) not null,
     id_met int(5) not null,
@@ -479,10 +482,11 @@ create table donnee_bancaire
 (
 	id_donnee_bancaire int(5) not null auto_increment,
 	type_donnee varchar(100) not null,
-	carte varchar(40) not null UNIQUE,
-	iban varchar(40) not null UNIQUE,
-	bic varchar(40) not null UNIQUE,
+	carte varchar(40) UNIQUE,
+	iban varchar(40) UNIQUE,
+	bic varchar(40) UNIQUE,
     validite date,
+    crypto int(8),
     id int(5) not null,
     primary key (id_donnee_bancaire),
     foreign key(id) references utilisateur(id)
@@ -828,3 +832,16 @@ insert into planning values(null,'equipe developpement','https://equiplaning.com
 insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim','0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
+insert into enquete values(null,'test','enquete de test');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,1);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,1);
+insert into sujet values(null,3,'question 3 qcm','ceci est une question qcm','qcm',"reponse_1|reponse_2|reponse_3|reponse_4",1);
+insert into sujet values(null,4,'question 4 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
+insert into sujet values(null,5,'question 5 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2|reponse_3|reponse_4",1);
+insert into sujet values(null,6,'question 6 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
+insert into sujet values(null,7,'question 7 note','ceci est une question note','note',null,1);
+insert into sujet values(null,8,'question 8 note_image','ceci est une question note_image','note_image',null,1);
+insert into sujet values(null,9,'question 9 qcm','ceci est une question qcm','qcm',"reponse_1|reponse_2",1);
+insert into sujet values(null,10,'question 10 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
+insert into sujet values(null,11,'question 11 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2",1);
+insert into sujet values(null,12,'question 12 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);

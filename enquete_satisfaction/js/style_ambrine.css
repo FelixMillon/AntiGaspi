@@ -41,15 +41,12 @@ du navigateur*/
   
 }
 
-
-
 .checkbox-round {
   width: 1.1em;
   height: 1.1em;
   background-color: white;
   border-radius: 50%;
   vertical-align:text-bottom;
-
   border: 1px solid #000;
   appearance: none;
   -webkit-appearance: none;
