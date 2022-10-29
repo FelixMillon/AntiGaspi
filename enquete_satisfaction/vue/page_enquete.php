@@ -9,7 +9,6 @@ if($laQuestion['type_question'] != "note" or $laQuestion['type_question'] != "no
 {
 	$LesResponses = explode("|", $laQuestion['reponse']);
 }
-
 echo'
 <form method="post">
 	<div class="container d-flex justify-content-center">
@@ -77,7 +76,7 @@ echo'
 					{
 						echo'
 							<div class="col-md-'.(12/count($LesResponses)).' reponse">
-								<input class="checkbox-round" type="checkbox" id="rep'.($i+1).'" name="rep'.($i+1).'"/>'.$LesResponses[$i].'
+								<input type="checkbox" id="'.($i+1).'" name="rep'.($i+1).'"/>'.$LesResponses[$i].'
 							</div>
 						';
 					}
@@ -102,7 +101,7 @@ echo'
 					{
 						echo'
 										<div class="col-md-'.(12/count($LesResponses)).' reponse">
-											<input class="checkbox-round" type="checkbox" id="rep'.($i+1).'" name="rep'.($i+1).'"/>'.$LesResponses[$i].'
+											<input type="checkbox" id="'.($i+1).'" name="rep'.($i+1).'"/>'.$LesResponses[$i].'
 										</div>
 						';
 					}
@@ -113,12 +112,14 @@ echo'
 				{
 					echo'<button class="btn btn-secondary" id="prec" onclick="precedent()"> 👈🏼 </button>';
 				}
+				$nomcook="'reponse_".$_COOKIE['id_enquete']."_".$_COOKIE['numquestion']."'";
 				if($_COOKIE['numquestion'] < $nbrQuestions['nb'])
 				{
-					echo'<button class="btn btn-primary" id="suiv" onclick="suivant()"> 👉🏼 </button>';
+					
+					echo'<button class="btn btn-primary" id="suiv" onclick="cookie_reponse('.$nomcook.','.count($LesResponses).",'".$laQuestion['type_question']."');suivant();".'"> 👉🏼 </button>';
 				}else
 				{
-					echo'<button class="btn btn-primary" id="suiv"> ✔️ </button>';
+					echo'<button class="btn btn-primary" id="suiv" onclick="cookie_reponse('.$nomcook.','.count($LesResponses).",'".$laQuestion['type_question']."')".'"> ✔️ </button>';
 				}
 				echo'
 			   </div>
@@ -131,70 +132,3 @@ echo'
 ?>
 	</div>
 	</form>
-<script type="text/javascript">
-	function stockCookie(cle,valeur,delai)
-	{
-		let chaine = '';
-		//recuperation date systeme
-		let uneDate = new Date();
-		//ajouter le delais
-		uneDate.setTime (uneDate.getTime()+ delai * 24 * 3600 * 1000);
-		let dt = uneDate.toUTCString();
-
-		
-
-		// transformer en chaine
-
-
-		//concatener
-		chaine= cle+'='+valeur+'; expires='+dt+"; path=/";
-		document.cookie = chaine;
-	}
-
-	function lireCookie(cle)
-	{
-		// on recupère la chaine Cookie
-		let cookies = document.cookie;
-		//"nom=test; expires=Fri, 28 Oct 2022 14:39:41 GMT; path=/";
-		// On split par ;
-		let tabCook = cookies.split(";");
-		//On parcours le tableau résultat du split
-		let valeur;
-		for(let i=0; i< tabCook.length; i++)
-		{
-			let tab2=tabCook[i].split("=");
-			while(tab2[0].charAt(0) == ' ')
-			{
-				tab2[0] = tab2[0].substring(1);
-			}
-			if(tab2[0]==cle)
-			{
-				valeur = tab2[1];
-				return(valeur);
-			}
-		}
-		return(null);
-	}
-	function suivant()
-	{
-		let num = lireCookie('numquestion');
-		console.log(num);
-		console.log(typeof(num));
-		if(typeof(num) == 'string') {
-    		num = parseInt(num);
-  		}
-		console.log(num);
-		console.log(typeof(num));
-		num++;
-		stockCookie('numquestion',num,1)
-	}
-	function precedent()
-	{
-		let num = lireCookie('numquestion');
-		if(typeof(num) === 'string') {
-    		num = parseInt(num);
-  		}
-		num-=1;
-		stockCookie('numquestion',num,1)
-	}
-</script>
