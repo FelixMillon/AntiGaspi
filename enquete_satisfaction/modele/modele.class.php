@@ -90,6 +90,23 @@
 			$select->execute();
 			return $select->fetch();
 		}
+
+		public function countWhere($where)
+		{
+			$donnees = array();
+			$champs=array();
+			foreach($where as $cle => $valeur)
+			{
+				$champs[] = $cle." = :".$cle;
+				$donnees[":".$cle] = $valeur;
+			}
+			$chaineWhere = implode(" and ", $champs);
+			$requete="select count(*) as nb from ".$this->uneTable." where ".$chaineWhere;
+			$select=$this->unPdo->prepare($requete);
+			$select->execute($donnees);
+			return $select->fetch();
+		}
+
 		public function selectWhere($where)
 		{
 			$donnees = array();

@@ -39,6 +39,10 @@
 		{
 			return $this->unModele->selectWhere($where);
 		}
+		public function countWhere($where)
+		{
+			return $this->unModele->countWhere($where);
+		}
 		public function update($tab, $where)
 		{
 			$this->unModele->update($tab, $where);
