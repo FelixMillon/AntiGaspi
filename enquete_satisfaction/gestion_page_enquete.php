@@ -1,6 +1,10 @@
 <?php
 	$unControleur->setTable("sujet");//se mettre sur la bonne table
 	$tab=null;
+	if(!isset($_COOKIE['moyenne']))
+	{
+		setcookie('moyenne', 0, time()+3600*24, '/');
+	}
 	if(!isset($_COOKIE['numquestion']))
 	{
 		setcookie('numquestion', 1, time()+3600*24, '/');

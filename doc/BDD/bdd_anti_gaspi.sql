@@ -845,3 +845,7 @@ insert into sujet values(null,9,'question 9 qcm','ceci est une question qcm','qc
 insert into sujet values(null,10,'question 10 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
 insert into sujet values(null,11,'question 11 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2",1);
 insert into sujet values(null,12,'question 12 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
+insert into enquete values(null,'Produits','Enquete sur  la qualite de nos produits');
+insert into enquete values(null,'Service client','Enquete sur la qualite de notre service client');
+insert into enquete values(null,'Regimes healthy','Enquete sur les nouveaux regimes healthy!');
+insert into enquete values(null,'Amis des animaux','Enquete sur la qualite de la nourritures de nos petits compagnons');
