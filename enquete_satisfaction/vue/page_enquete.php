@@ -5,17 +5,17 @@ if(!isset($_COOKIE['numquestion']))
 {
 	setcookie('numquestion', 1, time()+3600*24, '/');
 }
+if(!isset($_COOKIE['moyenne']))
+{
+	setcookie('moyenne', 0, time()+3600*24, '/');
+}
 if($laQuestion['type_question'] != "note" or $laQuestion['type_question'] != "note_image")
 {
 	$LesResponses = explode("|", $laQuestion['reponse']);
 }
 echo'
 <form method="post">
-	<div class="container d-flex justify-content-center">
-
-
-
-				';
+	<div class="container d-flex justify-content-center">';
 				if($laQuestion['type_question'] == "note" or $laQuestion['type_question'] == "note_image")
 				{
 					echo'
@@ -76,7 +76,7 @@ echo'
 					{
 						echo'
 							<div class="col-md-'.(12/count($LesResponses)).' reponse">
-								<input type="checkbox" id="'.($i+1).'" name="rep'.($i+1).'"/>'.$LesResponses[$i].'
+								<input type="radio" id="'.($i+1).'" name="rep'.($i+1).'"/>'.$LesResponses[$i].'
 							</div>
 						';
 					}
@@ -101,7 +101,7 @@ echo'
 					{
 						echo'
 										<div class="col-md-'.(12/count($LesResponses)).' reponse">
-											<input type="checkbox" id="'.($i+1).'" name="rep'.($i+1).'"/>'.$LesResponses[$i].'
+											<input type="radio" id="'.($i+1).'" name="reponse"/>'.$LesResponses[$i].'
 										</div>
 						';
 					}
@@ -131,4 +131,4 @@ echo'
 		}
 ?>
 	</div>
-	</form>
+</form>

@@ -22,6 +22,21 @@ du navigateur*/
   
 }
 
+.test{
+  margin-right: 25% ;
+  margin-left: 25% ;
+  width: 50%;
+  margin-top: 20px ;
+  
+}
+
+.cookiedeb{
+  margin-top: 20px ;
+  text-align:center;
+  
+}
+
+
 .box_question{
   width: 50%; 
   border-width: 2px; 
@@ -41,12 +56,20 @@ du navigateur*/
   
 }
 
+.titreq{
+  margin-top: 15px ;
+  
+}
+
+
+
 .checkbox-round {
   width: 1.1em;
   height: 1.1em;
   background-color: white;
   border-radius: 50%;
   vertical-align:text-bottom;
+
   border: 1px solid #000;
   appearance: none;
   -webkit-appearance: none;
