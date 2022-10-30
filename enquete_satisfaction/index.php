@@ -37,7 +37,7 @@
 	<center>
 
 		<?php
-		require_once("gestion_page_choix_enquete.php"); //CHANGER LA PAGE POUR TESTERS
+		require_once("gestion_page_enquete.php"); //CHANGER LA PAGE POUR TESTERS
 		?>
 	</center>
 <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-3 border-top colorHeader">
@@ -52,7 +52,7 @@
 	<li class="nav-item"><a href="#" class="nav-link px-2 text-light">Conditions générle d'uilisation</a></li>
 	</ul>
   <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <script src="js/gestion_cookies.js"></script>
+  <script src="js/gestion_cookie.js"></script>
 </footer>
 </body>
 </html>

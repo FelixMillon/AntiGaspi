@@ -59,7 +59,7 @@ function reponse_qcu(cle,n){
     {
         n = parseInt(n);
     }
-
+    stockerCookie(cle, 0, 2);
     for(let i=1;i<=n;i++)
     {
         if(document.getElementById(i).checked == true){
