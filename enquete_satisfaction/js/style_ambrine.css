@@ -22,6 +22,21 @@ du navigateur*/
   
 }
 
+.test{
+  margin-right: 25% ;
+  margin-left: 25% ;
+  width: 50%;
+  margin-top: 20px ;
+  
+}
+
+.cookiedeb{
+  margin-top: 20px ;
+  text-align:center;
+  
+}
+
+
 .box_question{
   width: 50%; 
   border-width: 2px; 
@@ -38,6 +53,11 @@ du navigateur*/
 
 .reponse{
   margin-bottom: 15px ;
+  
+}
+
+.titreq{
+  margin-top: 15px ;
   
 }
 

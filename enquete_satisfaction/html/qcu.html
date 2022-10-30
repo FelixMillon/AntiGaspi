@@ -3,11 +3,11 @@
 <head>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="../js/style.css">
-    <link rel="stylesheet" href="../js/style_ambrine.css">
+    <link rel="stylesheet" href="../js/style_ambrine.css">  
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FireCrest | Pré-connexion </title>
+    <title>FireCrest | Question unique </title>
 </head>
     <body>
         <!-- <header>
@@ -39,48 +39,49 @@
 
             
             <form method="post">
-                <div CLASS="container d-flex justify-content-center">
+                <div class="container d-flex justify-content-center">
                     <div class="row box_question">
                       <div class="col-12">
                         <fieldset id="QCU">
                           <div class="question">
-                            <h3>Question 1</h3></div>
+                            <h3>Question 1</h3>
         
                             <div class="row">
                                 <label class="reponse" > QCU :</label>
                                 
                                 <div class="col-md-3 reponse">
-                                <input class="reponse" type="radio" name="reponse-qcu" value="TB"/>Très bien
+                                <input class="reponse" type="radio" name="reponse-qcu" id="1"/>Très bien
                                 </div>
 
                                 <div class="col-md-3 reponse">
-                                <input class="reponse" type="radio" name="reponse-qcu" value="bien"/>Bien
+                                <input class="reponse" type="radio" name="reponse-qcu" id="2"/>Bien
                                 </div>
 
                                 <div class="col-md-3 reponse">
-                                <input class="reponse" type="radio" name="reponse-qcu" value="mauvais"/>Mauvais
+                                <input class="reponse" type="radio" name="reponse-qcu" id="3"/>Mauvais
                                 </div>
 
                                 <div class="col-md-3 reponse">
-                                <input class="reponse" type="radio" name="reponse-qcu" value="TM"/>Très mauvais
+                                <input class="reponse" type="radio" name="reponse-qcu" id="4"/>Très mauvais
                                 </div>
                                
                             </div>
+
+                            <div id="qcu"></div>
                             
+
                             <div class="question">
                               <button class="btn btn-secondary"> 👈🏼 </button>
                       
-                              <button class="btn btn-primary"> 👉🏼 </button>
+                              <button class="btn btn-primary" onclick="qcu('questionunique',4)"> 👉🏼 </button>
                              </div>
+                           
+                          </div>
                         </fieldset>
                       </div>
-                    </div>
-                    
+                    </div>                   
                 </div>
             </form>
-
-
-
         </main>
 
             <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-3 border-top colorHeader">
@@ -95,7 +96,9 @@
                 <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Conditions générle d'uilisation</a></li>
               </ul>
             </footer>
-          
-    <script src="../js/front.js"></script>
+
+    <script  type="text/javascript" src="../js/cookieqcu.js"></script>
+
+    <script  type="text/javascript" src="../js/front.js"></script>
     </body>
 </html>
