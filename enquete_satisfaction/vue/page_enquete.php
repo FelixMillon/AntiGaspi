@@ -119,7 +119,10 @@ echo'
 					echo'<button class="btn btn-primary" id="suiv" onclick="cookie_reponse('.$nomcook.','.count($LesResponses).",'".$laQuestion['type_question']."');suivant();".'"> 👉🏼 </button>';
 				}else
 				{
-					echo'<button class="btn btn-primary" id="suiv" onclick="cookie_reponse('.$nomcook.','.count($LesResponses).",'".$laQuestion['type_question']."')".'"> ✔️ </button>';
+					echo'
+					<a href="index.php?page=2">
+						<input type="button" class="btn btn-primary" value="✔️" onclick="cookie_reponse('.$nomcook.','.count($LesResponses).",'".$laQuestion['type_question']."')".'">
+				  	</a>';
 				}
 				echo'
 			   </div>
