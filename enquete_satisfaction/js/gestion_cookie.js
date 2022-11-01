@@ -71,9 +71,6 @@ function reponse_qcu(cle,n){
     }
 }
 
-
-
-
 function reponse_note(cle)
 {
     resu=0;
@@ -110,6 +107,7 @@ function suivant()
     num++;
     stockerCookie('numquestion',num,1)
 }
+
 function precedent()
 {
     let num = lireCookie('numquestion');
@@ -118,4 +116,53 @@ function precedent()
       }
     num-=1;
     stockerCookie('numquestion',num,1)
+}
+
+function moyenne(id_enquete)
+{   
+    lesCookies = list_value(id_enquete);
+    let moy = 0;
+    for(let y=0; y<lesCookies.length; y++){
+        moy = moy + parseFloat(lesCookies[y]);
+    }
+    moy = moy / lesCookies.length;
+    stockerCookie('moyenne', moy, 1);
+}
+
+function list_value(id_enquete)
+{
+    let chaineCookies = document.cookie;
+    let tab = chaineCookies.split(";");
+    let lesCookies = [];
+    var reg = new RegExp('reponse_'+id_enquete+'_[0-9]+');
+
+    for (let i=0; i<tab.length; i++) {            
+        let tab2 = tab[i].split("=");
+        while(tab2[0].charAt(0) == ' ') {
+            tab2[0] = tab2[0].substring(1);
+        }
+        if (reg.test(tab2[0])) {
+            lesCookies.push(tab2[1]);
+        }
+    }
+    return lesCookies;
+}
+
+function gestion_perso()
+{
+    let civilite = document.getElementById("civilite").value;  
+    stockerCookie("civil", civilite, 2); 
+
+    let nom = document.getElementById("nom").value; 
+    stockerCookie("nompers", nom, 2); 
+
+    let prenom = document.getElementById("prenom").value; 
+    stockerCookie("prenompers", prenom, 2); 
+
+    let ages = document.getElementById("age").value; 
+    alert(ages);
+    stockerCookie("agepers", ages, 2);
+
+    let ville = document.getElementById("ville").value; 
+    stockerCookie("villepers", ville, 2); 
 }
