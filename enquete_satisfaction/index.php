@@ -45,18 +45,18 @@
 			}
     switch ($page) {
 
-      case 0: require_once ("page/index.php"); break;
+      case 0: require_once ("vue/home.php"); break;
       
-      case 1: require_once ("page/collaborateur.php"); break;
-      case 2: require_once ("page/assistance.php"); break;
-      case 3: require_once ("page/a_propos.php"); break;
+      case 1: require_once ("vue/collaborateur.php"); break;
+      case 2: require_once ("vue/assistance.php"); break;
+      case 3: require_once ("vue/a_propos.php"); break;
 
       case 4: require_once ("gestion_page_choix_enquete.php"); break;
-      case 5: require_once ("page/mention_legale.php"); break;
-      case 6: require_once ("page/condition_generale.php"); break;
+      case 5: require_once ("vue/mention_legale.php"); break;
+      case 6: require_once ("vue/condition_generale.php"); break;
 
-      case 7: require_once ("page/pre_inscription.php"); break;
-      case 8: require_once ("page/inscription.php"); break;
+      case 7: require_once ("vue/pre_inscription.php"); break;
+      case 8: require_once ("vue/inscription.php"); break;
 
       case 9: require_once ("vue/form_insert_enquete.php"); break;
       case 10: require_once ("vue/form_insert_question.php"); break;
@@ -65,7 +65,7 @@
       case 13: require_once ("gestion_remerciement.php"); break;
       case 14: require_once ("gestion_dashboard.php"); break;
 
-      default : require_once("page/index.php");  break;
+      default : require_once("vue/home.php");  break;
 
     }
 		?>

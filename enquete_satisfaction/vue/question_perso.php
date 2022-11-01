@@ -39,7 +39,7 @@
                       </div>
 
                       <div class="question">
-                      <a type="button" class="btn btn-primary btn-sm" href="index.php?page=2" onclick="gestion_perso()">  Participer </a> 
+                      <a type="button" class="btn btn-primary btn-sm" href="index.php?page=12" onclick="gestion_perso()">  Participer </a> 
                       </div>
 
                   </div>

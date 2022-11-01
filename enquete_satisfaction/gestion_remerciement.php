@@ -21,7 +21,7 @@ if(isset($_POST['Envoyer']))
 		'id_consommateur'=>0
 	);
 	$unControleur->insert($tab);
-	header("location: index.php?page=4");
+	header("location: index.php?page=14");
 }
 
 ?>

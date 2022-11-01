@@ -17,6 +17,9 @@
             <div class="col-md-6" id="chart8" style=" height: 400px; width: 50%;"></div>
           </div>
         </div>
+        <div class="question">
+            <a type="button" class="btn btn-primary btn-sm" href="index.php?page=4" onclick="gestion_perso()">  Commencer une nouvelle enquête </a> 
+        </div>
 
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
