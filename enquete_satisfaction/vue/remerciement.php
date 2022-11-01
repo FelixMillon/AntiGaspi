@@ -18,7 +18,9 @@
                     </div>
 
                     <div class="float-end mt-2 pt-1">
-                      <button type="submit" name="Envoyer" value="Envoyer" class="btn btn-primary btn-sm">Envoyer </button>
+                      <a href="index.php?page=3">
+                        <input type="submit" class="btn btn-primary btn-sm" name="Envoyer" value="Envoyer">
+                      </a>
                       <button type="reset" class="btn btn-outline-primary btn-sm">Annuler</button>
                     </div>
 

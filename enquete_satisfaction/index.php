@@ -45,8 +45,10 @@
 			}
     switch ($page) {
       case 0: require_once ("gestion_page_choix_enquete.php"); break;
-      case 1: require_once ("gestion_page_enquete.php"); break;
-      case 2: require_once ("gestion_remerciement.php"); break;
+      case 1: require_once ("gestion_question_perso.php"); break;
+      case 2: require_once ("gestion_page_enquete.php"); break;
+      case 3: require_once ("gestion_remerciement.php"); break;
+      case 4: require_once ("gestion_dashboard.php"); break;
     }
 		?>
 	</center>

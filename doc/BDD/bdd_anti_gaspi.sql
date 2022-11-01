@@ -220,10 +220,28 @@ create table avis_enquete
 (
 	id_avis_enquete int(5) not null auto_increment,
 	reponse varchar(255) not null,
+    ville varchar(255),
+    tranche_age varchar(255),
+    civilite enum('Monsieur','Madame','Autres'),
+    note decimal(3, 2),
+    id_enquete int(5) not null,
+    id_consommateur int(5),
+    primary key(id_avis_enquete),
+    foreign key(id_enquete) references enquete(id_enquete)
+    on update cascade
+    on delete cascade,
+    foreign key(id_consommateur) references consommateur(id_consommateur)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table avis_sujet
+(
+	id_avis_sujet int(5) not null auto_increment,
     note decimal(3, 2),
     id_sujet int(5) not null,
     id_consommateur int(5),
-    primary key(id_avis_enquete),
+    primary key(id_avis_sujet),
     foreign key(id_sujet) references sujet(id_sujet)
     on update cascade
     on delete cascade,
@@ -494,8 +512,57 @@ create table donnee_bancaire
     on delete cascade
 )engine=innodb;
 
-insert into user values(0,'anonyme','123@456@789','nom','prenom','aucun');
-insert into consommateur values(0,'anonyme','123@456@789','nom','prenom',sysdate(),0,'aucun','invalide');
+create or replace view viewmoyparenquete as (
+select avg(a.note) as moyenne, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
+from avis_enquete a
+group by a.id_enquete);
+
+create or replace view viewmpartparenquete as (
+select count(id_avis_enquete) as nb, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
+from avis_enquete a
+group by a.id_enquete);
+
+create or replace view viewmoypartrancheage as (
+select avg(note) as nb, tranche_age
+from avis_enquete
+group by tranche_age);
+
+create or replace view viewcountpartrancheage as (
+select count(id_avis_enquete) as nb, tranche_age
+from avis_enquete
+group by tranche_age);
+
+create or replace view viewmoyparville as (
+select avg(note) as nb, ville
+from avis_enquete
+group by ville);
+
+create or replace view viewcountparville as (
+select count(id_avis_enquete) as nb, ville
+from avis_enquete
+group by ville);
+
+create or replace view viewcountparcivil as (
+select avg(note)as nb, civilite
+from avis_enquete
+group by civilite);
+
+create or replace view viewmoyparcivil as (
+select count(id_avis_enquete) as nb, civilite
+from avis_enquete
+group by civilite);
+
+create or replace view viewcountparageenquete as (
+select avg(a.note)as nb, a.tranche_age, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
+from avis_enquete a
+group by a.tranche_age, a.id_enquete
+order by a.id_enquete);
+
+create or replace view viewmoyparageenquete as (
+select count(a.id_avis_enquete) as nb, a.tranche_age, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
+from avis_enquete a
+group by a.tranche_age, a.id_enquete
+order by a.id_enquete);
 
 drop trigger if exists consommateur_before_insert;
 delimiter // 
@@ -838,11 +905,11 @@ delimiter ;
 drop procedure if exists insertavis;
 DELIMITER //
 CREATE PROCEDURE insertavis
-(IN unereponse varchar(255), IN unenote decimal(3,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
+(IN unenote decimal(3,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
 BEGIN
 DECLARE unid_sujet int(5);
 set unid_sujet = (select id_sujet from sujet where id_enquete = unid_enquete and numquestion = unnumquestion);
-insert into avis_enquete values(null,unereponse,unenote,unid_sujet,id_consommateur);
+insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
 END //
 DELIMITER ;
 
@@ -873,6 +940,19 @@ insert into sujet values(null,10,'question 10 qcm_image','ceci est une question 
 insert into sujet values(null,11,'question 11 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2",1);
 insert into sujet values(null,12,'question 12 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
 insert into enquete values(null,'Produits','Enquete sur  la qualite de nos produits');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,2);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,2);
 insert into enquete values(null,'Service client','Enquete sur la qualite de notre service client');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,3);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,3);
 insert into enquete values(null,'Regimes healthy','Enquete sur les nouveaux regimes healthy!');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,4);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,4);
 insert into enquete values(null,'Amis des animaux','Enquete sur la qualite de la nourritures de nos petits compagnons');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,5);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,5);
+
+
+insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');
+
+update utilisateur set id=0 where email='anonyme';
