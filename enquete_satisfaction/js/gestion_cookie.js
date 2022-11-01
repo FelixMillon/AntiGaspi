@@ -35,16 +35,16 @@ function lireCookie(cle) {
 
 function reponse_qcm(cle,n){
 
-    if(typeof(n) == 'string')
+    if(typeof(n) == 'string')//on s'assure que n est de type int
     {
         n = parseInt(n);
     }
 
     let resu = 0;
 
-    for(let i=1; i<=n;i++)
+    for(let i=1; i<=n;i++) 
     {
-        if(document.getElementById(i).checked == true){
+       if(document.getElementById(i).checked == true){
             resu =  resu + 10/n ;
         }
     }
@@ -165,4 +165,38 @@ function gestion_perso()
 
     let ville = document.getElementById("ville").value; 
     stockerCookie("villepers", ville, 2); 
+}
+
+function moyenne(id_enquete)
+{   
+    lesCookies = list_value(id_enquete);
+    let moy = 0;
+    for(let y=0; y<lesCookies.length; y++){
+        moy = moy + parseFloat(lesCookies[y]);
+    }
+    moy = moy / lesCookies.length;
+    stockerCookie('moyenne', moy, 1);
+}
+
+function perso_value(nb_enquete)
+{
+    let chaineCookies = document.cookie;
+    let tab = chaineCookies.split(";");
+    let lesCookies = {};
+    for(let j =1; j<=nb_enquete;j++)
+    {
+        var reg = new RegExp('reponse_'+j.toString()+'_[0-9]+');
+        lesCookies['enquete_'+j.toString()]=[];
+        for (let i=0; i<tab.length; i++) {            
+            let tab2 = tab[i].split("=");
+            while(tab2[0].charAt(0) == ' ') {
+                tab2[0] = tab2[0].substring(1);
+            }
+            if (reg.test(tab2[0])) {
+                lesCookies['enquete_'+j.toString()].push(tab2[1]);
+            }
+        }
+    }
+    console.log(lesCookies);
+    return lesCookies;
 }

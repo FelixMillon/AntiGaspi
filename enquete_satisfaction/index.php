@@ -44,6 +44,7 @@
 				$page = 0;
 			}
     switch ($page) {
+
       case 0: require_once ("page/index.php"); break;
       
       case 1: require_once ("page/collaborateur.php"); break;
@@ -59,9 +60,13 @@
 
       case 9: require_once ("vue/form_insert_enquete.php"); break;
       case 10: require_once ("vue/form_insert_question.php"); break;
-
+      case 11: require_once ("gestion_question_perso.php"); break;
+      case 12: require_once ("gestion_page_enquete.php"); break;
+      case 13: require_once ("gestion_remerciement.php"); break;
+      case 14: require_once ("gestion_dashboard.php"); break;
 
       default : require_once("page/index.php");  break;
+
     }
 		?>
 	</center>
