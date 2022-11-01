@@ -120,8 +120,8 @@ echo'
 				}else
 				{
 					echo'
-					<a href="index.php?page=2">
-						<input type="button" class="btn btn-primary" value="✔️" onclick="cookie_reponse('.$nomcook.','.count($LesResponses).",'".$laQuestion['type_question']."')".'">
+					<a href="index.php?page=13">
+						<input type="button" class="btn btn-primary" value="✔️" onclick="cookie_reponse('.$nomcook.','.count($LesResponses).",'".$laQuestion['type_question']."');moyenne(".$_COOKIE['id_enquete'].");".'">
 				  	</a>';
 				}
 				echo'
