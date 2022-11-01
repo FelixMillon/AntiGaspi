@@ -18,11 +18,11 @@ foreach ($lesEnquetes as $uneEnquete)
                           <h3>'.$uneEnquete['libelle'].'</h3>
                           <p class="card-text">'.$uneEnquete['description_enquete'].'</p>
                           <div class="d-flex justify-content-center align-items-center">
-
                             <div class="btn-group">
-                              <button type="button" class="btn btn-sm btn-outline-secondary" onclick="stockerCookie('.$cle.','.$valeur.',2)"> Participer </button>
+                              <a href="index.php?page=1">
+                                <input type="submit" class="btn btn-sm btn-outline-secondary" value="Participer" onclick="stockerCookie('.$cle.','.$valeur.',2)">
+                              </a>
                             </div>
-
                           </div>
                         </div>
                       </div>

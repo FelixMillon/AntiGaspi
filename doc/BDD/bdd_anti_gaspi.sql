@@ -222,7 +222,7 @@ create table avis_enquete
 	reponse varchar(255) not null,
     note decimal(3, 2),
     id_sujet int(5) not null,
-    id_consommateur int(5) not null,
+    id_consommateur int(5),
     primary key(id_avis_enquete),
     foreign key(id_sujet) references sujet(id_sujet)
     on update cascade
@@ -493,6 +493,9 @@ create table donnee_bancaire
     on update cascade
     on delete cascade
 )engine=innodb;
+
+insert into user values(0,'anonyme','123@456@789','nom','prenom','aucun');
+insert into consommateur values(0,'anonyme','123@456@789','nom','prenom',sysdate(),0,'aucun','invalide');
 
 drop trigger if exists consommateur_before_insert;
 delimiter // 
@@ -818,6 +821,30 @@ begin
     end if;
 end //
 delimiter ;
+
+drop trigger if exists sujet_before_insert;
+delimiter // 
+create trigger sujet_before_insert 
+before insert on sujet
+for each row
+begin
+    if (select count(id_sujet) from sujet where id_enquete = new.id_enquete) =0
+    then set new.numquestion = 1;
+    else set new.numquestion = (select count(id_sujet) from sujet where id_enquete = new.id_enquete )+1;
+    end if;
+end //
+delimiter ;
+
+drop procedure if exists insertavis;
+DELIMITER //
+CREATE PROCEDURE insertavis
+(IN unereponse varchar(255), IN unenote decimal(3,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
+BEGIN
+DECLARE unid_sujet int(5);
+set unid_sujet = (select id_sujet from sujet where id_enquete = unid_enquete and numquestion = unnumquestion);
+insert into avis_enquete values(null,unereponse,unenote,unid_sujet,id_consommateur);
+END //
+DELIMITER ;
 
 insert into client values(null,'jean_dupont@gmail.com','123','dupont','jean',null,2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
 insert into client values(null,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
