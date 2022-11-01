@@ -27,7 +27,7 @@ echo'
 									<h3>'.$laQuestion['libelle'].'</h3></div>';
 									if($laQuestion['type_question'] == "note_image")
 									{
-										echo'<img class="image" src="img/quizz.jpg">';
+										echo'<img class="image" src="img/caddie2.jpg">';
 									}
 									echo'
 									<label> '.$laQuestion['question'].' :</label>
@@ -67,7 +67,7 @@ echo'
                         			<h3>'.$laQuestion['libelle'].'</h3></div>';
 									if($laQuestion['type_question'] == "qcm_image")
 									{
-										echo'<img class="image" src="img/quizz.jpg">';
+										echo'<img class="image" src="img/super.jpg">';
 									}
 									echo'
 									<div class="row">
@@ -92,7 +92,7 @@ echo'
 									<h3>'.$laQuestion['libelle'].'</h3></div>';
 									if($laQuestion['type_question'] == "qcu_image")
 									{
-										echo'<img class="image" src="img/quizz.jpg">';
+										echo'<img class="image" src="img/food_2.jpeg">';
 									}
 									echo'
 									<div class="row">
@@ -105,7 +105,6 @@ echo'
 										</div>
 						';
 					}
-					
 				}
 				echo '</div><div class="question">';
 				if($_COOKIE['numquestion'] != 1)
