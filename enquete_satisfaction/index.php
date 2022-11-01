@@ -4,7 +4,6 @@
 	$unControleur = new Controleur($serveur,$bdd,$user,$mdp);
 ?>
 
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,31 +14,26 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FireCrest | Pré-connexion </title>
 </head>
 <body>
 <header class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-2 mb-4 border-bottom colorHeader">
-              <a  href="index.php?page=0" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" >
-                <img src="img/logo1.png" class="bi me-2 img" style="width: 10vw;" role="img" alt="">
-              </a>
-              
-        
-              <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                <li><a href="#" class="nav-link px-2 link-light">Collaborateur</a></li>
-                <li><a href="#" class="nav-link px-2 link-light">Assistance</a></li>
-                <li><a href="#" class="nav-link px-2 link-light">à propos</a></li>
-              </ul>
+  <a  href="index.php?page=0" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" >
+    <img src="img/logo1.png" class="bi me-2 img" style="width: 10vw;" role="img" alt="">
+  </a>
+  
+
+  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <li><a href="index.php?page=1" class="nav-link px-2 link-light">Collaborateur</a></li>
+    <li><a href="index.php?page=2" class="nav-link px-2 link-light">Assistance</a></li>
+    <li><a href="index.php?page=3" class="nav-link px-2 link-light">À propos</a></li>
+  </ul>
 
 
-              <ul class="nav col-12 col-md-auto mb-2 justify-content-end mb-md-0" style="padding-left: 17%;">
-                <li><a href="index.php?page=0" class="nav-link px-2 link-light">Se Connecter</a></li>
-                <li><a href="index.php?page=7" class="nav-link px-2 link-light">S'inscrire</a></li>
-                
-              </ul>
-
-
-              
-            </header>
+  <ul class="nav col-12 col-md-auto mb-2 justify-content-end mb-md-0" style="padding-left: 17%;">
+    <li><a href="index.php?page=0" class="nav-link px-2 link-light">Se Connecter</a></li>
+    <li><a href="index.php?page=7" class="nav-link px-2 link-light">S'inscrire</a></li>               
+  </ul>
+</header>
 	<center>
 
 		<?php
@@ -62,6 +56,10 @@
 
       case 7: require_once ("page/pre_inscription.php"); break;
       case 8: require_once ("page/inscription.php"); break;
+
+      case 9: require_once ("vue/form_insert_enquete.php"); break;
+      case 10: require_once ("vue/form_insert_question.php"); break;
+
 
       default : require_once("page/index.php");  break;
     }

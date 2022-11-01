@@ -1,3 +1,7 @@
+<head>
+    <title>FireCrest | Participation</title>
+</head>
+
 <?php
 	$unControleur->setTable("enquete"); //se mettre sur la bonne table
 	

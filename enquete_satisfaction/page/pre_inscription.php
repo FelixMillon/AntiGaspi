@@ -1,4 +1,6 @@
-
+<head>
+    <title>FireCrest | Inscription</title>
+</head>
         <main>
 
             <div class="album bg-light">
