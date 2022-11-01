@@ -494,6 +494,9 @@ create table donnee_bancaire
     on delete cascade
 )engine=innodb;
 
+insert into user values(0,'anonyme','123@456@789','nom','prenom','aucun');
+insert into consommateur values(0,'anonyme','123@456@789','nom','prenom',sysdate(),0,'aucun','invalide');
+
 drop trigger if exists consommateur_before_insert;
 delimiter // 
 create trigger consommateur_before_insert 
