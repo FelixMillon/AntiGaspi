@@ -37,7 +37,17 @@
 	<center>
 
 		<?php
-		require_once("gestion_page_enquete.php"); //CHANGER LA PAGE POUR TESTERS
+			if(isset($_GET['page']))
+			{
+				$page = $_GET['page'];
+			}else{
+				$page = 0;
+			}
+    switch ($page) {
+      case 0: require_once ("gestion_page_choix_enquete.php"); break;
+      case 1: require_once ("gestion_page_enquete.php"); break;
+      case 2: require_once ("gestion_remerciement.php"); break;
+    }
 		?>
 	</center>
 <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-3 border-top colorHeader">
