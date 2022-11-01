@@ -19,7 +19,7 @@
 </head>
 <body>
 <header class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-2 mb-4 border-bottom colorHeader">
-              <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" >
+              <a  href="index.php?page=0" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" >
                 <img src="img/logo1.png" class="bi me-2 img" style="width: 10vw;" role="img" alt="">
               </a>
               
@@ -29,10 +29,16 @@
                 <li><a href="#" class="nav-link px-2 link-light">Assistance</a></li>
                 <li><a href="#" class="nav-link px-2 link-light">à propos</a></li>
               </ul>
-        
-              <div class="nav col-md-3 text-end" style="padding-left: 17%; white-space: nowrap;">
-                <li><a href="#" class="nav-link px-2 link-light">Se Connecter</a></li>
-              </div>
+
+
+              <ul class="nav col-12 col-md-auto mb-2 justify-content-end mb-md-0" style="padding-left: 17%;">
+                <li><a href="index.php?page=0" class="nav-link px-2 link-light">Se Connecter</a></li>
+                <li><a href="index.php?page=7" class="nav-link px-2 link-light">S'inscrire</a></li>
+                
+              </ul>
+
+
+              
             </header>
 	<center>
 
@@ -44,9 +50,20 @@
 				$page = 0;
 			}
     switch ($page) {
-      case 0: require_once ("gestion_page_choix_enquete.php"); break;
-      case 1: require_once ("gestion_page_enquete.php"); break;
-      case 2: require_once ("gestion_remerciement.php"); break;
+      case 0: require_once ("page/index.php"); break;
+      
+      case 1: require_once ("page/collaborateur.php"); break;
+      case 2: require_once ("page/assistance.php"); break;
+      case 3: require_once ("page/a_propos.php"); break;
+
+      case 4: require_once ("gestion_page_choix_enquete.php"); break;
+      case 5: require_once ("page/mention_legale.php"); break;
+      case 6: require_once ("page/condition_generale.php"); break;
+
+      case 7: require_once ("page/pre_inscription.php"); break;
+      case 8: require_once ("page/inscription.php"); break;
+
+      default : require_once("page/index.php");  break;
     }
 		?>
 	</center>
