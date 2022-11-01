@@ -19,7 +19,7 @@ foreach ($lesEnquetes as $uneEnquete)
                           <p class="card-text">'.$uneEnquete['description_enquete'].'</p>
                           <div class="d-flex justify-content-center align-items-center">
                             <div class="btn-group">
-                              <a href="index.php?page=1">
+                              <a href="index.php?page=11">
                                 <input type="submit" class="btn btn-sm btn-outline-secondary" value="Participer" onclick="stockerCookie('.$cle.','.$valeur.',2)">
                               </a>
                             </div>
