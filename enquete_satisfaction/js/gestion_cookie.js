@@ -160,7 +160,6 @@ function gestion_perso()
     stockerCookie("prenompers", prenom, 2); 
 
     let ages = document.getElementById("age").value; 
-    alert(ages);
     stockerCookie("agepers", ages, 2);
 
     let ville = document.getElementById("ville").value; 
