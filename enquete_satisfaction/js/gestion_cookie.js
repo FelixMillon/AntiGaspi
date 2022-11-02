@@ -40,7 +40,7 @@ function reponse_qcm(cle,n){
         n = parseInt(n);
     }
 
-    let resu = 0;
+    let resu = 0.0;
 
     for(let i=1; i<=n;i++) 
     {
@@ -48,7 +48,6 @@ function reponse_qcm(cle,n){
             resu =  resu + 10/n ;
         }
     }
-
     stockerCookie(cle, resu, 2);
    
 }
@@ -73,7 +72,7 @@ function reponse_qcu(cle,n){
 
 function reponse_note(cle)
 {
-    resu=0;
+    resu=0.0;
     for(let i=0; i<=10;i++)
     {
         if(document.getElementById(i).checked == true)
@@ -126,8 +125,10 @@ function moyenne(id_enquete)
         moy = moy + parseFloat(lesCookies[y]);
     }
     moy = moy / lesCookies.length;
+    moy = moy.toFixed(2);
     stockerCookie('moyenne', moy, 1);
 }
+
 
 function list_value(id_enquete)
 {
@@ -166,16 +167,6 @@ function gestion_perso()
     stockerCookie("villepers", ville, 2); 
 }
 
-function moyenne(id_enquete)
-{   
-    lesCookies = list_value(id_enquete);
-    let moy = 0;
-    for(let y=0; y<lesCookies.length; y++){
-        moy = moy + parseFloat(lesCookies[y]);
-    }
-    moy = moy / lesCookies.length;
-    stockerCookie('moyenne', moy, 1);
-}
 
 function perso_value(nb_enquete)
 {
