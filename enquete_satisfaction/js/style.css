@@ -1,0 +1,87 @@
+.colorHeader{
+background-color: #983628 ;   
+}
+
+body{
+    /**** CEST ICI QUE CA SE PASSE ****/
+    display: flex;
+    flex-direction: column; /*Fait pivoter l'axe principal à la 
+verticale*/
+    justify-content: space-between; /*Comme cette propriété est liée à 
+l'axe principal elle agit maintenant de haut en bas*/
+
+    height: 100vh; /*Pour voir agir justify-content sur la verticale, il 
+faut donner une hauteur au body. vh (pour viewport height) permet de 
+s'assurer que le body fera bien toute la hauteur de la surface d'affichage
+ du navigateur*/
+    /**********************************/
+
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0; /*à mettre si pas de normalize.css*/
+}
+
+h3{
+    text-align: center;
+}
+
+.imgcenter{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 5vw;
+}
+
+.borders{
+    border-radius: 8px;
+    border: solid;
+    border-color: #f0f0c9;
+    border-width: 3px;
+}
+
+.card2 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+
+.borderbutton{
+    border-radius: 30px; 
+    padding: 15px;
+    white-space: nowrap;
+}
+
+.borderRouge{
+    border-radius: 8px;
+    border: solid;
+    border-color: #d74e09;
+    border-width: 3px;
+}
+
+.bg-bleu{
+    background-color: #124e78;
+    color : white;
+}
+
+.bg-orange{
+    background-color: #d74e09;
+    color : white;
+}
+
+.bg-beige{
+    background-color: #f0f0c9;
+}
+
+.img{
+    border-radius: 5px;  
+}
+
+.row {
+    --bs-gutter-x: 0.3rem;
+}
+
+

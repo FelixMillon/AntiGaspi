@@ -2,6 +2,8 @@ drop database if exists bdd_anti_gaspi;
 create database bdd_anti_gaspi;
 	use bdd_anti_gaspi;
 
+
+
 create table utilisateur
 (
 	id int(5) not null auto_increment,
@@ -9,7 +11,6 @@ create table utilisateur
 	mdp varchar(40) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
-    coor_banc varchar(255),
     tel varchar(20) not null,
     primary key (id)
 )engine=innodb;
@@ -25,8 +26,11 @@ create table enquete
 create table sujet
 (
 	id_sujet int(5) not null auto_increment,
+    numquestion int(3) not null,
 	libelle varchar(100) not null,
 	question varchar(255) not null,
+    type_question enum('note','note_image','qcm','qcm_image','qcu','qcu_image'),
+    reponse varchar(255),
     id_enquete int(5) not null,
     primary key (id_sujet),
     foreign key(id_enquete) references enquete(id_enquete)
@@ -42,7 +46,6 @@ create table consommateur
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
@@ -57,7 +60,6 @@ create table client
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
@@ -67,7 +69,7 @@ create table client
     cp varchar(10) not null,
     siren varchar(100),
     libelle varchar(100),
-    role_represenant varchar(100),
+    role_representant varchar(100),
     type_cli enum('particulier','association','entreprise') not null,
     valide enum('valide','invalide','attente') not null,
     primary key (id_client)
@@ -80,7 +82,6 @@ create table entreprise
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
@@ -97,6 +98,29 @@ create table entreprise
     primary key (id_entreprise)
 )engine=innodb;
 
+create table type_vehicule
+(
+	id_type_vehicule int(5) not null,
+	libelle varchar(100) not null,
+    primary key (id_type_vehicule)
+)engine=innodb;
+
+create table vehicule
+(
+    id_vehicule int(5) not null,
+    immatriculation varchar(100) UNIQUE,
+	poids_max decimal(6,2) not null,
+    annee_fabrication date not null,
+    volume decimal(3,2) not null,
+	energie enum('essence','diesel','biocarburant','electrique','hybride','mecanique') not null,
+    cons_100_km decimal(3,2) not null,
+    id_type_vehicule int(5) not null,
+    primary key (id_vehicule),
+    foreign key(id_type_vehicule) references type_vehicule(id_type_vehicule)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
 create table livreur
 (
 	id_livreur int(5) not null,
@@ -104,15 +128,16 @@ create table livreur
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
-    transport enum('utilitaire','voiture','velo','motocyclette','scooter','aucun') not null,
-    energie_transport enum('essence','diesel','biocarburant','electrique','hybride'),
+    id_vehicule int(5),
     notepublic decimal(3, 2),
     valide enum('valide','invalide','attente') not null,
-    primary key (id_livreur)
+    primary key (id_livreur),
+    foreign key(id_vehicule) references vehicule(id_vehicule)
+    on update cascade
+    on delete cascade
 )engine=innodb;
 
 create table candidat
@@ -122,7 +147,6 @@ create table candidat
 	mdp varchar(40) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
-	coor_banc varchar(255),
     date_inscription date not null,
 	noteconfemp decimal(3, 2) not null,
     tel varchar(20) not null,
@@ -147,7 +171,6 @@ create table manager
 	mdp varchar(40) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
-    coor_banc varchar(255),
     tel varchar(20) not null,
     fonction varchar(255) not null,
     salaire decimal(6,2) not null,
@@ -174,10 +197,9 @@ create table employe
 	mdp varchar(40) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
-    coor_banc varchar(255),
     tel varchar(20) not null,
     fonction varchar(255) not null,
-    salaire_mensuel decimal(6,2) not null,
+    salaire decimal(6,2) not null,
     niveau_diplome varchar(100) not null,
     date_embauche date not null,
     date_depart date,
@@ -198,10 +220,28 @@ create table avis_enquete
 (
 	id_avis_enquete int(5) not null auto_increment,
 	reponse varchar(255) not null,
+    ville varchar(255),
+    tranche_age varchar(255),
+    civilite enum('Monsieur','Madame','Autres'),
+    note decimal(3, 2),
+    id_enquete int(5) not null,
+    id_consommateur int(5),
+    primary key(id_avis_enquete),
+    foreign key(id_enquete) references enquete(id_enquete)
+    on update cascade
+    on delete cascade,
+    foreign key(id_consommateur) references consommateur(id_consommateur)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table avis_sujet
+(
+	id_avis_sujet int(5) not null auto_increment,
     note decimal(3, 2),
     id_sujet int(5) not null,
-    id_consommateur int(5) not null,
-    primary key(id_avis_enquete),
+    id_consommateur int(5),
+    primary key(id_avis_sujet),
     foreign key(id_sujet) references sujet(id_sujet)
     on update cascade
     on delete cascade,
@@ -214,7 +254,7 @@ create table categorie_produit
 (
 	id_categorie int(5) not null auto_increment,
 	libelle varchar(100) not null,
-	descriptions varchar(255) not null,
+	description varchar(255) not null,
     primary key(id_categorie)
 )engine=innodb;
 
@@ -222,7 +262,7 @@ create table produit
 (
 	id_produit int(5) not null auto_increment,
 	libelle varchar(100) not null,
-	descriptions varchar(255) not null,
+	description varchar(255) not null,
     regime_alim enum('crudivore','vegan','vegetalien','vegetarien','glutenfree'),
     numrue_depot varchar(50) not null,
     rue_depot varchar(100) not null,
@@ -316,7 +356,7 @@ create table categorie_metier
 (
     id_cat_met int(5) not null auto_increment,
     libelle varchar(100) not null,
-    descriptions varchar(255) not null,
+    description varchar(255) not null,
     primary key(id_cat_met)
 )engine=innodb;
 
@@ -350,7 +390,7 @@ create table poste
 	date_debut date not null,
 	date_fin date,
 	salaire_propose decimal(5, 2) not null,
-    descriptions varchar(255) not null,
+    description varchar(255) not null,
     type_poste enum('cdi','cdd','contrat_prestation'),
     id_local int(5) not null,
     id_met int(5) not null,
@@ -456,13 +496,81 @@ create table moderer
     on delete cascade
 )engine=innodb;
 
+create table donnee_bancaire
+(
+	id_donnee_bancaire int(5) not null auto_increment,
+	type_donnee varchar(100) not null,
+	carte varchar(40) UNIQUE,
+	iban varchar(40) UNIQUE,
+	bic varchar(40) UNIQUE,
+    validite date,
+    crypto int(8),
+    id int(5) not null,
+    primary key (id_donnee_bancaire),
+    foreign key(id) references utilisateur(id)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create or replace view viewmoyparenquete as (
+select avg(a.note) as moyenne, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
+from avis_enquete a
+group by a.id_enquete);
+
+create or replace view viewmpartparenquete as (
+select count(id_avis_enquete) as nb, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
+from avis_enquete a
+group by a.id_enquete);
+
+create or replace view viewmoypartrancheage as (
+select avg(note) as nb, tranche_age
+from avis_enquete
+group by tranche_age);
+
+create or replace view viewcountpartrancheage as (
+select count(id_avis_enquete) as nb, tranche_age
+from avis_enquete
+group by tranche_age);
+
+create or replace view viewmoyparville as (
+select avg(note) as nb, ville
+from avis_enquete
+group by ville);
+
+create or replace view viewcountparville as (
+select count(id_avis_enquete) as nb, ville
+from avis_enquete
+group by ville);
+
+create or replace view viewcountparcivil as (
+select avg(note)as nb, civilite
+from avis_enquete
+group by civilite);
+
+create or replace view viewmoyparcivil as (
+select count(id_avis_enquete) as nb, civilite
+from avis_enquete
+group by civilite);
+
+create or replace view viewcountparageenquete as (
+select avg(a.note)as nb, a.tranche_age, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
+from avis_enquete a
+group by a.tranche_age, a.id_enquete
+order by a.id_enquete);
+
+create or replace view viewmoyparageenquete as (
+select count(a.id_avis_enquete) as nb, a.tranche_age, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
+from avis_enquete a
+group by a.tranche_age, a.id_enquete
+order by a.id_enquete);
+
 drop trigger if exists consommateur_before_insert;
 delimiter // 
 create trigger consommateur_before_insert 
 before insert on consommateur
 for each row
 begin
-    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.tel);
+    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel);
     set new.id_consommateur = (select id from utilisateur where email=new.email);
 end //
 delimiter ;
@@ -483,7 +591,7 @@ create trigger employe_before_insert
 before insert on employe
 for each row
 begin
-    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.tel);
+    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel);
     set new.id_employe= (select id from utilisateur where email=new.email);
 end //
 delimiter ;
@@ -508,7 +616,8 @@ begin
     then
         set new.noteconfemp=2.5;
         set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.noteconfemp,new.tel,new.valide);
+        set new.date_inscription=curdate();
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.valide);
         set new.id_client = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_client = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_client)
@@ -537,7 +646,8 @@ begin
     then
         set new.noteconfemp=2.5;
         set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.valide,new.tel,new.noteconfemp);
+        set new.date_inscription=curdate();
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.valide,new.tel,new.noteconfemp);
         set new.id_candidat = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_candidat = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_candidat)
@@ -566,7 +676,8 @@ begin
     then
         set new.noteconfemp=2.5;
         set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.valide,new.tel,new.noteconfemp);
+        set new.date_inscription=curdate();
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.valide,new.tel,new.noteconfemp);
         set new.id_entreprise = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_entreprise = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_entreprise)
@@ -595,7 +706,8 @@ begin
     then
         set new.noteconfemp=2.5;
         set new.valide='attente';
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.coor_banc,new.date_inscription,new.noteconfemp,new.tel,new.valide);
+        set new.date_inscription=curdate();
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.valide);
         set new.id_livreur = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_livreur = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_livreur)
@@ -620,7 +732,7 @@ create trigger utilisateur_after_update
 after update on utilisateur
 for each row
 begin
-    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel where id_consommateur=old.id;
+    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel where id_consommateur=old.id;
 end //
 delimiter ;
 
@@ -630,10 +742,10 @@ create trigger consommateur_after_update
 after update on consommateur
 for each row
 begin
-    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_client=old.id_consommateur;
-    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_entreprise=old.id_consommateur;
-    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_livreur=old.id_consommateur;
-    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel,valide=new.valide where id_candidat=old.id_consommateur;
+    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_client=old.id_consommateur;
+    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_entreprise=old.id_consommateur;
+    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_livreur=old.id_consommateur;
+    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_candidat=old.id_consommateur;
 end //
 delimiter ;
 
@@ -643,7 +755,7 @@ create trigger employe_after_update
 after update on employe
 for each row
 begin
-    update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,coor_banc=new.coor_banc,tel=new.tel where id=old.id_employe;
+    update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel where id=old.id_employe;
 end //
 delimiter ;
 
@@ -753,7 +865,7 @@ begin
         signal sqlstate '45000' SET MESSAGE_TEXT = "Le commentaire doit concerner soit un utilisateur soit un produit";
     elseif new.id_consommateur_cible is not null and new.id_consommateur_cible = new.id_consommateur_source
     then
-        signal sqlstate '45000' SET MESSAGE_TEXT = "On ne peut pas se commenter soit-même";
+        signal sqlstate '45000' SET MESSAGE_TEXT = "On ne peut pas se commenter soit-meme";
     elseif new.id_produit is not null and new.id_consommateur_source = (select id_entreprise from produit where id_produit=new.id_produit)
     then
         signal sqlstate '45000' SET MESSAGE_TEXT = "On ne peut pas commenter ses produits";
@@ -777,16 +889,132 @@ begin
 end //
 delimiter ;
 
-insert into client values(null,'jean_dupont@gmail.com','123','dupont','jean',null,sysdate(),2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
-insert into client values(null,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,sysdate(),2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
-insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','123','Subra de Bieusse','Jean-Michel',null,sysdate(),2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
-insert into livreur values(null,'martinmatin@gmail.com','123','Matin','Martin',null,sysdate(),2.5,'0621248481','velo',null,null,'attente');
-insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
-insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
-insert into livreur values(1,'jean_dupont@gmail.com','123','dupont','jean',null,sysdate(),2.5,'0123456789','scooter','electrique',null,'attente');
-insert into candidat values(1,'jean_dupont@gmail.com','123','dupont','jean',null,null,null,'0123456789','5','developpeur',null);
-insert into candidat values(null,'eric_tang@gmail.com','123','Tang','Eric',null,curdate(),null,'0178956789','7','reseau',null);
+drop trigger if exists sujet_before_insert;
+delimiter // 
+create trigger sujet_before_insert 
+before insert on sujet
+for each row
+begin
+    if (select count(id_sujet) from sujet where id_enquete = new.id_enquete) =0
+    then set new.numquestion = 1;
+    else set new.numquestion = (select count(id_sujet) from sujet where id_enquete = new.id_enquete )+1;
+    end if;
+end //
+delimiter ;
+
+drop procedure if exists insertavis;
+DELIMITER //
+CREATE PROCEDURE insertavis
+(IN unenote decimal(3,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
+BEGIN
+DECLARE unid_sujet int(5);
+set unid_sujet = (select id_sujet from sujet where id_enquete = unid_enquete and numquestion = unnumquestion);
+insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
+END //
+DELIMITER ;
+
+insert into client values(null,'jean_dupont@gmail.com','123','dupont','jean',null,2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
+insert into client values(null,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
+insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','123','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
+insert into livreur values(null,'martinmatin@gmail.com','123','Matin','Martin',null,2.5,'0621248481',null,null,'attente');
+insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
+insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
+insert into livreur values(1,'jean_dupont@gmail.com','123','dupont','jean',null,2.5,'0123456789',null,null,'attente');
+insert into candidat values(1,'jean_dupont@gmail.com','123','dupont','jean',null,null,'0123456789','5','developpeur',null);
+insert into candidat values(null,'eric_tang@gmail.com','123','Tang','Eric',null,null,'0178956789','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
-insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim',null,'0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
+insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim','0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
+/* 
+insert into enquete values(null,'test','enquete de test');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,1);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,1);
+insert into sujet values(null,3,'question 3 qcm','ceci est une question qcm','qcm',"reponse_1|reponse_2|reponse_3|reponse_4",1);
+insert into sujet values(null,4,'question 4 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
+insert into sujet values(null,5,'question 5 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2|reponse_3|reponse_4",1);
+insert into sujet values(null,6,'question 6 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
+insert into sujet values(null,7,'question 7 note','ceci est une question note','note',null,1);
+insert into sujet values(null,8,'question 8 note_image','ceci est une question note_image','note_image',null,1);
+insert into sujet values(null,9,'question 9 qcm','ceci est une question qcm','qcm',"reponse_1|reponse_2",1);
+insert into sujet values(null,10,'question 10 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
+insert into sujet values(null,11,'question 11 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2",1);
+insert into sujet values(null,12,'question 12 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
+insert into enquete values(null,'Produits','Enquete sur  la qualite de nos produits');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,2);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,2);
+insert into enquete values(null,'Service client','Enquete sur la qualite de notre service client');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,3);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,3);
+insert into enquete values(null,'Regimes healthy','Enquete sur les nouveaux regimes healthy!');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,4);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,4);
+insert into enquete values(null,'Amis des animaux','Enquete sur la qualite de la nourritures de nos petits compagnons');
+insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,5);
+insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,5);
+
+*/
+insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
+insert into sujet values(null,1,'Question 1','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
+insert into sujet values(null,2,'Question 2','Verifiez-vous vos besoins avant de faire vos courses ?','qcu',"Oui|Non",1);
+insert into sujet values(null,3,'Question 3','De maniere generale, achetez-vous de grande quantite de nourriture lorsque vous faites vos courses ?','qcu',"Oui|Non",1);
+insert into sujet values(null,4,'Question 4','Achetez- vous des produits avec des dates courtes ?','qcu',"Oui|Non",1);
+insert into sujet values(null,5,'Question 5',"Consommez- vous des aliments apres la date limite d\'utilisation optimale (DLUO) ?",'qcu',"Oui|Non",1);
+insert into sujet values(null,6,'Question 6',"Si oui, pour quel type d\'aliment ?",'qcm',"Fruits et legumes|Cereales|Produits laitiers|Produits sucres",1);
+insert into sujet values(null,7,'Question 7','Sur une echelle de 1 a 10, vous sentez-vous concerne par la question du gaspillage alimentaire ?','note',null,1);
+insert into sujet values(null,8,'Question 8','Cuisinez-vous vos restes alimentaires ?','qcu',"Oui|Non",1);
+insert into sujet values(null,9,'Question 9','Utilisez-vous vos restes afin de produire du compost ?','qcu',"Oui|Non|Je n'en ai pas l'utilite",1);
+insert into sujet values(null,10,'Question 10', 'Pourriez-vous changer vos habitudes afin de reduire le gaspillage ?','qcu',"Oui|Non",1);
+
+
+insert into enquete values(null,'Service client','Enquete sur la qualite de nos services');
+insert into sujet values(null,1,'Question 1','Sur une echelle de 1 a 10, a combien evaluez-vous votre experience avec notre produit ?','note',null,2);
+insert into sujet values(null,2,'Question 2',"Sur une echelle de 1 a 10, a combien evaluez-vous la comprehension / simplicite d\'utilisation de l'application ?",'note',null,2);
+insert into sujet values(null,3,'Question 3','Avez-vous trouvez ce que vous cherchiez ?','qcu',"Oui|Non",2);
+insert into sujet values(null,4,'Question 4','Recommanderiez-vous notre application ?','qcu',"Oui|Non",2);
+insert into sujet values(null,5,'Question 5',"Que pensez-vous de l\'apparence globale de l\'application",'qcu',"Tres bien|Bien|Mauvais|Tres mauvaise",2);
+insert into sujet values(null,6,'Question 6','Sur quelle plateforme utilisez-vous notre application ?','qcm',"Ordinateur|Telephone|Tablette|Autres",2);
+insert into sujet values(null,7,'Question 7',"Sur quel systeme d\'exploitation utilisez-vous notre application ?",'qcm',"Windows|MacOS|Android|iOS|Linux|Autres",2);
+insert into sujet values(null,8,'Question 8','A quelle frequence utilisez vous notre application?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",2);
+insert into sujet values(null,9,'Question 9',"a combien evaluez-vous l\'effort que vous avez dû fournir pour trouver le produit que vous recherchiez sur notre site internet ?",'note',null,2);
+
+
+
+insert into enquete values(null,'Regimes healthy','Enquete sur les nouveaux regimes healthy!');
+insert into sujet values(null,1,'Question 1','Avez-vous un regime particulier ?','qcm',"Aucun|Vegetarien|Vegetalien|Crudivore",3);
+insert into sujet values(null,2,'Question 2','Faites-vous du sport ?','qcu',"Oui|Non",3);
+insert into sujet values(null,3,'Question 3','A quelle frequence utilisez vous notre application?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",3);
+insert into sujet values(null,4,'Question 4','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",3);
+insert into sujet values(null,5,'Question 5','A quelle frequence utilisez vous notre application?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",3);
+insert into sujet values(null,6,'Question 6','A quelle frequence consommez-vous des cereales ?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",3);
+insert into sujet values(null,7,'Question 7','A quelle frequence consommez-vous des fruits et legumes ?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",3);
+insert into sujet values(null,8,'Question 8','A quelle frequence consommez-vous de la viande ?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",3);
+insert into sujet values(null,9,'Question 9',"Si vous pouviez diminuer un type d\'aliment dans votre alimentation ce serait",'qcm',"Fruits et legumes|Viandes et poissons|Cereales|Produits laitiers",3);
+
+
+insert into enquete values(null,'Amis des animaux','Enquete sur la qualite de la nourritures de nos petits compagnons');
+insert into sujet values(null,1,'Question 1','Quels animaux possedez-vous ?','qcm',"chat|chien|rongeurs|oiseaux|equides|autres",4);
+insert into sujet values(null,2,'Question 2','A quelle frequence achetez-vous les aliments de vos animaux ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",4);
+insert into sujet values(null,3,'Question 3','Donnez-vous vos restes a vos animaux ?','qcu',"Oui|Non",4);
+insert into sujet values(null,4,'Question 4','Faites-vous vous-meme les repas de vos animaux ?','qcu',"Oui|Non",4);
+
+
+insert into enquete values(null,'Produits','Enquete sur  la qualite de nos produits');
+insert into sujet values(null,1,'Question 1','Qualite des aliments sur le site','qcu',"Tres bien|Bien|Mauvais|Tres mauvaise",5);
+insert into sujet values(null,2,'Question 2','Pensez-vous que le site presente un choix varie de produit ?','qcu',"D\'accord|Plutôt d\'accord|Pas d\'accord|Pas du tout d_'accord",5);
+insert into sujet values(null,3,'Question 3','Etes-vous satisfait de la livraison du produit ?','qcu',"Oui|Non",5);
+insert into sujet values(null,4,'Question 4','La livraison a t-elle ete effectuee dans les delais ?','qcu',"Oui|Non",5);
+insert into sujet values(null,5,'Question 5','Sur une echelle de 1 a 10, quelle note donnez vous pour la qualite des aliments sur le site ?','note',null,5);
+insert into sujet values(null,6,'Question 6',"Quel type d\'aliment avez-vous achete ?",'qcm',"Fruits et legumes|Cereales|Produits laitiers|Produits sucres",5);
+insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequation avec l\'annonce ?",'qcu',"Oui|Non",5);
+
+
+
+
+
+
+
+
+insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');
+
+update utilisateur set id=0 where email='anonyme';
