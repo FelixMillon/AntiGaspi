@@ -1,0 +1,93 @@
+body{
+  /**** CEST ICI QUE CA SE PASSE ****/
+  display: flex;
+  flex-direction: column; /*Fait pivoter l'axe principal à la 
+verticale*/
+  justify-content: space-between; /*Comme cette propriété est liée à 
+l'axe principal elle agit maintenant de haut en bas*/
+
+  height: 100vh; /*Pour voir agir justify-content sur la verticale, il 
+faut donner une hauteur au body. vh (pour viewport height) permet de 
+s'assurer que le body fera bien toute la hauteur de la surface d'affichage
+du navigateur*/
+  /**********************************/
+
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0; /*à mettre si pas de normalize.css*/
+}
+
+.question{
+  margin-bottom: 20px ;
+  margin-top: 20px ;
+  
+}
+
+.test{
+  margin-right: 25% ;
+  margin-left: 25% ;
+  width: 50%;
+  margin-top: 20px ;
+  
+}
+
+.cookiedeb{
+  margin-top: 20px ;
+  text-align:center;
+  
+}
+
+
+.box_question{
+  width: 50%; 
+  border-width: 2px; 
+  border-color:black;
+  border-radius: 10px; 
+  background-color: #e2cfce;
+  text-align:center;
+}
+
+.image{
+  max-width:85%; 
+  height :auto;
+}
+
+.reponse{
+  margin-bottom: 15px ;
+  
+}
+
+.titreq{
+  margin-top: 15px ;
+  
+}
+
+
+
+.checkbox-round {
+  width: 1.1em;
+  height: 1.1em;
+  background-color: white;
+  border-radius: 50%;
+  vertical-align:text-bottom;
+
+  border: 1px solid #000;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type="radio"].reponse-note {
+    display: none;
+  }
+  input[type="radio"].reponse-note + label {
+
+    width: 1.7em;
+    height: 1.7em;
+    border: 1px dashed #ccc;
+    border-radius: 50%;
+    background-color: white;
+  }
+  input[type="radio"].reponse-note:checked + label {
+    border: 1px solid #000;
+  }
