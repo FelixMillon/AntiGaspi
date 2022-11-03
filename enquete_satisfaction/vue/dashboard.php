@@ -1,20 +1,13 @@
 
         <div class="container">
           <div class="row justify-content-center align-items-center">
-          <div class="col-md-12" style="margin-bottom:30px ;width: 100%;">
-            <h2 >Stats generales</h2>
-          </div>
+            <div class="col-md-12" style="margin-bottom:30px ;width: 100%;">
+              <h2 >Stats generales</h2>
+            </div>
             <div class="col-md-6" id="chart2" style=" height: 300px; width: 50%;"></div>
             <div class="col-md-6" id="chart1" style=" height: 300px; width: 50%;"></div>
             <div class="col-md-6" id="chart3" style=" height: 400px; width: 50%;"></div>
             <div class="col-md-6" id="chart4" style=" height: 400px; width: 50%;"></div>
-            <div class="col-md-12" style="margin-bottom:30px ;width: 100%;">
-            <h2 >Stats personnelles</h2>
-          </div>
-            <div class="col-md-6" id="chart5" style=" height: 300px; width: 50%;"></div>
-            <div class="col-md-6" id="chart6" style=" height: 300px; width: 50%;"></div>
-            <div class="col-md-6" id="chart7" style=" height: 400px; width: 50%;"></div>
-            <div class="col-md-6" id="chart8" style=" height: 400px; width: 50%;"></div>
           </div>
         </div>
         <div class="question">
@@ -108,102 +101,44 @@ var options = {
 
 new ApexCharts(document.querySelector("#chart3"), options).render();
 
+
 var options = {
-    series: [{
-    name: '18-19',
-    data: [<?php foreach($moyAge18 as $unMoy){echo $unMoy.",";} ?>]
-  }, {
-    name: '20-29',
-    data: [<?php foreach($moyAge20 as $unMoy){echo $unMoy.",";} ?>]
-  }, {
-    name: '30-39',
-    data: [<?php foreach($moyAge30 as $unMoy){echo $unMoy.",";} ?>]
-  }, {
-    name: '40-49',
-    data: [<?php foreach($moyAge40 as $unMoy){echo $unMoy.",";} ?>]
-  }, {
-    name: '50-59',
-    data: [<?php foreach($moyAge50 as $unMoy){echo $unMoy.",";} ?>]
-  },{
-    name: '60+',
-    data: [<?php foreach($moyAge60 as $unMoy){echo $unMoy.",";} ?>]
-  }],
-    chart: {
-    type: 'bar',
-    height: 350,
-    width: '100%',
-    stacked: true,
-  },
-  plotOptions: {
-    bar: {
-      horizontal: true,
-      dataLabels: {
-        total: {
-          enabled: false,
-          offsetX: 0,
-          style: {
-            fontSize: '13px',
-            fontWeight: 900
+          series: [{
+            name: "Desktops",
+            data: [<?php foreach($MoyParAge as $uneMoy){echo $uneMoy.",";} ?>]
+        }],
+          chart: {
+            height: 280,
+            width: '100%',
+          type: 'line',
+          zoom: {
+            enabled: false
           }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          curve: 'straight'
+        },
+        title: {
+          text: 'Satisfaction par tranche d\'âge',
+          align: 'left'
+        },
+        grid: {
+          row: {
+            colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+            opacity: 0.5
+          },
+        },
+        xaxis: {
+          categories: [<?php foreach($LibParAge as $uneMoy){echo "'".$uneMoy."',";} ?>],
         }
-      }
-    },
-  },
-  stroke: {
-    width: 1,
-    colors: ['#fff']
-  },
-  title: {
-    text: 'Satisfaction par civilite'
-  },
-  xaxis: {
-    categories: [<?php foreach($libelleAE as $unLabel){echo "'".$unLabel."',";} ?>],
+        };
 
-  },
-  yaxis: {
-    title: {
-      text: undefined
-    },
-  },
-  fill: {
-    opacity: 1
-  },
-  legend: {
-    position: 'top',
-    horizontalAlign: 'left',
-    offsetX: 40
-  }
-  };
 
-  new ApexCharts(document.querySelector("#chart4"), options).render();
+new ApexCharts(document.querySelector("#chart4"), options).render();
 
-  var options1 = {
-  chart: {
-    height: 280,
-    width: '100%',
-    type: "radialBar",
-  },
-  legend: {
-        show: true,
-        position: 'right',
-      },
-  series: [<?php foreach($moyEnquete as $uneMoy){echo "10*".$uneMoy.",";} ?>],
-  title: {
-    text: 'moyenne par enquete'
-  },
-  plotOptions: {
-    radialBar: {
-      dataLabels: {
-        total: {
-          show: false,
-          label: 'TOTAL'
-        }
-      }
-    }
-  },
-  labels: [<?php foreach($nomEnquetes as $unNom){echo "'".$unNom."',";} ?>]
-};
-new ApexCharts(document.querySelector("#chart5"), options1).render();
 
 function perso_value(nb_enquete)
 {
@@ -228,6 +163,5 @@ function perso_value(nb_enquete)
     return lesCookies;
 }
 
-perso_value(<?php echo $nbEnquetes; ?>);
 
 </script>
