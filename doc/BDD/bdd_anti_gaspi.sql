@@ -992,7 +992,7 @@ insert into sujet values(null,8,'Question 8','A quelle frequence consommez-vous 
 insert into sujet values(null,9,'Question 9',"Si vous pouviez diminuer un type d\'aliment dans votre alimentation ce serait",'qcm',"Fruits et legumes|Viandes et poissons|Cereales|Produits laitiers",3);
 
 
-insert into enquete values(null,'Amis des animaux','Enquete sur la qualite de la nourritures de nos petits compagnons');
+insert into enquete values(null,'Amis des animaux',"Enquete sur les proprietaires d'animaux");
 insert into sujet values(null,1,'Question 1','Quels animaux possedez-vous ?','qcm',"chat|chien|rongeurs|oiseaux|equides|autres",4);
 insert into sujet values(null,2,'Question 2','A quelle frequence achetez-vous les aliments de vos animaux ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",4);
 insert into sujet values(null,3,'Question 3','Donnez-vous vos restes a vos animaux ?','qcu',"Oui|Non",4);
@@ -1001,18 +1001,12 @@ insert into sujet values(null,4,'Question 4','Faites-vous vous-meme les repas de
 
 insert into enquete values(null,'Produits','Enquete sur  la qualite de nos produits');
 insert into sujet values(null,1,'Question 1','Qualite des aliments sur le site','qcu',"Tres bien|Bien|Mauvais|Tres mauvaise",5);
-insert into sujet values(null,2,'Question 2','Pensez-vous que le site presente un choix varie de produit ?','qcu',"D\'accord|Plutôt d\'accord|Pas d\'accord|Pas du tout d_'accord",5);
+insert into sujet values(null,2,'Question 2','Pensez-vous que le site presente un choix varie de produit ?','qcu',"D\'accord|Plutot d\'accord|Pas d\'accord|Pas du tout d\'accord",5);
 insert into sujet values(null,3,'Question 3','Etes-vous satisfait de la livraison du produit ?','qcu',"Oui|Non",5);
 insert into sujet values(null,4,'Question 4','La livraison a t-elle ete effectuee dans les delais ?','qcu',"Oui|Non",5);
 insert into sujet values(null,5,'Question 5','Sur une echelle de 1 a 10, quelle note donnez vous pour la qualite des aliments sur le site ?','note',null,5);
 insert into sujet values(null,6,'Question 6',"Quel type d\'aliment avez-vous achete ?",'qcm',"Fruits et legumes|Cereales|Produits laitiers|Produits sucres",5);
 insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequation avec l\'annonce ?",'qcu',"Oui|Non",5);
-
-
-
-
-
-
 
 
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');

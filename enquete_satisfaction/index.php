@@ -55,22 +55,19 @@
       case 1: require_once ("vue/collaborateur.php"); break;
       case 2: require_once ("vue/assistance.php"); break;
       case 3: require_once ("vue/a_propos.php"); break;
-
       case 4: require_once ("gestion_page_choix_enquete.php"); break;
       case 5: require_once ("vue/mention_legale.php"); break;
       case 6: require_once ("vue/condition_generale.php"); break;
-
       case 7: require_once ("vue/pre_inscription.php"); break;
       case 8: require_once ("vue/inscription.php"); break;
-
-      case 9: require_once ("vue/form_insert_enquete.php"); break;
-      case 10: require_once ("vue/form_insert_question.php"); break;
+      case 9: require_once ("gestion_insert_enquete.php"); break;
+      case 10: require_once ("gestion_insert_question.php"); break;
       case 11: require_once ("gestion_question_perso.php"); break;
       case 12: require_once ("gestion_page_enquete.php"); break;
       case 13: require_once ("gestion_remerciement.php"); break;
       case 14: require_once ("gestion_dashboard.php"); break;
-
       case 15: require_once ("gestion_connexion.php"); break;
+      case 16: require_once ("gestion_gestion_enquete.php"); break;
       case 100: unset($_SESSION);
       session_destroy();
       header("Location: index.php");
