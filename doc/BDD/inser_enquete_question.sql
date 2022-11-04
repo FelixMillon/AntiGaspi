@@ -14,19 +14,20 @@ insert into sujet values(null,11,'question 11 qcu','ceci est une question qcu','
 insert into sujet values(null,12,'question 12 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
 
 */
-/* Enquete n_1 sur le gaspillage alimentaire  */
 
+/* Enquete n_1 sur le gaspillage alimentaire  */
 insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
 insert into sujet values(null,1,'Question 1','A quelle fréquence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
-insert into sujet values(null,2,'Question 2','Vérifiez-vous vos besoins avant de faire vos courses ?','qcu',"Oui|Non",1);
+insert into sujet values(null,2,'Question 2','Sur une échelle de 1 à 10, vérifiez-vous vos besoins avant de faire vos courses ?','note_image',null,1);
 insert into sujet values(null,3,'Question 3','De manière générale, achetez-vous de grande quantité de nourriture lorsque vous faites vos courses ?','qcu',"Oui|Non",1);
-insert into sujet values(null,4,'Question 4','Achetez- vous des produits avec des dates courtes ?','qcu',"Oui|Non",1);
-insert into sujet values(null,5,'Question 5','Consommez- vous des aliments après la date limite d’utilisation optimale (DLUO) ?','qcu',"Oui|Non",1);
-insert into sujet values(null,6,'Question 6','Si oui, pour quel type d''aliment ?','qcm',"Fruits et légumes|Céréales|Produits laitiers|Produits sucrés",1);
+insert into sujet values(null,4,'Question 4','Achetez-vous des produits avec des dates courtes ?','qcu',"Oui|Non",1);
+insert into sujet values(null,5,'Question 5','Consommez-vous des aliments après la date limite d’utilisation optimale (DLUO) ?','qcu',"Oui|Non",1);
+insert into sujet values(null,6,'Question 6','Si oui, pour quel type d''aliment ?','qcm_image',"Fruits et légumes|Céréales|Produits laitiers|Produits sucrés",1);
 insert into sujet values(null,7,'Question 7','Sur une échelle de 1 à 10, vous sentez-vous concerné par la question du gaspillage alimentaire ?','note',null,1);
 insert into sujet values(null,8,'Question 8','Cuisinez-vous vos restes alimentaires ?','qcu',"Oui|Non",1);
 insert into sujet values(null,9,'Question 9','Utilisez-vous vos restes afin de produire du compost ?','qcu',"Oui|Non|Je n'en ai pas l'utilité",1);
-insert into sujet values(null,10,'Question 10', 'Pourriez-vous changer vos habitudes afin de réduire le gaspillage ?','qcu',"Oui|Non",1);
+insert into sujet values(null,10,'Question 10','Pourriez-vous changer vos habitudes afin de réduire le gaspillage ?','qcu',"Oui|Non",1);
+insert into sujet values(null,11,'Question 11','A votre avis, quelle portion de gaspillage représente les fruits et légumes?','qcu_image',"1/3|1/2|2/3|3/4",1);
 
 /* Enquete n_2 Serivce client */ 
 insert into enquete values(null,'Service client','Enquete sur la qualite de nos services');
