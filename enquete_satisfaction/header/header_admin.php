@@ -6,8 +6,16 @@
 
   <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
     <li><a href="index.php?page=4" class="nav-link px-2 link-light">Enquête</a></li>
-    <li><a href="index.php?page=16" class="nav-link px-2 link-light">Gestion Enquête</a></li>
-
+    <?php
+    if(isset($_SESSION['droits']) and $_SESSION['droits']=="administrateur")
+    {
+      echo
+      '<li><a href="index.php?page=16" class="nav-link px-2 link-light">Gestion Enquête</a></li>';
+    }
+    ?>
+    <li><a href="index.php?page=1" class="nav-link px-2 link-light">Collaborateur</a></li>
+    <li><a href="index.php?page=2" class="nav-link px-2 link-light">Assistance</a></li>
+    <li><a href="index.php?page=3" class="nav-link px-2 link-light">À propos</a></li>
   </ul>
 
   <ul class="nav col-12 col-md-auto mb-2 justify-content-end mb-md-0" style="padding-left: 17%;">
