@@ -29,3 +29,14 @@
     <li><a href="index.php?page=7" class="nav-link px-2 link-light">S'inscrire</a></li>               
   </ul>
 </header>
+
+<script type="text/javascript">
+function cookiedestroy()
+{
+  supprimerCookie('session_email');
+  supprimerCookie('session_nom');
+  supprimerCookie('session_prenom');
+  supprimerCookie('session_id');
+  supprimerCookie('session_droits'); 
+}
+</script>

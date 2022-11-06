@@ -35,5 +35,12 @@
 </header>
 
 <script type="text/javascript">
-
+function cookiedestroy()
+{
+  supprimerCookie('session_email');
+  supprimerCookie('session_nom');
+  supprimerCookie('session_prenom');
+  supprimerCookie('session_id');
+  supprimerCookie('session_droits'); 
+}
 </script>
