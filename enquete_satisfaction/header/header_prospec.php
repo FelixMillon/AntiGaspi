@@ -17,11 +17,11 @@
 
   <ul class="nav col-12 col-md-auto mb-2 justify-content-end mb-md-0" style="padding-left: 17%;">
   <?php
-    if(!isset($_COOKIE['session_email']))
+    if(!isset($_SESSION['email']))
     {
       echo'<li><a href="index.php?page=15" class="nav-link px-2 link-light">Se Connecter</a></li>';
     }else{
-      echo'<li><a href="index.php?page=100" class="nav-link px-2 link-light" onClick="cookiedestroy()" >Se Déconnecter</a></li>';
+      echo'<li><a href="index.php?page=100" class="nav-link px-2 link-light">Se Déconnecter</a></li>';
     }
     
 
@@ -29,14 +29,3 @@
     <li><a href="index.php?page=7" class="nav-link px-2 link-light">S'inscrire</a></li>               
   </ul>
 </header>
-
-<script type="text/javascript">
-function cookiedestroy()
-{
-  supprimerCookie('session_email');
-  supprimerCookie('session_nom');
-  supprimerCookie('session_prenom');
-  supprimerCookie('session_id');
-  supprimerCookie('session_droits'); 
-}
-</script>

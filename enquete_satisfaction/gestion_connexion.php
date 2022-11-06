@@ -10,15 +10,15 @@
 		$unUser = $unControleur->selectWhere($where);
 		if(isset($unUser['email']))
 		{
-			$_COOKIE['session_email'] = $unUser['email'];
-			$_COOKIE['session_nom'] = $unUser['nom'];
-			$_COOKIE['session_prenom'] = $unUser['prenom'];
-			$_COOKIE['session_id'] = $unUser['id'];
+			$_SESSION['email'] = $unUser['email'];
+			$_SESSION['nom'] = $unUser['nom'];
+			$_SESSION['prenom'] = $unUser['prenom'];
+			$_SESSION['id'] = $unUser['id'];
 			$unControleur->setTable("employe");
 			$unEmploye = $unControleur->selectWhere($where);
 			if(isset($unEmploye['email']))
 			{
-				$_COOKIE['session_droits'] = $unEmploye['droits'];
+				$_SESSION['droits'] = $unEmploye['droits'];
 			}
 			header("Location: index.php");
 		}else{
