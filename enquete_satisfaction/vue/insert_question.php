@@ -1,7 +1,7 @@
 
 
 <div class="col-md-7 col-lg-8">
-<h2>Insertion d'une question dans l'enquête <?php echo $_SESSION['enquete'];?></h2>
+<h2>Insertion d'une question dans l'enquête <?php echo $_COOKIE['session_enquete'];?></h2>
 <hr class="my-5">
         <form method="post">
           <div class="row g-3">

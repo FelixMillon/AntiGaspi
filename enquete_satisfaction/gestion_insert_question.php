@@ -29,7 +29,7 @@
             "question"=>$_POST["question"], 
             "type_question"=>$_POST["type_question"], 
 			"reponse"=>$reponses,
-            "id_enquete"=>$_SESSION['id_enquete']
+            "id_enquete"=>$_COOKIE['session_id_enquete']
 			);
 		$unControleur->insert ($tab);
 

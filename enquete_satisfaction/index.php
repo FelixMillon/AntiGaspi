@@ -30,7 +30,7 @@
       }
 
 
-			if(isset($_SESSION['email']) && in_array($_SESSION['email'], $lesID, true))
+			if(isset($_COOKIE['session_email']) && in_array($_COOKIE['session_email'], $lesID, true))
 			{
 				require_once ("header/header_admin.php");
 			}else{
