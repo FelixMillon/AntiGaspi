@@ -14,6 +14,12 @@
 			$_SESSION['nom'] = $unUser['nom'];
 			$_SESSION['prenom'] = $unUser['prenom'];
 			$_SESSION['id'] = $unUser['id'];
+			$unControleur->setTable("employe");
+			$unEmploye = $unControleur->selectWhere($where);
+			if(isset($unEmploye['email']))
+			{
+				$_SESSION['droits'] = $unEmploye['droits'];
+			}
 			header("Location: index.php");
 		}else{
 			echo "<br/> Vérifiez vos identifiants";
