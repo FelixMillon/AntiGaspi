@@ -8,7 +8,7 @@ create table utilisateur
 (
 	id int(5) not null auto_increment,
 	email varchar(60) not null UNIQUE,
-	mdp varchar(40) not null,
+	mdp varchar(100) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
     tel varchar(20) not null,
@@ -43,7 +43,7 @@ create table consommateur
 (
 	id_consommateur int(5) not null,
 	email varchar(60) not null UNIQUE,
-	mdp varchar(40) not null,
+	mdp varchar(100) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
@@ -57,7 +57,7 @@ create table client
 (
 	id_client int(5) not null,
 	email varchar(60) not null UNIQUE,
-	mdp varchar(40) not null,
+	mdp varchar(100) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
@@ -79,7 +79,7 @@ create table entreprise
 (
 	id_entreprise int(5) not null,
 	email varchar(60) not null UNIQUE,
-	mdp varchar(40) not null,
+	mdp varchar(100) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
@@ -125,7 +125,7 @@ create table livreur
 (
 	id_livreur int(5) not null,
 	email varchar(60) not null UNIQUE,
-	mdp varchar(40) not null,
+	mdp varchar(100) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
@@ -144,7 +144,7 @@ create table candidat
 (
 	id_candidat int(5) not null,
 	email varchar(60) not null UNIQUE,
-	mdp varchar(40) not null,
+	mdp varchar(100) not null,
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
@@ -168,7 +168,7 @@ create table manager
 (
 	id_manager int(5) not null,
 	email varchar(60) not null UNIQUE,
-	mdp varchar(40) not null,
+	mdp varchar(100) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
     tel varchar(20) not null,
@@ -194,7 +194,7 @@ create table employe
 (
 	id_employe int(5) not null,
 	email varchar(60) not null UNIQUE,
-	mdp varchar(40) not null,
+	mdp varchar(100) not null,
     nom varchar(50) not null,
     prenom varchar(50) not null,
     tel varchar(20) not null,
@@ -913,17 +913,17 @@ insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
 END //
 DELIMITER ;
 
-insert into client values(null,'jean_dupont@gmail.com','123','dupont','jean',null,2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
-insert into client values(null,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
-insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','123','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
-insert into livreur values(null,'martinmatin@gmail.com','123','Matin','Martin',null,2.5,'0621248481',null,null,'attente');
-insert into client values(4,'martinmatin@gmail.com','123','Matin','Martin',null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
-insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','123','Matho','Momo',null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
-insert into livreur values(1,'jean_dupont@gmail.com','123','dupont','jean',null,2.5,'0123456789',null,null,'attente');
-insert into candidat values(1,'jean_dupont@gmail.com','123','dupont','jean',null,null,'0123456789','5','developpeur',null);
-insert into candidat values(null,'eric_tang@gmail.com','123','Tang','Eric',null,null,'0178956789','7','reseau',null);
+insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
+insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
+insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
+insert into livreur values(null,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,2.5,'0621248481',null,null,'attente');
+insert into client values(4,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
+insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
+insert into livreur values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789',null,null,'attente');
+insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,null,'0123456789','5','developpeur',null);
+insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
-insert into employe values(null,'selimaouad@gmail.com','123','Aouad','Selim','0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
+insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
 /* 
@@ -992,7 +992,7 @@ insert into sujet values(null,8,'Question 8','A quelle frequence consommez-vous 
 insert into sujet values(null,9,'Question 9',"Si vous pouviez diminuer un type d\'aliment dans votre alimentation ce serait",'qcm',"Fruits et legumes|Viandes et poissons|Cereales|Produits laitiers",3);
 
 
-insert into enquete values(null,'Amis des animaux','Enquete sur la qualite de la nourritures de nos petits compagnons');
+insert into enquete values(null,'Amis des animaux',"Enquete sur les proprietaires d'animaux");
 insert into sujet values(null,1,'Question 1','Quels animaux possedez-vous ?','qcm',"chat|chien|rongeurs|oiseaux|equides|autres",4);
 insert into sujet values(null,2,'Question 2','A quelle frequence achetez-vous les aliments de vos animaux ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",4);
 insert into sujet values(null,3,'Question 3','Donnez-vous vos restes a vos animaux ?','qcu',"Oui|Non",4);
@@ -1001,18 +1001,12 @@ insert into sujet values(null,4,'Question 4','Faites-vous vous-meme les repas de
 
 insert into enquete values(null,'Produits','Enquete sur  la qualite de nos produits');
 insert into sujet values(null,1,'Question 1','Qualite des aliments sur le site','qcu',"Tres bien|Bien|Mauvais|Tres mauvaise",5);
-insert into sujet values(null,2,'Question 2','Pensez-vous que le site presente un choix varie de produit ?','qcu',"D\'accord|Plutôt d\'accord|Pas d\'accord|Pas du tout d_'accord",5);
+insert into sujet values(null,2,'Question 2','Pensez-vous que le site presente un choix varie de produit ?','qcu',"D\'accord|Plutot d\'accord|Pas d\'accord|Pas du tout d\'accord",5);
 insert into sujet values(null,3,'Question 3','Etes-vous satisfait de la livraison du produit ?','qcu',"Oui|Non",5);
 insert into sujet values(null,4,'Question 4','La livraison a t-elle ete effectuee dans les delais ?','qcu',"Oui|Non",5);
 insert into sujet values(null,5,'Question 5','Sur une echelle de 1 a 10, quelle note donnez vous pour la qualite des aliments sur le site ?','note',null,5);
 insert into sujet values(null,6,'Question 6',"Quel type d\'aliment avez-vous achete ?",'qcm',"Fruits et legumes|Cereales|Produits laitiers|Produits sucres",5);
 insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequation avec l\'annonce ?",'qcu',"Oui|Non",5);
-
-
-
-
-
-
 
 
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');
