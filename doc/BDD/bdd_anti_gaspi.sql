@@ -156,21 +156,7 @@ create table candidat
     primary key (id_candidat)
 )engine=innodb;
 
-create table candidater
-(
-	id_candidat int(5) not null,
-	id_poste int(5) not null,
-    date_candidature date not null,
-    date_cloture date not null,
-    etat enum('admis','refuse','attente') not null,
-    primary key (id_candidat,id_poste,date_candidature),
-    foreign key(id_poste) references poste(id_poste)
-    on update cascade
-    on delete cascade,
-    foreign key(id_candidat) references candidat(id_candidat)
-    on update cascade
-    on delete cascade
-)engine=innodb;
+
 
 create table planning
 (
@@ -419,6 +405,22 @@ create table poste
     on delete cascade
 )engine=innodb;
 
+create table candidater
+(
+	id_candidat int(5) not null,
+	id_poste int(5) not null,
+    date_candidature date not null,
+    date_cloture date not null,
+    etat enum('admis','refuse','attente') not null,
+    primary key (id_candidat,id_poste,date_candidature),
+    foreign key(id_poste) references poste(id_poste)
+    on update cascade
+    on delete cascade,
+    foreign key(id_candidat) references candidat(id_candidat)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
 create table site
 (
     id_site int(5) not null auto_increment,
@@ -508,6 +510,18 @@ create table moderer
     on update cascade
     on delete cascade,
     foreign key(id_commentaire) references commentaire(id_commentaire)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table cv
+(
+    id_cv int(5) not null auto_increment,
+    path_cv varchar(255),
+    url_cv varchar(255),
+    id_candidat int(5),
+    primary key(id_cv),
+    foreign key(id_candidat) references candidat(id_candidat)
     on update cascade
     on delete cascade
 )engine=innodb;
