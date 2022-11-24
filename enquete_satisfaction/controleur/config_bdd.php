@@ -13,10 +13,10 @@ if(PHP_OS == 'WINNT')
 	$mdp="root";
 }elseif(PHP_OS== 'Linux')
 {
-	$serveur ="localhost";
+	$serveur ="172.20.0.18:3306";
 	$bdd = "bdd_anti_gaspi";
 	$user="root";
-	$mdp="";
+	$mdp="root";
 }
 
 ?>
