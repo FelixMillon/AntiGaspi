@@ -1041,4 +1041,23 @@ insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequ
 
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');
 
+
+insert into categorie_metier values(null,"informatique","metiers de l\'informatique");
+insert into categorie_metier values(null,"Ressources Humaines","metiers des ressources humaines");
+insert into categorie_metier values(null,"expert metier","consultant metier");
+
+insert into metier values(null,"developpeur","2500","1");
+insert into metier values(null,"technicien reseau","2000","1");
+insert into metier values(null,"responsable rh","4000","2");
+insert into metier values(null,"consultant livraison","2400","3");
+
+insert into locaux values(null,"Firehall Paris","12","rue des carmes","Paris","75018");
+insert into locaux values(null,"Firehall Nantes","1","place des oiseaux","Nantes","52041");
+insert into locaux values(null,"Firehall Lyon","255","rue des binaires","Lyon","88018");
+
+insert into poste values(null,"technicien reseau",sysdate(),null,"1900","cherche un technicien reseau junior pour la gestion du reseau d'entreprise","cdi","1","2");
+insert into poste values(null,"developpeur",sysdate(),null,"1900","cherche un lead developpeur pour creation d'application permettant de voler vers la lune juste avec un protable","cdd","1","1");
+insert into poste values(null,"directeur ressources humaines",sysdate(),null,"99999.99","Cherche une terreur pour virer le junior quand il aura fini","cdi","3","3");
+insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cherche consultant livraison pour creation application livraison","cdd","2","4");
+
 update utilisateur set id=0 where email='anonyme';
