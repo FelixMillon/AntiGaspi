@@ -299,6 +299,8 @@ create table image
     on delete cascade
 )engine=innodb;
 
+
+
 create table commande  
 (
     id_commande int(5) auto_increment not null,
@@ -496,6 +498,20 @@ create table moderer
     on delete cascade
 )engine=innodb;
 
+
+create table cv
+(
+	id_cv int(5) not null auto_increment,
+	path_cv varchar(255),
+	url_cv varchar(255),
+    id_candidat int(5),
+    primary key(id_cv),
+    foreign key(id_candidat) references candidat(id_candidat)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+
 create table donnee_bancaire
 (
 	id_donnee_bancaire int(5) not null auto_increment,
@@ -511,6 +527,32 @@ create table donnee_bancaire
     on update cascade
     on delete cascade
 )engine=innodb;
+
+
+
+create table candidater
+(
+    id_candidat int(5) not null,
+    id_poste int(5) not null,
+    date_candidature date not null,
+    date_cloture date not null,
+    etat enum('admis','refuse','attente') not null,
+    primary key (id_candidat,id_poste,date_candidature),
+    foreign key(id_poste) references poste(id_poste)
+    on update cascade
+    on delete cascade,
+    foreign key(id_candidat) references candidat(id_candidat)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+
+create or replace view vCandidater as (
+      select  C.id_candidat, C.id_poste, CD.prenom, CD.nom,  P.libelle, L.ville, L.cp, P.type_poste, P.date_debut, P.date_fin, C.etat, 
+        C.date_candidature, C.date_cloture
+        from candidater C, poste P, locaux L,candidat CD
+        where P.id_local = L.id_local and C.id_poste = P.id_poste  and C.id_candidat = CD.id_candidat
+        );  
 
 create or replace view viewmoyparenquete as (
 select avg(a.note) as moyenne, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
@@ -1007,6 +1049,9 @@ insert into sujet values(null,4,'Question 4','La livraison a t-elle ete effectue
 insert into sujet values(null,5,'Question 5','Sur une echelle de 1 a 10, quelle note donnez vous pour la qualite des aliments sur le site ?','note',null,5);
 insert into sujet values(null,6,'Question 6',"Quel type d\'aliment avez-vous achete ?",'qcm',"Fruits et legumes|Cereales|Produits laitiers|Produits sucres",5);
 insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequation avec l\'annonce ?",'qcu',"Oui|Non",5);
+
+insert into candidater values (1,1,'2023-05-01','2025-10-20',3);
+insert into candidater values (5,1,'2022-12-01','2025-10-20',3);
 
 
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');
