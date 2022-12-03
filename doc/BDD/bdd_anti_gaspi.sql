@@ -521,7 +521,6 @@ create table cv
     id_cv int(5) not null auto_increment,
     path_cv varchar(255),
     url_cv varchar(255),
-
     id_candidat int(5),
     primary key(id_cv),
     foreign key(id_candidat) references candidat(id_candidat)
