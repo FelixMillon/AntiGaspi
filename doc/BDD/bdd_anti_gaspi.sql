@@ -47,7 +47,7 @@ create table consommateur
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
     valide enum('valide','invalide','attente') not null,
     primary key (id_consommateur)
@@ -61,7 +61,7 @@ create table client
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
     rue varchar(100) not null,
     numrue varchar(50) not null,
@@ -83,7 +83,7 @@ create table entreprise
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
     rue varchar(100) not null,
     numrue varchar(50) not null,
@@ -91,7 +91,7 @@ create table entreprise
     cp varchar(10) not null,
     siret varchar(100) not null,
     libelle varchar(100) not null,
-    notepublic decimal(3, 2),
+    notepublic decimal(5, 2),
     role_represenant varchar(100),
     type_ent varchar(255),
     valide enum('valide','invalide','attente') not null,
@@ -109,11 +109,11 @@ create table vehicule
 (
     id_vehicule int(5) not null,
     immatriculation varchar(100) UNIQUE,
-	poids_max decimal(6,2) not null,
+	poids_max decimal(8,2) not null,
     annee_fabrication date not null,
-    volume decimal(3,2) not null,
+    volume decimal(5,2) not null,
 	energie enum('essence','diesel','biocarburant','electrique','hybride','mecanique') not null,
-    cons_100_km decimal(3,2) not null,
+    cons_100_km decimal(5,2) not null,
     id_type_vehicule int(5) not null,
     primary key (id_vehicule),
     foreign key(id_type_vehicule) references type_vehicule(id_type_vehicule)
@@ -129,10 +129,10 @@ create table livreur
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
     id_vehicule int(5),
-    notepublic decimal(3, 2),
+    notepublic decimal(5, 2),
     valide enum('valide','invalide','attente') not null,
     primary key (id_livreur),
     foreign key(id_vehicule) references vehicule(id_vehicule)
@@ -148,7 +148,7 @@ create table candidat
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
     niveau_diplome varchar(100)not null,
     branche_metier varchar(100)not null,
@@ -175,7 +175,7 @@ create table manager
     prenom varchar(50) not null,
     tel varchar(20) not null,
     fonction varchar(255) not null,
-    salaire decimal(6,2) not null,
+    salaire decimal(7,2) not null,
     niveau_diplome varchar(100) not null,
     date_embauche date not null,
     date_depart date,
@@ -201,7 +201,7 @@ create table employe
     prenom varchar(50) not null,
     tel varchar(20) not null,
     fonction varchar(255) not null,
-    salaire decimal(6,2) not null,
+    salaire decimal(7,2) not null,
     niveau_diplome varchar(100) not null,
     date_embauche date not null,
     date_depart date,
@@ -225,7 +225,7 @@ create table avis_enquete
     ville varchar(255),
     tranche_age varchar(255),
     civilite enum('Monsieur','Madame','Autres'),
-    note decimal(3, 2),
+    note decimal(5, 2),
     id_enquete int(5) not null,
     id_consommateur int(5),
     primary key(id_avis_enquete),
@@ -240,7 +240,7 @@ create table avis_enquete
 create table avis_sujet
 (
 	id_avis_sujet int(5) not null auto_increment,
-    note decimal(3, 2),
+    note decimal(5, 2),
     id_sujet int(5) not null,
     id_consommateur int(5),
     primary key(id_avis_sujet),
@@ -270,10 +270,10 @@ create table produit
     rue_depot varchar(100) not null,
     ville_depot varchar(100) not null,
     cp_depot varchar(10) not null,
-    prix_base decimal(5, 2),
-    reduction decimal(2, 2),
-    poids_unite decimal(6, 2),
-    note decimal(3, 2),
+    prix_base decimal(7, 2),
+    reduction decimal(4, 2),
+    poids_unite decimal(8, 2),
+    note decimal(5, 2),
     id_categorie int(5) not null,
     id_entreprise int(5) not null,
     primary key(id_produit),
@@ -340,7 +340,7 @@ create table commentaire
     id_commentaire int(5) not null auto_increment,
 	titre varchar(50) not null,
     texte varchar(255) not null,
-    note decimal(3, 2) not null,
+    note decimal(5, 2) not null,
     id_consommateur_source int(5) not null,
     id_consommateur_cible int(5),
     id_produit int(5),
@@ -368,7 +368,7 @@ create table metier
 (
     id_met int(5) not null auto_increment,
     libelle varchar(100) not null,
-	niveau_salaire decimal(5, 2) not null,
+	niveau_salaire decimal(7, 2) not null,
     id_cat_met int(5) not null,
     primary key(id_met),
     foreign key(id_cat_met) references categorie_metier(id_cat_met)
@@ -393,7 +393,7 @@ create table poste
     libelle varchar(100) not null,
 	date_debut date not null,
 	date_fin date,
-	salaire_propose decimal(5, 2) not null,
+	salaire_propose decimal(7, 2) not null,
     description varchar(255) not null,
     type_poste enum('cdi','cdd','contrat_prestation'),
     id_local int(5) not null,
@@ -944,7 +944,7 @@ delimiter ;
 drop procedure if exists insertavis;
 DELIMITER //
 CREATE PROCEDURE insertavis
-(IN unenote decimal(3,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
+(IN unenote decimal(5,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
 BEGIN
 DECLARE unid_sujet int(5);
 set unid_sujet = (select id_sujet from sujet where id_enquete = unid_enquete and numquestion = unnumquestion);
@@ -1048,5 +1048,24 @@ insert into sujet values(null,6,'Question 6',"Quel type d\'aliment avez-vous ach
 insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequation avec l\'annonce ?",'qcu',"Oui|Non",5);
 
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');
+
+
+insert into categorie_metier values(null,"informatique","metiers de l\'informatique");
+insert into categorie_metier values(null,"Ressources Humaines","metiers des ressources humaines");
+insert into categorie_metier values(null,"expert metier","consultant metier");
+
+insert into metier values(null,"developpeur","2500","1");
+insert into metier values(null,"technicien reseau","2000","1");
+insert into metier values(null,"responsable rh","4000","2");
+insert into metier values(null,"consultant livraison","2400","3");
+
+insert into locaux values(null,"Firehall Paris","12","rue des carmes","Paris","75018");
+insert into locaux values(null,"Firehall Nantes","1","place des oiseaux","Nantes","52041");
+insert into locaux values(null,"Firehall Lyon","255","rue des binaires","Lyon","88018");
+
+insert into poste values(null,"technicien reseau",sysdate(),null,"1900","cherche un technicien reseau junior pour la gestion du reseau d'entreprise","cdi","1","2");
+insert into poste values(null,"developpeur",sysdate(),null,"1900","cherche un lead developpeur pour creation d'application permettant de voler vers la lune juste avec un protable","cdd","1","1");
+insert into poste values(null,"directeur ressources humaines",sysdate(),null,"99999.99","Cherche une terreur pour virer le junior quand il aura fini","cdi","3","3");
+insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cherche consultant livraison pour creation application livraison","cdd","2","4");
 
 update utilisateur set id=0 where email='anonyme';
