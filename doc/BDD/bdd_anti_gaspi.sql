@@ -1047,10 +1047,6 @@ insert into sujet values(null,5,'Question 5','Sur une echelle de 1 a 10, quelle 
 insert into sujet values(null,6,'Question 6',"Quel type d\'aliment avez-vous achete ?",'qcm',"Fruits et legumes|Cereales|Produits laitiers|Produits sucres",5);
 insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequation avec l\'annonce ?",'qcu',"Oui|Non",5);
 
-insert into candidater values (1,1,'2023-05-01','2025-10-20',3);
-insert into candidater values (5,1,'2022-12-01','2025-10-20',3);
-
-
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');
 
 update utilisateur set id=0 where email='anonyme';
