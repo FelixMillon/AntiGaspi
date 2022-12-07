@@ -687,6 +687,13 @@ create trigger employe_before_insert
 before insert on employe
 for each row
 begin
+    declare numdep varchar(5);
+    if new.id_local is null
+        then set numdep = "00";
+        else
+            set numdep = (select left(cp,2) from locaux where id_local = new.id_local);
+    end if;
+    set new.email = concat(lower(left(new.prenom,1)),lower(left(new.nom,3)),numdep,".",((MONTH(curdate())-1)*30+day(curdate())),"@firecrest.com");
     insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel,new.rue,new.numrue,new.ville,new.cp);
     set new.id_employe= (select id from utilisateur where email=new.email);
 end //
@@ -838,6 +845,53 @@ begin
 end //
 delimiter ;
 
+drop trigger if exists manager_before_insert;
+delimiter // 
+create trigger manager_before_insert 
+before insert on manager
+for each row
+begin
+    declare numdep varchar(5);
+    if new.id_local is null
+        then set numdep = "00";
+        else
+            set numdep = (select left(cp,2) from locaux where id_local = new.id_local);
+    end if;
+    if new.id_manager is null
+    then
+        set new.email = concat(lower(left(new.prenom,1)),lower(left(new.nom,3)),numdep,".",((MONTH(curdate())-1)*30+day(curdate())),"@firecrest.com");
+        set new.date_embauche=curdate();
+        insert into employe values(
+            null,new.email,new.mdp,new.nom,new.prenom,new.tel,new.rue,new.numrue,new.ville,new.cp,new.fonction,new.salaire,new.niveau_diplome,new.date_embauche,new.date_depart,new.droits,new.id_planning,new.id_manager_sup,new.id_local
+        );
+        set new.id_manager = (select id_employe from employe where email=new.email);
+    elseif new.id_manager = (select id_employe from employe where email=new.email)
+        and new.email = (select email from employe where id_employe = new.id_manager)
+    then
+        set new.id_manager = (select id_employe from employe where email=new.email);
+        set new.nom = (select nom from employe where email=new.email);
+        set new.mdp = (select mdp from employe where id_employe = new.id_manager);
+        set new.prenom = (select prenom from employe where email=new.email);
+        set new.tel = (select tel from employe where email=new.email);
+        set new.rue = (select rue from employe where email=new.email);
+        set new.numrue  = (select numrue from employe where email=new.email);
+        set new.ville = (select ville from employe where email=new.email);
+        set new.cp = (select cp from employe where email=new.email);
+        set new.fonction = (select fonction from employe where email=new.email);
+        set new.salaire = (select salaire from employe where email=new.email);
+        set new.niveau_diplome = (select niveau_diplome from employe where email=new.email);
+        set new.date_embauche = (select date_embauche from employe where email=new.email);
+        set new.date_depart = (select date_depart from employe where email=new.email);
+        set new.droits = (select droits from employe where email=new.email);
+        set new.id_planning = (select id_planning from employe where email=new.email);
+        set new.id_manager = (select id_manager from employe where email=new.email);
+        set new.id_local = (select id_local from employe where email=new.email);
+    else
+        signal sqlstate '45000' SET MESSAGE_TEXT = "l'employe n'existe pas impossible de lui attribuer un nouveau role";
+    end if;
+end //
+delimiter ;
+
 drop trigger if exists utilisateur_after_update;
 delimiter // 
 create trigger utilisateur_after_update 
@@ -868,6 +922,36 @@ after update on employe
 for each row
 begin
     update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp where id=old.id_employe;
+end //
+delimiter ;
+
+drop trigger if exists manager_after_update;
+delimiter // 
+create trigger manager_after_update 
+after update on manager
+for each row
+begin
+    update employe set 
+        id_employe=new.id_manager,
+        email=new.email,
+        mdp=new.mdp,
+        nom=new.nom,
+        prenom=new.prenom,
+        tel=new.tel,
+        rue=new.rue,
+        numrue=new.numrue,
+        ville=new.ville,
+        cp=new.cp,
+        fonction=new.fonction,
+        salaire=new.salaire,
+        niveau_diplome=new.niveau_diplome,
+        date_embauche=new.date_embauche,
+        date_depart=new.date_depart,
+        droits=new.droits,
+        id_planning=new.id_planning,
+        id_manager=new.id_manager_sup,
+        id_local=new.id_local
+    where id_employe=old.id_manager;
 end //
 delimiter ;
 
@@ -1025,17 +1109,17 @@ insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
 END //
 DELIMITER ;
 
-insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
-insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
-insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
-insert into livreur values(null,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,2.5,'0621248481','15','rue des champs','Paris','75020',null,null,'attente');
-insert into client values(4,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
-insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
-insert into livreur values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','15','rue des champs','Paris','75020',null,null,'attente');
-insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,null,'0123456789','15','rue des champs','Paris','75020','5','developpeur',null);
-insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','15','rue des champs','Paris','75020','7','reseau',null);
+insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,null,'particulier','attente');
+insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
+insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','rue des grands moulins','15 bis','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
+insert into livreur values(null,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,2.5,'0621248481','rue des champs','15','Paris','75020',null,null,'attente');
+insert into client values(4,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,null,'0621248481','place des roses','18','Paris','75010',null,null,null,'particulier',null);
+insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,null,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
+insert into livreur values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,'attente');
+insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,null,'0123456789','rue des champs','15','Paris','75020','5','developpeur',null);
+insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','rue des champs','15','Paris','75020','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
-insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','15','rue des champs','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
+insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
 /* 
@@ -1120,9 +1204,6 @@ insert into sujet values(null,5,'Question 5','Sur une echelle de 1 a 10, quelle 
 insert into sujet values(null,6,'Question 6',"Quel type d\'aliment avez-vous achete ?",'qcm',"Fruits et legumes|Cereales|Produits laitiers|Produits sucres",5);
 insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequation avec l\'annonce ?",'qcu',"Oui|Non",5);
 
-insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','','','','','invalide');
-
-
 insert into categorie_metier values(null,"informatique","metiers de l\'informatique");
 insert into categorie_metier values(null,"Ressources Humaines","metiers des ressources humaines");
 insert into categorie_metier values(null,"expert metier","consultant metier");
@@ -1141,4 +1222,9 @@ insert into poste values(null,"developpeur",sysdate(),null,"1900","cherche un le
 insert into poste values(null,"directeur ressources humaines",sysdate(),null,"99999.99","Cherche une terreur pour virer le junior quand il aura fini","cdi","3","3");
 insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cherche consultant livraison pour creation application livraison","cdd","2","4");
 
+
+insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Millon','Felix','0618488719','rue Firmin Gillot','14','Paris','75015','Grand Manitou',5000,'7',curdate(),null,'administrateur','1',1,null,1);
+
+
+insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','','','','','invalide');
 update utilisateur set id=0 where email='anonyme';
