@@ -12,6 +12,10 @@ create table utilisateur
     nom varchar(50) not null,
     prenom varchar(50) not null,
     tel varchar(20) not null,
+    rue varchar(100) not null,
+    numrue varchar(50) not null,
+    ville varchar(100) not null,
+    cp varchar(10) not null,
     primary key (id)
 )engine=innodb;
 
@@ -47,8 +51,12 @@ create table consommateur
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
+    rue varchar(100) not null,
+    numrue varchar(50) not null,
+    ville varchar(100) not null,
+    cp varchar(10) not null,
     valide enum('valide','invalide','attente') not null,
     primary key (id_consommateur)
 )engine=innodb;
@@ -61,7 +69,7 @@ create table client
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
     rue varchar(100) not null,
     numrue varchar(50) not null,
@@ -83,7 +91,7 @@ create table entreprise
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
     rue varchar(100) not null,
     numrue varchar(50) not null,
@@ -91,7 +99,7 @@ create table entreprise
     cp varchar(10) not null,
     siret varchar(100) not null,
     libelle varchar(100) not null,
-    notepublic decimal(3, 2),
+    notepublic decimal(5, 2),
     role_represenant varchar(100),
     type_ent varchar(255),
     valide enum('valide','invalide','attente') not null,
@@ -109,11 +117,11 @@ create table vehicule
 (
     id_vehicule int(5) not null,
     immatriculation varchar(100) UNIQUE,
-	poids_max decimal(6,2) not null,
+	poids_max decimal(8,2) not null,
     annee_fabrication date not null,
-    volume decimal(3,2) not null,
+    volume decimal(5,2) not null,
 	energie enum('essence','diesel','biocarburant','electrique','hybride','mecanique') not null,
-    cons_100_km decimal(3,2) not null,
+    cons_100_km decimal(5,2) not null,
     id_type_vehicule int(5) not null,
     primary key (id_vehicule),
     foreign key(id_type_vehicule) references type_vehicule(id_type_vehicule)
@@ -129,10 +137,14 @@ create table livreur
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
+    rue varchar(100) not null,
+    numrue varchar(50) not null,
+    ville varchar(100) not null,
+    cp varchar(10) not null,
     id_vehicule int(5),
-    notepublic decimal(3, 2),
+    notepublic decimal(5, 2),
     valide enum('valide','invalide','attente') not null,
     primary key (id_livreur),
     foreign key(id_vehicule) references vehicule(id_vehicule)
@@ -148,15 +160,17 @@ create table candidat
 	nom varchar(100) not null,
     prenom varchar(100) not null,
     date_inscription date not null,
-	noteconfemp decimal(3, 2) not null,
+	noteconfemp decimal(5, 2) not null,
     tel varchar(20) not null,
+    rue varchar(100) not null,
+    numrue varchar(50) not null,
+    ville varchar(100) not null,
+    cp varchar(10) not null,
     niveau_diplome varchar(100)not null,
     branche_metier varchar(100)not null,
     valide enum('valide','invalide','attente') not null,
     primary key (id_candidat)
 )engine=innodb;
-
-
 
 create table planning
 (
@@ -166,58 +180,6 @@ create table planning
     primary key(id_planning)
 )engine=innodb;
 
-create table manager
-(
-	id_manager int(5) not null,
-	email varchar(60) not null UNIQUE,
-	mdp varchar(100) not null,
-    nom varchar(50) not null,
-    prenom varchar(50) not null,
-    tel varchar(20) not null,
-    fonction varchar(255) not null,
-    salaire decimal(6,2) not null,
-    niveau_diplome varchar(100) not null,
-    date_embauche date not null,
-    date_depart date,
-    droits enum('administrateur','developpeur','collaborateur','consultant','invite','client') not null,
-    niveau_manager varchar(100) not null,
-    id_planning int(5) not null,
-    id_manager_sup int(5),
-    primary key (id_manager),
-    foreign key(id_manager_sup) references manager(id_manager)
-    on update cascade
-    on delete cascade,
-    foreign key(id_planning) references planning(id_planning)
-    on update cascade
-    on delete cascade
-)engine=innodb;
-
-create table employe
-(
-	id_employe int(5) not null,
-	email varchar(60) not null UNIQUE,
-	mdp varchar(100) not null,
-    nom varchar(50) not null,
-    prenom varchar(50) not null,
-    tel varchar(20) not null,
-    fonction varchar(255) not null,
-    salaire decimal(6,2) not null,
-    niveau_diplome varchar(100) not null,
-    date_embauche date not null,
-    date_depart date,
-    droits enum('administrateur','developpeur','collaborateur','consultant','invite','client') not null,
-    id_planning int(5) not null,
-    id_manager int(5),
-    primary key (id_employe),
-    foreign key(id_manager) references manager(id_manager)
-    on update cascade
-    on delete cascade,
-    foreign key(id_planning) references planning(id_planning)
-    on update cascade
-    on delete cascade
-)engine=innodb;
-
-
 create table avis_enquete  
 (
 	id_avis_enquete int(5) not null auto_increment,
@@ -225,7 +187,7 @@ create table avis_enquete
     ville varchar(255),
     tranche_age varchar(255),
     civilite enum('Monsieur','Madame','Autres'),
-    note decimal(3, 2),
+    note decimal(5, 2),
     id_enquete int(5) not null,
     id_consommateur int(5),
     primary key(id_avis_enquete),
@@ -240,7 +202,7 @@ create table avis_enquete
 create table avis_sujet
 (
 	id_avis_sujet int(5) not null auto_increment,
-    note decimal(3, 2),
+    note decimal(5, 2),
     id_sujet int(5) not null,
     id_consommateur int(5),
     primary key(id_avis_sujet),
@@ -270,10 +232,10 @@ create table produit
     rue_depot varchar(100) not null,
     ville_depot varchar(100) not null,
     cp_depot varchar(10) not null,
-    prix_base decimal(5, 2),
-    reduction decimal(2, 2),
-    poids_unite decimal(6, 2),
-    note decimal(3, 2),
+    prix_base decimal(7, 2),
+    reduction decimal(4, 2),
+    poids_unite decimal(8, 2),
+    note decimal(5, 2),
     id_categorie int(5) not null,
     id_entreprise int(5) not null,
     primary key(id_produit),
@@ -300,6 +262,8 @@ create table image
     on update cascade
     on delete cascade
 )engine=innodb;
+
+
 
 create table commande  
 (
@@ -338,7 +302,7 @@ create table commentaire
     id_commentaire int(5) not null auto_increment,
 	titre varchar(50) not null,
     texte varchar(255) not null,
-    note decimal(3, 2) not null,
+    note decimal(5, 2) not null,
     id_consommateur_source int(5) not null,
     id_consommateur_cible int(5),
     id_produit int(5),
@@ -366,7 +330,7 @@ create table metier
 (
     id_met int(5) not null auto_increment,
     libelle varchar(100) not null,
-	niveau_salaire decimal(5, 2) not null,
+	niveau_salaire decimal(7, 2) not null,
     id_cat_met int(5) not null,
     primary key(id_met),
     foreign key(id_cat_met) references categorie_metier(id_cat_met)
@@ -385,13 +349,81 @@ create table locaux
     primary key(id_local)
 )engine=innodb;
 
+
+create table manager
+(
+	id_manager int(5) not null,
+	email varchar(60) not null UNIQUE,
+	mdp varchar(100) not null,
+    nom varchar(50) not null,
+    prenom varchar(50) not null,
+    tel varchar(20) not null,
+    rue varchar(100) not null,
+    numrue varchar(50) not null,
+    ville varchar(100) not null,
+    cp varchar(10) not null,
+    fonction varchar(255) not null,
+    salaire decimal(7,2) not null,
+    niveau_diplome varchar(100) not null,
+    date_embauche date not null,
+    date_depart date,
+    droits enum('administrateur','developpeur','collaborateur','consultant','invite','client') not null,
+    niveau_manager varchar(100) not null,
+    id_planning int(5) not null,
+    id_manager_sup int(5),
+    id_local int(5),
+    primary key (id_manager),
+    foreign key(id_manager_sup) references manager(id_manager)
+    on update cascade
+    on delete cascade,
+    foreign key(id_planning) references planning(id_planning)
+    on update cascade
+    on delete cascade,
+    foreign key(id_local) references locaux(id_local)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table employe
+(
+	id_employe int(5) not null,
+	email varchar(60) not null UNIQUE,
+	mdp varchar(100) not null,
+    nom varchar(50) not null,
+    prenom varchar(50) not null,
+    tel varchar(20) not null,
+    rue varchar(100) not null,
+    numrue varchar(50) not null,
+    ville varchar(100) not null,
+    cp varchar(10) not null,
+    fonction varchar(255) not null,
+    salaire decimal(7,2) not null,
+    niveau_diplome varchar(100) not null,
+    date_embauche date not null,
+    date_depart date,
+    droits enum('administrateur','developpeur','collaborateur','consultant','invite','client') not null,
+    id_planning int(5) not null,
+    id_manager int(5),
+    id_local int(5),
+    primary key (id_employe),
+    foreign key(id_manager) references manager(id_manager)
+    on update cascade
+    on delete cascade,
+    foreign key(id_planning) references planning(id_planning)
+    on update cascade
+    on delete cascade,
+    foreign key(id_local) references locaux(id_local)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
 create table poste
 (
     id_poste int(5) not null auto_increment,
     libelle varchar(100) not null,
 	date_debut date not null,
 	date_fin date,
-	salaire_propose decimal(5, 2) not null,
+	salaire_propose decimal(7, 2) not null,
     description varchar(255) not null,
     type_poste enum('cdi','cdd','contrat_prestation'),
     id_local int(5) not null,
@@ -401,22 +433,6 @@ create table poste
     on update cascade
     on delete cascade,
     foreign key(id_met) references metier(id_met)
-    on update cascade
-    on delete cascade
-)engine=innodb;
-
-create table candidater
-(
-	id_candidat int(5) not null,
-	id_poste int(5) not null,
-    date_candidature date not null,
-    date_cloture date not null,
-    etat enum('admis','refuse','attente') not null,
-    primary key (id_candidat,id_poste,date_candidature),
-    foreign key(id_poste) references poste(id_poste)
-    on update cascade
-    on delete cascade,
-    foreign key(id_candidat) references candidat(id_candidat)
     on update cascade
     on delete cascade
 )engine=innodb;
@@ -542,6 +558,56 @@ create table donnee_bancaire
     on delete cascade
 )engine=innodb;
 
+create table candidater
+(
+    id_candidat int(5) not null,
+    id_poste int(5) not null,
+    date_candidature date not null,
+    date_cloture date not null,
+    etat enum('admis','refuse','attente') not null,
+    primary key (id_candidat,id_poste,date_candidature),
+    foreign key(id_poste) references poste(id_poste)
+    on update cascade
+    on delete cascade,
+    foreign key(id_candidat) references candidat(id_candidat)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create or replace view vCandidater as (
+      select  C.id_candidat, C.id_poste, CD.prenom, CD.nom,  P.libelle, L.ville, L.cp, P.type_poste, P.date_debut, P.date_fin, C.etat, 
+        C.date_candidature, C.date_cloture
+        from candidater C, poste P, locaux L,candidat CD
+        where P.id_local = L.id_local and C.id_poste = P.id_poste  and C.id_candidat = CD.id_candidat
+);
+
+create or replace view vposte as (
+      select  P.id_poste, 
+      P.libelle libelle_poste,
+      P.date_debut,
+      P.date_fin,
+      P.salaire_propose,
+      P.description,
+      P.type_poste,
+      P.id_local,
+      L.nom,
+      L.numrue,
+      L.rue,
+      L.ville,
+      L.cp,
+      M.id_met,
+      M.libelle libelle_metier,
+      M.niveau_salaire,
+      CM.id_cat_met,
+      CM.libelle libelle_cat_metier,
+      CM.description description_cat_metier
+        from poste P, locaux L, metier M, categorie_metier CM
+        where 
+        P.id_met = M.id_met
+        and P.id_local = L.id_local
+        and M.id_cat_met = CM.id_cat_met
+);  
+
 create or replace view viewmoyparenquete as (
 select avg(a.note) as moyenne, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
 from avis_enquete a
@@ -600,7 +666,7 @@ create trigger consommateur_before_insert
 before insert on consommateur
 for each row
 begin
-    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel);
+    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel,new.rue,new.numrue,new.ville,new.cp);
     set new.id_consommateur = (select id from utilisateur where email=new.email);
 end //
 delimiter ;
@@ -621,7 +687,14 @@ create trigger employe_before_insert
 before insert on employe
 for each row
 begin
-    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel);
+    declare numdep varchar(5);
+    if new.id_local is null
+        then set numdep = "00";
+        else
+            set numdep = (select left(cp,2) from locaux where id_local = new.id_local);
+    end if;
+    set new.email = concat(lower(left(new.prenom,1)),lower(left(new.nom,3)),numdep,".",((MONTH(curdate())-1)*30+day(curdate())),"@firecrest.com");
+    insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel,new.rue,new.numrue,new.ville,new.cp);
     set new.id_employe= (select id from utilisateur where email=new.email);
 end //
 delimiter ;
@@ -647,7 +720,7 @@ begin
         set new.noteconfemp=2.5;
         set new.valide='attente';
         set new.date_inscription=curdate();
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.valide);
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.rue,new.numrue,new.ville,new.cp,new.valide);
         set new.id_client = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_client = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_client)
@@ -660,6 +733,10 @@ begin
         set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
         set new.valide  = (select valide from consommateur where email=new.email);
         set new.date_inscription = (select date_inscription from consommateur where email=new.email);
+        set new.rue = (select rue from consommateur where email=new.email);
+        set new.numrue = (select numrue from consommateur where email=new.email);
+        set new.ville = (select ville from consommateur where email=new.email);
+        set new.cp = (select cp from consommateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -677,7 +754,7 @@ begin
         set new.noteconfemp=2.5;
         set new.valide='attente';
         set new.date_inscription=curdate();
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.valide,new.tel,new.noteconfemp);
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.rue,new.numrue,new.ville,new.cp,new.valide);
         set new.id_candidat = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_candidat = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_candidat)
@@ -690,6 +767,10 @@ begin
         set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
         set new.valide  = (select valide from consommateur where email=new.email);
         set new.date_inscription = (select date_inscription from consommateur where email=new.email);
+        set new.rue = (select rue from consommateur where email=new.email);
+        set new.numrue = (select numrue from consommateur where email=new.email);
+        set new.ville = (select ville from consommateur where email=new.email);
+        set new.cp = (select cp from consommateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -707,7 +788,7 @@ begin
         set new.noteconfemp=2.5;
         set new.valide='attente';
         set new.date_inscription=curdate();
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.valide,new.tel,new.noteconfemp);
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.rue,new.numrue,new.ville,new.cp,new.valide);
         set new.id_entreprise = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_entreprise = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_entreprise)
@@ -720,6 +801,10 @@ begin
         set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
         set new.valide  = (select valide from consommateur where email=new.email);
         set new.date_inscription = (select date_inscription from consommateur where email=new.email);
+        set new.rue = (select rue from consommateur where email=new.email);
+        set new.numrue = (select numrue from consommateur where email=new.email);
+        set new.ville = (select ville from consommateur where email=new.email);
+        set new.cp = (select cp from consommateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
     end if;
@@ -737,7 +822,7 @@ begin
         set new.noteconfemp=2.5;
         set new.valide='attente';
         set new.date_inscription=curdate();
-        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.valide);
+        insert into consommateur values(null,new.email,new.mdp,new.nom,new.prenom,new.date_inscription,new.noteconfemp,new.tel,new.rue,new.numrue,new.ville,new.cp,new.valide);
         set new.id_livreur = (select id_consommateur from consommateur where email=new.email);
     elseif new.id_livreur = (select id_consommateur from consommateur where email=new.email)
     and new.email = (select email from consommateur where id_consommateur = new.id_livreur)
@@ -750,8 +835,59 @@ begin
         set new.noteconfemp = (select noteconfemp from consommateur where email=new.email);
         set new.valide  = (select valide from consommateur where email=new.email);
         set new.date_inscription = (select date_inscription from consommateur where email=new.email);
+        set new.rue = (select rue from consommateur where email=new.email);
+        set new.numrue = (select numrue from consommateur where email=new.email);
+        set new.ville = (select ville from consommateur where email=new.email);
+        set new.cp = (select cp from consommateur where email=new.email);
     else
         signal sqlstate '45000' SET MESSAGE_TEXT = "le consommateur n'existe pas impossible de lui attribuer un nouveau role";
+    end if;
+end //
+delimiter ;
+
+drop trigger if exists manager_before_insert;
+delimiter // 
+create trigger manager_before_insert 
+before insert on manager
+for each row
+begin
+    declare numdep varchar(5);
+    if new.id_local is null
+        then set numdep = "00";
+        else
+            set numdep = (select left(cp,2) from locaux where id_local = new.id_local);
+    end if;
+    if new.id_manager is null
+    then
+        set new.email = concat(lower(left(new.prenom,1)),lower(left(new.nom,3)),numdep,".",((MONTH(curdate())-1)*30+day(curdate())),"@firecrest.com");
+        set new.date_embauche=curdate();
+        insert into employe values(
+            null,new.email,new.mdp,new.nom,new.prenom,new.tel,new.rue,new.numrue,new.ville,new.cp,new.fonction,new.salaire,new.niveau_diplome,new.date_embauche,new.date_depart,new.droits,new.id_planning,new.id_manager_sup,new.id_local
+        );
+        set new.id_manager = (select id_employe from employe where email=new.email);
+    elseif new.id_manager = (select id_employe from employe where email=new.email)
+        and new.email = (select email from employe where id_employe = new.id_manager)
+    then
+        set new.id_manager = (select id_employe from employe where email=new.email);
+        set new.nom = (select nom from employe where email=new.email);
+        set new.mdp = (select mdp from employe where id_employe = new.id_manager);
+        set new.prenom = (select prenom from employe where email=new.email);
+        set new.tel = (select tel from employe where email=new.email);
+        set new.rue = (select rue from employe where email=new.email);
+        set new.numrue  = (select numrue from employe where email=new.email);
+        set new.ville = (select ville from employe where email=new.email);
+        set new.cp = (select cp from employe where email=new.email);
+        set new.fonction = (select fonction from employe where email=new.email);
+        set new.salaire = (select salaire from employe where email=new.email);
+        set new.niveau_diplome = (select niveau_diplome from employe where email=new.email);
+        set new.date_embauche = (select date_embauche from employe where email=new.email);
+        set new.date_depart = (select date_depart from employe where email=new.email);
+        set new.droits = (select droits from employe where email=new.email);
+        set new.id_planning = (select id_planning from employe where email=new.email);
+        set new.id_manager = (select id_manager from employe where email=new.email);
+        set new.id_local = (select id_local from employe where email=new.email);
+    else
+        signal sqlstate '45000' SET MESSAGE_TEXT = "l'employe n'existe pas impossible de lui attribuer un nouveau role";
     end if;
 end //
 delimiter ;
@@ -762,7 +898,7 @@ create trigger utilisateur_after_update
 after update on utilisateur
 for each row
 begin
-    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel where id_consommateur=old.id;
+    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp where id_consommateur=old.id;
 end //
 delimiter ;
 
@@ -772,10 +908,10 @@ create trigger consommateur_after_update
 after update on consommateur
 for each row
 begin
-    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_client=old.id_consommateur;
-    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_entreprise=old.id_consommateur;
-    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_livreur=old.id_consommateur;
-    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,valide=new.valide where id_candidat=old.id_consommateur;
+    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_client=old.id_consommateur;
+    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_entreprise=old.id_consommateur;
+    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_livreur=old.id_consommateur;
+    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_candidat=old.id_consommateur;
 end //
 delimiter ;
 
@@ -785,7 +921,37 @@ create trigger employe_after_update
 after update on employe
 for each row
 begin
-    update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel where id=old.id_employe;
+    update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp where id=old.id_employe;
+end //
+delimiter ;
+
+drop trigger if exists manager_after_update;
+delimiter // 
+create trigger manager_after_update 
+after update on manager
+for each row
+begin
+    update employe set 
+        id_employe=new.id_manager,
+        email=new.email,
+        mdp=new.mdp,
+        nom=new.nom,
+        prenom=new.prenom,
+        tel=new.tel,
+        rue=new.rue,
+        numrue=new.numrue,
+        ville=new.ville,
+        cp=new.cp,
+        fonction=new.fonction,
+        salaire=new.salaire,
+        niveau_diplome=new.niveau_diplome,
+        date_embauche=new.date_embauche,
+        date_depart=new.date_depart,
+        droits=new.droits,
+        id_planning=new.id_planning,
+        id_manager=new.id_manager_sup,
+        id_local=new.id_local
+    where id_employe=old.id_manager;
 end //
 delimiter ;
 
@@ -935,7 +1101,7 @@ delimiter ;
 drop procedure if exists insertavis;
 DELIMITER //
 CREATE PROCEDURE insertavis
-(IN unenote decimal(3,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
+(IN unenote decimal(5,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
 BEGIN
 DECLARE unid_sujet int(5);
 set unid_sujet = (select id_sujet from sujet where id_enquete = unid_enquete and numquestion = unnumquestion);
@@ -943,17 +1109,17 @@ insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
 END //
 DELIMITER ;
 
-insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','15','rue des champs','Paris','75020',null,null,null,'particulier','attente');
-insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
-insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','15 bis','rue des grands moulins','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
-insert into livreur values(null,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,2.5,'0621248481',null,null,'attente');
-insert into client values(4,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,null,'0621248481','18','place des roses','Paris','75010',null,null,null,'particulier',null);
-insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,null,'0123456788','24','avenue saint honore','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
-insert into livreur values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789',null,null,'attente');
-insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,null,'0123456789','5','developpeur',null);
-insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','7','reseau',null);
+insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,null,'particulier','attente');
+insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
+insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','rue des grands moulins','15 bis','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
+insert into livreur values(null,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,2.5,'0621248481','rue des champs','15','Paris','75020',null,null,'attente');
+insert into client values(4,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,null,'0621248481','place des roses','18','Paris','75010',null,null,null,'particulier',null);
+insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,null,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
+insert into livreur values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,'attente');
+insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,null,'0123456789','rue des champs','15','Paris','75020','5','developpeur',null);
+insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','rue des champs','15','Paris','75020','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
-insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null);
+insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
 /* 
@@ -1038,7 +1204,27 @@ insert into sujet values(null,5,'Question 5','Sur une echelle de 1 a 10, quelle 
 insert into sujet values(null,6,'Question 6',"Quel type d\'aliment avez-vous achete ?",'qcm',"Fruits et legumes|Cereales|Produits laitiers|Produits sucres",5);
 insert into sujet values(null,7,'Question 7',"Le produit reçu etait-il en adequation avec l\'annonce ?",'qcu',"Oui|Non",5);
 
+insert into categorie_metier values(null,"informatique","metiers de l\'informatique");
+insert into categorie_metier values(null,"Ressources Humaines","metiers des ressources humaines");
+insert into categorie_metier values(null,"expert metier","consultant metier");
 
-insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','invalide');
+insert into metier values(null,"developpeur","2500","1");
+insert into metier values(null,"technicien reseau","2000","1");
+insert into metier values(null,"responsable rh","4000","2");
+insert into metier values(null,"consultant livraison","2400","3");
 
+insert into locaux values(null,"Firehall Paris","12","rue des carmes","Paris","75018");
+insert into locaux values(null,"Firehall Nantes","1","place des oiseaux","Nantes","52041");
+insert into locaux values(null,"Firehall Lyon","255","rue des binaires","Lyon","88018");
+
+insert into poste values(null,"technicien reseau",sysdate(),null,"1900","cherche un technicien reseau junior pour la gestion du reseau d'entreprise","cdi","1","2");
+insert into poste values(null,"developpeur",sysdate(),null,"1900","cherche un lead developpeur pour creation d'application permettant de voler vers la lune juste avec un protable","cdd","1","1");
+insert into poste values(null,"directeur ressources humaines",sysdate(),null,"99999.99","Cherche une terreur pour virer le junior quand il aura fini","cdi","3","3");
+insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cherche consultant livraison pour creation application livraison","cdd","2","4");
+
+
+insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Millon','Felix','0618488719','rue Firmin Gillot','14','Paris','75015','Grand Manitou',5000,'7',curdate(),null,'administrateur','1',1,null,1);
+
+
+insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','','','','','invalide');
 update utilisateur set id=0 where email='anonyme';
