@@ -581,6 +581,13 @@ create or replace view vCandidater as (
         where P.id_local = L.id_local and C.id_poste = P.id_poste  and C.id_candidat = CD.id_candidat
 );
 
+create or replace view vEmploye as (
+      select E.id_employe, L.nom
+        from  locaux L,employe E
+        where E.id_local = L.id_local 
+);
+
+
 create or replace view vposte as (
       select  P.id_poste, 
       P.libelle libelle_poste,
@@ -1228,10 +1235,6 @@ insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d41
 insert into candidater values (1, 1, "2023-01-01", "2023-12-01", 3);
 insert into candidater values (1, 2, "2023-06-01", "2023-12-01", 3);
 insert into candidater values (1, 4, "2023-06-01", "2023-08-01", 3);
-
-insert into candidater values (8, 1, "2023-01-01", "2023-12-01", 3);
-insert into candidater values (8, 2, "2023-02-01", "2023-12-01", 3);
-insert into candidater values (8, 4, "2023-04-01", "2023-08-01", 3);
 
 
 insert into candidater values (5, 1, "2023-03-01", "2023-12-01", 3);
