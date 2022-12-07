@@ -1225,6 +1225,18 @@ insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cher
 
 insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Millon','Felix','0618488719','rue Firmin Gillot','14','Paris','75015','Grand Manitou',5000,'7',curdate(),null,'administrateur','1',1,null,1);
 
+insert into candidater values (1, 1, "2023-01-01", "2023-12-01", 3);
+insert into candidater values (1, 2, "2023-06-01", "2023-12-01", 3);
+insert into candidater values (1, 4, "2023-06-01", "2023-08-01", 3);
+
+insert into candidater values (8, 1, "2023-01-01", "2023-12-01", 3);
+insert into candidater values (8, 2, "2023-02-01", "2023-12-01", 3);
+insert into candidater values (8, 4, "2023-04-01", "2023-08-01", 3);
+
+
+insert into candidater values (5, 1, "2023-03-01", "2023-12-01", 3);
+insert into candidater values (5, 2, "2023-07-01", "2023-12-01", 3);
+insert into candidater values (5, 4, "2023-01-01", "2023-08-01", 3);
 
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','','','','','invalide');
 update utilisateur set id=0 where email='anonyme';
