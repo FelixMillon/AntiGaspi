@@ -563,7 +563,7 @@ create table candidater
     id_candidat int(5) not null,
     id_poste int(5) not null,
     date_candidature date not null,
-    date_cloture date not null,
+    date_cloture date,
     etat enum('admis','refuse','attente') not null,
     primary key (id_candidat,id_poste,date_candidature),
     foreign key(id_poste) references poste(id_poste)
@@ -1129,6 +1129,7 @@ insert into planning values(null,'equipe developpement','https://equiplaning.com
 insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
+insert into employe values(null,'toto','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','tomtom','dugland','0123456789','rue des champs','15','Paris','75020','RH',2500,'5','2022-04-25',null,'administrateur_rh','1',null,null);
 /* 
 insert into enquete values(null,'test','enquete de test');
 insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,1);
