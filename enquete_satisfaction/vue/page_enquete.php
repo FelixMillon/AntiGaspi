@@ -13,6 +13,12 @@ if($laQuestion['type_question'] != "note" or $laQuestion['type_question'] != "no
 {
 	$LesResponses = explode("|", $laQuestion['reponse']);
 }
+if(count($LesResponses)==6)
+{
+	$q = 24;
+}else{
+	$q = 12;
+}
 echo'
 <form method="post">
 	<div class="container d-flex justify-content-center">';
@@ -75,7 +81,7 @@ echo'
 					for($i=0; $i<count($LesResponses);$i++) //boucle pour afficher les reponses en fonction du nombre de réponse
 					{
 						echo'
-							<div class="col-md-'.(12/count($LesResponses)).' reponse">
+							<div class="col-md-'.($q/count($LesResponses)).' reponse">
 								<input type="radio" id="'.($i+1).'" name="rep'.($i+1).'"/>'.$LesResponses[$i].'
 							</div>
 						';
@@ -100,7 +106,7 @@ echo'
 					for($i=0; $i<count($LesResponses);$i++)
 					{
 						echo'
-										<div class="col-md-'.(12/count($LesResponses)).' reponse">
+										<div class="col-md-'.($q/count($LesResponses)).' reponse">
 											<input type="radio" id="'.($i+1).'" name="reponse"/>'.$LesResponses[$i].'
 										</div>
 						';
