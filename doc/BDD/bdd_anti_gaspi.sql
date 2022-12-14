@@ -563,13 +563,13 @@ create table candidater
     id_candidat int(5) not null,
     id_poste int(5) not null,
     date_candidature date not null,
-    date_cloture date not null,
+    date_cloture date,
     etat enum('admis','refuse','attente') not null,
     primary key (id_candidat,id_poste,date_candidature),
     foreign key(id_poste) references poste(id_poste)
     on update cascade
     on delete cascade,
-    foreign key(id_candidat) references candidat(id_candidat)
+    foreign key(id_candidat) references utilisateur(id)
     on update cascade
     on delete cascade
 )engine=innodb;
@@ -700,7 +700,7 @@ begin
         else
             set numdep = (select left(cp,2) from locaux where id_local = new.id_local);
     end if;
-    set new.email = concat(lower(left(new.prenom,1)),lower(left(new.nom,3)),numdep,".",((MONTH(curdate())-1)*30+day(curdate())),"@firecrest.com");
+    set new.email = concat(lower(REPLACE(left(new.prenom,1), ' ', '_')),lower(REPLACE(left(new.nom,3), ' ', '_')),numdep,".",((MONTH(curdate())-1)*30+day(curdate())),"@firecrest.com");
     insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel,new.rue,new.numrue,new.ville,new.cp);
     set new.id_employe= (select id from utilisateur where email=new.email);
 end //
@@ -1129,6 +1129,8 @@ insert into planning values(null,'equipe developpement','https://equiplaning.com
 insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
+
+
 /* 
 insert into enquete values(null,'test','enquete de test');
 insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,1);
@@ -1233,6 +1235,8 @@ insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cher
 insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Millon','Felix','0618488719','rue Firmin Gillot','14','Paris','75015','Grand Manitou',50000,'7',curdate(),null,'administrateur','1',1,null,1);
 insert into manager values(null,'ambrine','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Nicolas','Ambrine','0760400688','rue Pierre Broussolette','3 bis','Persan','95340','Terreur',10000,'7',curdate(),null,'administrateur','1',1,7,1);
 insert into manager values(null,'mohamed','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Kerraz','Mohamed','0666620535','rue de la Roseraie','1','Meudon la foret','92360','Petit Manitou',10000,'7',curdate(),null,'administrateur','1',1,7,1);
+insert into employe values(null,'truc','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','De Gaulle','Charles','0100000001','Rue du faubourg Saint Honoré','55','Paris','75008','President','1','general','1942-14-07',null,'invite',1,7,1);
+insert into employe values(null,'toto','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','tomtom','dugland','0123456789','rue des champs','15','Paris','75020','RH',2500,'5','2022-04-25',null,'administrateur_rh','1',null,null);
 insert into candidater values (1, 1, "2023-01-01", "2023-12-01", 3);
 insert into candidater values (1, 2, "2023-06-01", "2023-12-01", 3);
 insert into candidater values (1, 4, "2023-06-01", "2023-08-01", 3);
