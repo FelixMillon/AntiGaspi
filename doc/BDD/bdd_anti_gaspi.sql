@@ -1127,6 +1127,10 @@ insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867e
 insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','rue des champs','15','Paris','75020','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
 insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
+insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
+insert into employe values(null,'Tombruaired@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tom','Buraire','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'rh','1',null,null);
+insert into employe values(null,'AmbrineNicolas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Ambrine','Nicolas','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur_rh ','1',null,null);
+insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lea','Remy','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'developpeur','1',null,null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
 
