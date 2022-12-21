@@ -574,6 +574,99 @@ create table candidater
     on delete cascade
 )engine=innodb;
 
+create table demande_rh
+(
+    id_demande_rh int(5) not null auto_increment,
+    libelle varchar(100) not null,
+    objet varchar(255) not null,
+    requete_sql varchar(255),
+    date_demande datetime not null,
+    date_resolution datetime,
+    etat enum("attente","refuse","accepte"),
+    id_employe int(5) not null,
+    id_manager int(5),
+    primary key (id_demande_rh),
+    foreign key(id_employe) references employe(id_employe)
+    on update cascade
+    on delete cascade,
+    foreign key(id_manager) references manager(id_manager)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table demande_autre
+(
+    id_demande_autre int(5) not null auto_increment,
+    libelle varchar(100) not null,
+    description varchar(255) not null,
+    date_demande datetime not null,
+    date_resolution datetime,
+    etat enum("attente","refuse","accepte"),
+    id_employe int(5) not null,
+    id_manager int(5),
+    primary key (id_demande_autre),
+    foreign key(id_employe) references employe(id_employe)
+    on update cascade
+    on delete cascade,
+    foreign key(id_manager) references manager(id_manager)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table categorie_article
+(
+    id_cat_art int(5) not null auto_increment,
+    libelle varchar(100) not null,
+    description varchar(255) not null,
+    primary key (id_cat_art)
+)engine=innodb;
+
+create table article
+(
+    id_article int(5) not null auto_increment,
+    titre varchar(100) not null,
+    sous_titre varchar(100) not null,
+    id_cat_art int(5) not null,
+    id_auteur int(5) not null,
+    primary key (id_article),
+    foreign key(id_cat_art) references categorie_article(id_cat_art)
+    on update cascade
+    on delete cascade,
+    foreign key(id_auteur) references employe(id_employe)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table contenu
+(
+    id_contenu int(5) not null auto_increment,
+    numero int(5) not null,
+    contenu varchar(255) not null,
+    id_article int(5) not null,
+    primary key (id_contenu),
+    foreign key(id_article) references article(id_article)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table felix_c_est_le_chef_de_la_bdd
+(
+    id_truc int(5) not null auto_increment,
+    primary key(id_truc)
+);
+
+create table badgeage
+(
+    id_badgeage int(5) not null auto_increment,
+    date_heure datetime not null,
+    type enum('entree','sortie') not null,
+    id_employe int(5) not null,
+    primary key (id_badgeage),
+    foreign key(id_employe) references employe(id_employe)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
 create or replace view vCandidater as (
       select  C.id_candidat, C.id_poste, CD.prenom, CD.nom,  P.libelle, L.ville, L.cp, P.type_poste, P.date_debut, P.date_fin, C.etat, 
         C.date_candidature, C.date_cloture
@@ -1130,35 +1223,6 @@ insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
 
-
-/* 
-insert into enquete values(null,'test','enquete de test');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,1);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,1);
-insert into sujet values(null,3,'question 3 qcm','ceci est une question qcm','qcm',"reponse_1|reponse_2|reponse_3|reponse_4",1);
-insert into sujet values(null,4,'question 4 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
-insert into sujet values(null,5,'question 5 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2|reponse_3|reponse_4",1);
-insert into sujet values(null,6,'question 6 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
-insert into sujet values(null,7,'question 7 note','ceci est une question note','note',null,1);
-insert into sujet values(null,8,'question 8 note_image','ceci est une question note_image','note_image',null,1);
-insert into sujet values(null,9,'question 9 qcm','ceci est une question qcm','qcm',"reponse_1|reponse_2",1);
-insert into sujet values(null,10,'question 10 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
-insert into sujet values(null,11,'question 11 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2",1);
-insert into sujet values(null,12,'question 12 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
-insert into enquete values(null,'Produits','Enquete sur  la qualite de nos produits');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,2);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,2);
-insert into enquete values(null,'Service client','Enquete sur la qualite de notre service client');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,3);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,3);
-insert into enquete values(null,'Regimes healthy','Enquete sur les nouveaux regimes healthy!');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,4);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,4);
-insert into enquete values(null,'Amis des animaux','Enquete sur la qualite de la nourritures de nos petits compagnons');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,5);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,5);
-
-*/
 insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
 insert into sujet values(null,1,'Question 1','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
 insert into sujet values(null,2,'Question 2','Verifiez-vous vos besoins avant de faire vos courses ?','qcu',"Oui|Non",1);
@@ -1182,7 +1246,6 @@ insert into sujet values(null,6,'Question 6','Sur quelle plateforme utilisez-vou
 insert into sujet values(null,7,'Question 7',"Sur quel systeme d\'exploitation utilisez-vous notre application ?",'qcm',"Windows|MacOS|Android|iOS|Linux|Autres",2);
 insert into sujet values(null,8,'Question 8','A quelle frequence utilisez vous notre application?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",2);
 insert into sujet values(null,9,'Question 9',"a combien evaluez-vous l\'effort que vous avez dû fournir pour trouver le produit que vous recherchiez sur notre site internet ?",'note',null,2);
-
 
 
 insert into enquete values(null,'Regimes healthy','Enquete sur les nouveaux regimes healthy!');
@@ -1245,6 +1308,10 @@ insert into candidater values (1, 4, "2023-06-01", "2023-08-01", 3);
 insert into candidater values (5, 1, "2023-03-01", "2023-12-01", 3);
 insert into candidater values (5, 2, "2023-07-01", "2023-12-01", 3);
 insert into candidater values (5, 4, "2023-01-01", "2023-08-01", 3);
-
+insert into categorie_article values(null,'CE',"information concernant le comité d'entreprise");
+insert into article values(null,'waouw, 400 euros de cheque vacance !!!','mettez vous en plein les fouilles',1,8);
+insert into contenu values(null,1,"400 euro de cheque vacance pour s'eclater en famille !!! waouw waouw waouw !!! truc de ouf !!!",1);
+insert into badgeage values(null,sysdate(),'entree',7);
+insert into demande_rh values(null,"demande de changement d'adresse","j'ai demenage au 8 rue des champs","update employe set numrue='8' where id_employe=6;",sysdate(),null,"attente",6,null);
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','','','','','invalide');
 update utilisateur set id=0 where email='anonyme';
