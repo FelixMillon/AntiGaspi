@@ -1300,9 +1300,9 @@ insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cher
 
 
 insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Millon','Felix','0618488719','rue Firmin Gillot','14','Paris','75015','Grand Manitou',50000,'7',curdate(),null,'administrateur','1',1,null,1);
-insert into manager values(null,'ambrine','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Nicolas','Ambrine','0760400688','rue Pierre Broussolette','3 bis','Persan','95340','Terreur',10000,'7',curdate(),null,'administrateur','1',1,7,1);
-insert into manager values(null,'mohamed','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Kerraz','Mohamed','0666620535','rue de la Roseraie','1','Meudon la foret','92360','Petit Manitou',10000,'7',curdate(),null,'administrateur','1',1,7,1);
-insert into employe values(null,'truc','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','De Gaulle','Charles','0100000001','Rue du faubourg Saint Honoré','55','Paris','75008','President','1','general','1942-14-07',null,'invite',1,7,1);
+insert into manager values(null,'ambrine','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Nicolas','Ambrine','0760400688','rue Pierre Broussolette','3 bis','Persan','95340','Terreur',10000,'7',curdate(),null,'administrateur','1',1,11,1);
+insert into manager values(null,'mohamed','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Kerraz','Mohamed','0666620535','rue de la Roseraie','1','Meudon la foret','92360','Petit Manitou',10000,'7',curdate(),null,'administrateur','1',1,11,1);
+insert into employe values(null,'truc','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','De Gaulle','Charles','0100000001','Rue du faubourg Saint Honoré','55','Paris','75008','President','1','general','1942-14-07',null,'invite',1,11,1);
 insert into employe values(null,'toto','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','tomtom','dugland','0123456789','rue des champs','15','Paris','75020','RH',2500,'5','2022-04-25',null,'administrateur_rh','1',null,null);
 insert into candidater values (1, 1, "2023-01-01", "2023-12-01", 3);
 insert into candidater values (1, 2, "2023-06-01", "2023-12-01", 3);
@@ -1315,7 +1315,7 @@ insert into candidater values (5, 4, "2023-01-01", "2023-08-01", 3);
 insert into categorie_article values(null,'CE',"information concernant le comité d'entreprise");
 insert into article values(null,'waouw, 400 euros de cheque vacance !!!','mettez vous en plein les fouilles',1,8);
 insert into contenu values(null,1,"400 euro de cheque vacance pour s'eclater en famille !!! waouw waouw waouw !!! truc de ouf !!!",1);
-insert into badgeage values(null,sysdate(),'entree',7);
+insert into badgeage values(null,sysdate(),'entree',6);
 insert into demande_rh values(null,"demande de changement d'adresse","j'ai demenage au 8 rue des champs","update employe set numrue='8' where id_employe=6;",sysdate(),null,"attente",6,null);
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','','','','','invalide');
 update utilisateur set id=0 where email='anonyme';
