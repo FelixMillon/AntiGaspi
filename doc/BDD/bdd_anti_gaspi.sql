@@ -683,24 +683,24 @@ create or replace view vEmploye as (
 
 create or replace view vposte as (
       select  P.id_poste, 
-      P.libelle libelle_poste,
-      P.date_debut,
-      P.date_fin,
-      P.salaire_propose,
-      P.description,
-      P.type_poste,
-      P.id_local,
-      L.nom,
-      L.numrue,
-      L.rue,
-      L.ville,
-      L.cp,
-      M.id_met,
-      M.libelle libelle_metier,
-      M.niveau_salaire,
-      CM.id_cat_met,
-      CM.libelle libelle_cat_metier,
-      CM.description description_cat_metier
+        P.libelle libelle_poste,
+        P.date_debut,
+        P.date_fin,
+        P.salaire_propose,
+        P.description,
+        P.type_poste,
+        P.id_local,
+        L.nom,
+        L.numrue,
+        L.rue,
+        L.ville,
+        L.cp,
+        M.id_met,
+        M.libelle libelle_metier,
+        M.niveau_salaire,
+        CM.id_cat_met,
+        CM.libelle libelle_cat_metier,
+        CM.description description_cat_metier
         from poste P, locaux L, metier M, categorie_metier CM
         where 
         P.id_met = M.id_met
@@ -1209,6 +1209,35 @@ insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
 END //
 DELIMITER ;
 
+
+drop trigger if exists badgeage_before_insert;
+delimiter // 
+create trigger badgeage_before_insert 
+before insert on badgeage
+for each row
+begin
+    declare lastbadge int(5);
+    select id_badgeage into lastbadge 
+        from badgeage 
+        where id_employe = new.id_employe 
+        and date_heure = (select max(date_heure) from badgeage where id_employe = new.id_employe);
+    if (select type from badgeage where id_badgeage = lastbadge) ='entree'
+        then set new.type = 'sortie';
+        else set new.type = 'entree';
+    end if;
+end //
+delimiter ;
+
+drop trigger if exists contenu_before_insert;
+delimiter // 
+create trigger contenu_before_insert 
+before insert on contenu
+for each row
+begin
+    set new.numero = (select count(id_contenu) from contenu where id_article = new.id_article);
+end //
+delimiter ;
+
 insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,null,'particulier','attente');
 insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
 insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','rue des grands moulins','15 bis','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
@@ -1220,7 +1249,7 @@ insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867e
 insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','rue des champs','15','Paris','75020','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
 insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
-insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
+insert into employe values(null,'','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Chan','Billal','0123456789','rue des paniers','15','Nantes','24562','Developpeur',2522,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into employe values(null,'Tombruaired@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tom','Buraire','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'rh','1',null,null);
 insert into employe values(null,'AmbrineNicolas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Ambrine','Nicolas','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur_rh ','1',null,null);
 insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lea','Remy','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'developpeur','1',null,null);
