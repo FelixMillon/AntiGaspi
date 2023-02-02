@@ -13,7 +13,6 @@
       </div>
     </div>
   <hr class="my-5">
-	
 	<input type="submit" class="btn btn-sm btn-outline-success" name="Valider" value="Valider">
 	<input type="reset" name="Annuler" value="Annuler" class="btn btn-sm btn-outline-danger" > 		 
   <div class="question"></div>

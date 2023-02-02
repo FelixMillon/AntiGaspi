@@ -563,13 +563,106 @@ create table candidater
     id_candidat int(5) not null,
     id_poste int(5) not null,
     date_candidature date not null,
-    date_cloture date not null,
+    date_cloture date,
     etat enum('admis','refuse','attente') not null,
     primary key (id_candidat,id_poste,date_candidature),
     foreign key(id_poste) references poste(id_poste)
     on update cascade
     on delete cascade,
-    foreign key(id_candidat) references candidat(id_candidat)
+    foreign key(id_candidat) references utilisateur(id)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table demande_rh
+(
+    id_demande_rh int(5) not null auto_increment,
+    libelle varchar(100) not null,
+    objet varchar(255) not null,
+    requete_sql varchar(255),
+    date_demande datetime not null,
+    date_resolution datetime,
+    etat enum("attente","refuse","accepte"),
+    id_employe int(5) not null,
+    id_manager int(5),
+    primary key (id_demande_rh),
+    foreign key(id_employe) references employe(id_employe)
+    on update cascade
+    on delete cascade,
+    foreign key(id_manager) references manager(id_manager)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table demande_autre
+(
+    id_demande_autre int(5) not null auto_increment,
+    libelle varchar(100) not null,
+    description varchar(255) not null,
+    date_demande datetime not null,
+    date_resolution datetime,
+    etat enum("attente","refuse","accepte"),
+    id_employe int(5) not null,
+    id_manager int(5),
+    primary key (id_demande_autre),
+    foreign key(id_employe) references employe(id_employe)
+    on update cascade
+    on delete cascade,
+    foreign key(id_manager) references manager(id_manager)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table categorie_article
+(
+    id_cat_art int(5) not null auto_increment,
+    libelle varchar(100) not null,
+    description varchar(255) not null,
+    primary key (id_cat_art)
+)engine=innodb;
+
+create table article
+(
+    id_article int(5) not null auto_increment,
+    titre varchar(100) not null,
+    sous_titre varchar(100) not null,
+    id_cat_art int(5) not null,
+    id_auteur int(5) not null,
+    primary key (id_article),
+    foreign key(id_cat_art) references categorie_article(id_cat_art)
+    on update cascade
+    on delete cascade,
+    foreign key(id_auteur) references employe(id_employe)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table contenu
+(
+    id_contenu int(5) not null auto_increment,
+    numero int(5) not null,
+    contenu varchar(255) not null,
+    id_article int(5) not null,
+    primary key (id_contenu),
+    foreign key(id_article) references article(id_article)
+    on update cascade
+    on delete cascade
+)engine=innodb;
+
+create table felix_c_est_le_chef_de_la_bdd
+(
+    id_truc int(5) not null auto_increment,
+    primary key(id_truc)
+);
+
+create table badgeage
+(
+    id_badgeage int(5) not null auto_increment,
+    date_heure datetime not null,
+    type enum('entree','sortie') not null,
+    id_employe int(5) not null,
+    primary key (id_badgeage),
+    foreign key(id_employe) references employe(id_employe)
     on update cascade
     on delete cascade
 )engine=innodb;
@@ -590,24 +683,24 @@ create or replace view vEmploye as (
 
 create or replace view vposte as (
       select  P.id_poste, 
-      P.libelle libelle_poste,
-      P.date_debut,
-      P.date_fin,
-      P.salaire_propose,
-      P.description,
-      P.type_poste,
-      P.id_local,
-      L.nom,
-      L.numrue,
-      L.rue,
-      L.ville,
-      L.cp,
-      M.id_met,
-      M.libelle libelle_metier,
-      M.niveau_salaire,
-      CM.id_cat_met,
-      CM.libelle libelle_cat_metier,
-      CM.description description_cat_metier
+        P.libelle libelle_poste,
+        P.date_debut,
+        P.date_fin,
+        P.salaire_propose,
+        P.description,
+        P.type_poste,
+        P.id_local,
+        L.nom,
+        L.numrue,
+        L.rue,
+        L.ville,
+        L.cp,
+        M.id_met,
+        M.libelle libelle_metier,
+        M.niveau_salaire,
+        CM.id_cat_met,
+        CM.libelle libelle_cat_metier,
+        CM.description description_cat_metier
         from poste P, locaux L, metier M, categorie_metier CM
         where 
         P.id_met = M.id_met
@@ -700,7 +793,7 @@ begin
         else
             set numdep = (select left(cp,2) from locaux where id_local = new.id_local);
     end if;
-    set new.email = concat(lower(left(new.prenom,1)),lower(left(new.nom,3)),numdep,".",((MONTH(curdate())-1)*30+day(curdate())),"@firecrest.com");
+    set new.email = concat(lower(REPLACE(left(new.prenom,1), ' ', '_')),lower(REPLACE(left(new.nom,3), ' ', '_')),numdep,".",((MONTH(curdate())-1)*30+day(curdate())),"@firecrest.com");
     insert into utilisateur values(null,new.email,new.mdp,new.nom,new.prenom,new.tel,new.rue,new.numrue,new.ville,new.cp);
     set new.id_employe= (select id from utilisateur where email=new.email);
 end //
@@ -1116,6 +1209,35 @@ insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
 END //
 DELIMITER ;
 
+
+drop trigger if exists badgeage_before_insert;
+delimiter // 
+create trigger badgeage_before_insert 
+before insert on badgeage
+for each row
+begin
+    declare lastbadge int(5);
+    select id_badgeage into lastbadge 
+        from badgeage 
+        where id_employe = new.id_employe 
+        and date_heure = (select max(date_heure) from badgeage where id_employe = new.id_employe);
+    if (select type from badgeage where id_badgeage = lastbadge) ='entree'
+        then set new.type = 'sortie';
+        else set new.type = 'entree';
+    end if;
+end //
+delimiter ;
+
+drop trigger if exists contenu_before_insert;
+delimiter // 
+create trigger contenu_before_insert 
+before insert on contenu
+for each row
+begin
+    set new.numero = (select count(id_contenu) from contenu where id_article = new.id_article);
+end //
+delimiter ;
+
 insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,null,'particulier','attente');
 insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
 insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','rue des grands moulins','15 bis','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
@@ -1127,36 +1249,13 @@ insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867e
 insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','rue des champs','15','Paris','75020','7','reseau',null);
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
 insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
+insert into employe values(null,'','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Chan','Billal','0123456789','rue des paniers','15','Nantes','24562','Developpeur',2522,'5','2022-05-25',null,'administrateur','1',null,null);
+insert into employe values(null,'Tombruaired@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tom','Buraire','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'rh','1',null,null);
+insert into employe values(null,'AmbrineNicolas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Ambrine','Nicolas','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur_rh ','1',null,null);
+insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lea','Remy','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'developpeur','1',null,null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
-/* 
-insert into enquete values(null,'test','enquete de test');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,1);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,1);
-insert into sujet values(null,3,'question 3 qcm','ceci est une question qcm','qcm',"reponse_1|reponse_2|reponse_3|reponse_4",1);
-insert into sujet values(null,4,'question 4 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
-insert into sujet values(null,5,'question 5 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2|reponse_3|reponse_4",1);
-insert into sujet values(null,6,'question 6 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
-insert into sujet values(null,7,'question 7 note','ceci est une question note','note',null,1);
-insert into sujet values(null,8,'question 8 note_image','ceci est une question note_image','note_image',null,1);
-insert into sujet values(null,9,'question 9 qcm','ceci est une question qcm','qcm',"reponse_1|reponse_2",1);
-insert into sujet values(null,10,'question 10 qcm_image','ceci est une question qcm_image','qcm_image',"reponse_1|reponse_2|reponse_3",1);
-insert into sujet values(null,11,'question 11 qcu','ceci est une question qcu','qcu',"reponse_1|reponse_2",1);
-insert into sujet values(null,12,'question 12 qcu_image','ceci est une question qcu_image','qcu_image',"reponse_1|reponse_2|reponse_3",1);
-insert into enquete values(null,'Produits','Enquete sur  la qualite de nos produits');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,2);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,2);
-insert into enquete values(null,'Service client','Enquete sur la qualite de notre service client');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,3);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,3);
-insert into enquete values(null,'Regimes healthy','Enquete sur les nouveaux regimes healthy!');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,4);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,4);
-insert into enquete values(null,'Amis des animaux','Enquete sur la qualite de la nourritures de nos petits compagnons');
-insert into sujet values(null,1,'question 1 note','ceci est une question note','note',null,5);
-insert into sujet values(null,2,'question 2 note_image','ceci est une question note_image','note_image',null,5);
 
-*/
 insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
 insert into sujet values(null,1,'Question 1','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
 insert into sujet values(null,2,'Question 2','Verifiez-vous vos besoins avant de faire vos courses ?','qcu',"Oui|Non",1);
@@ -1180,7 +1279,6 @@ insert into sujet values(null,6,'Question 6','Sur quelle plateforme utilisez-vou
 insert into sujet values(null,7,'Question 7',"Sur quel systeme d\'exploitation utilisez-vous notre application ?",'qcm',"Windows|MacOS|Android|iOS|Linux|Autres",2);
 insert into sujet values(null,8,'Question 8','A quelle frequence utilisez vous notre application?','qcu',"Quotidien|Hebdomadaire|Mensuel|Jamais",2);
 insert into sujet values(null,9,'Question 9',"a combien evaluez-vous l\'effort que vous avez dû fournir pour trouver le produit que vous recherchiez sur notre site internet ?",'note',null,2);
-
 
 
 insert into enquete values(null,'Regimes healthy','Enquete sur les nouveaux regimes healthy!');
@@ -1231,8 +1329,10 @@ insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cher
 
 
 insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Millon','Felix','0618488719','rue Firmin Gillot','14','Paris','75015','Grand Manitou',50000,'7',curdate(),null,'administrateur','1',1,null,1);
-insert into manager values(null,'ambrine','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Nicolas','Ambrine','0760400688','rue Pierre Broussolette','3 bis','Persan','95340','Terreur',10000,'7',curdate(),null,'administrateur','1',1,7,1);
-insert into manager values(null,'mohamed','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Kerraz','Mohamed','0666620535','rue de la Roseraie','1','Meudon la foret','92360','Petit Manitou',10000,'7',curdate(),null,'administrateur','1',1,7,1);
+insert into manager values(null,'ambrine','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Nicolas','Ambrine','0760400688','rue Pierre Broussolette','3 bis','Persan','95340','Terreur',10000,'7',curdate(),null,'administrateur','1',1,11,1);
+insert into manager values(null,'mohamed','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Kerraz','Mohamed','0666620535','rue de la Roseraie','1','Meudon la foret','92360','Petit Manitou',10000,'7',curdate(),null,'administrateur','1',1,11,1);
+insert into employe values(null,'truc','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','De Gaulle','Charles','0100000001','Rue du faubourg Saint Honoré','55','Paris','75008','President','1','general','1942-14-07',null,'invite',1,11,1);
+insert into employe values(null,'toto','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','tomtom','dugland','0123456789','rue des champs','15','Paris','75020','RH',2500,'5','2022-04-25',null,'administrateur_rh','1',null,null);
 insert into candidater values (1, 1, "2023-01-01", "2023-12-01", 3);
 insert into candidater values (1, 2, "2023-06-01", "2023-12-01", 3);
 insert into candidater values (1, 4, "2023-06-01", "2023-08-01", 3);
@@ -1241,6 +1341,10 @@ insert into candidater values (1, 4, "2023-06-01", "2023-08-01", 3);
 insert into candidater values (5, 1, "2023-03-01", "2023-12-01", 3);
 insert into candidater values (5, 2, "2023-07-01", "2023-12-01", 3);
 insert into candidater values (5, 4, "2023-01-01", "2023-08-01", 3);
-
+insert into categorie_article values(null,'CE',"information concernant le comité d'entreprise");
+insert into article values(null,'waouw, 400 euros de cheque vacance !!!','mettez vous en plein les fouilles',1,8);
+insert into contenu values(null,1,"400 euro de cheque vacance pour s'eclater en famille !!! waouw waouw waouw !!! truc de ouf !!!",1);
+insert into badgeage values(null,sysdate(),'entree',6);
+insert into demande_rh values(null,"demande de changement d'adresse","j'ai demenage au 8 rue des champs","update employe set numrue='8' where id_employe=6;",sysdate(),null,"attente",6,null);
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','','','','','invalide');
 update utilisateur set id=0 where email='anonyme';
