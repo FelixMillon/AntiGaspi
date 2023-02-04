@@ -1,0 +1,7 @@
+C:\xampp\htdocs\bachelor\projet\Intranet\bin\Intranet.dll.config
+C:\xampp\htdocs\bachelor\projet\Intranet\bin\Intranet.dll
+C:\xampp\htdocs\bachelor\projet\Intranet\bin\Intranet.pdb
+C:\xampp\htdocs\bachelor\projet\Intranet\obj\Debug\Intranet.csproj.AssemblyReference.cache
+C:\xampp\htdocs\bachelor\projet\Intranet\obj\Debug\Intranet.csproj.CoreCompileInputs.cache
+C:\xampp\htdocs\bachelor\projet\Intranet\obj\Debug\Intranet.dll
+C:\xampp\htdocs\bachelor\projet\Intranet\obj\Debug\Intranet.pdb
