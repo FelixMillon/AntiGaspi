@@ -674,6 +674,19 @@ create or replace view vCandidater as (
         where P.id_local = L.id_local and C.id_poste = P.id_poste  and C.id_candidat = CD.id_candidat
 );
 
+
+create or replace view VDemande_autre as (
+      select D.*, E.Nom as NomE, E.prenom as prenomE, M.nom as nomM, M.prenom as prenomM
+        from Demande_autre D, Employe E, Manager M 
+        where D.id_employe = E.id_employe and D.id_manager = M.id_manager  
+);
+
+create or replace view VDemande_rh as (
+      select D.*, E.Nom as NomE, E.prenom as prenomE, M.nom as nomM, M.prenom as prenomM
+        from Demande_rh D, Employe E, Manager M 
+        where D.id_employe = E.id_employe and D.id_manager = M.id_manager  
+);
+
 create or replace view vEmploye as (
       select E.id_employe, L.nom
         from  locaux L,employe E
