@@ -663,5 +663,1027 @@ namespace Intranet
 
 
 
+
+        public void InsertCatMetier(Categorie_metier uneCategorie_metier)
+        {
+            string requete = "insert into categorie_metier values (null, @libelle, @description);";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables Mysql et C#
+                uneCmde.Parameters.AddWithValue("@libelle", uneCategorie_metier.Libelle);
+                uneCmde.Parameters.AddWithValue("@description", uneCategorie_metier.Description);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+
+        public void InsertMetier(Metier unMetier)
+        {
+            string requete = "insert into metier values (null, @libelle, @niveau_salaire, @id_cat_met);";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables Mysql et C#
+                uneCmde.Parameters.AddWithValue("@libelle", unMetier.Libelle);
+                uneCmde.Parameters.AddWithValue("@niveau_salaire", unMetier.Niveau_salaire);
+                uneCmde.Parameters.AddWithValue("@id_cat_met", unMetier.Id_cat_met);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public void DeleteCatMetier(int id_cat_met)
+        {
+            string requete = "delete from categorie_metier where id_cat_met = @id_cat_met;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                uneCmde.Parameters.AddWithValue("@id_cat_met", id_cat_met);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+
+        }
+
+
+
+        public void DeleteMetier(int id_met)
+        {
+            string requete = "delete from metier where id_met = @id_met;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                uneCmde.Parameters.AddWithValue("@id_met", id_met);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+
+        }
+
+        public void UpdateCatMetier(Categorie_metier uneCategorie_metier)
+        {
+            string requete = "update categorie_metier set libelle = @libelle, description = @description where id_cat_met = @id_cat_met;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                uneCmde.Parameters.AddWithValue("@id_cat_met", uneCategorie_metier.Id_cat_met);
+
+                uneCmde.Parameters.AddWithValue("@libelle", uneCategorie_metier.Libelle);
+                uneCmde.Parameters.AddWithValue("@description", uneCategorie_metier.Description);
+
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public void UpdateMetier(Metier unMetier)
+        {
+            string requete = "update metier set libelle = @libelle, niveau_salaire = @niveau_salaire, id_cat_met = @id_cat_met where id_met = @id_met;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                uneCmde.Parameters.AddWithValue("@id_met", unMetier.Id_met);
+
+                uneCmde.Parameters.AddWithValue("@libelle", unMetier.Libelle);
+                uneCmde.Parameters.AddWithValue("@niveau_salaire", unMetier.Niveau_salaire);
+                uneCmde.Parameters.AddWithValue("@id_cat_met", unMetier.Id_cat_met);
+
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+
+     /*   public List<VMetier> SelectAllvMetier()
+        {
+            string requete = "select * from vMetier;";
+            List<VMetier> lesvMetiers = new List<VMetier>();
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                //creation d'un curseur de résultats 
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        while (unReader.Read())
+                        {
+
+                            //instanciation d'un client
+                            VMetier unevMetier = new VMetier(
+                                getIntSafe(unReader, 0),
+                                getStringSafe(unReader, 1),
+                                getFloatSafe(unReader, 2),
+                                getStringSafe(unReader, 3)
+                                );
+                            //ajouter dans la liste
+                            lesvMetiers.Add(unevMetier);
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return lesvMetiers;
+        }*/
+
+        public List<Categorie_metier> SelectAllCategorie_metier()
+        {
+            string requete = "select * from categorie_metier;";
+            List<Categorie_metier> lesCategories_metiers = new List<Categorie_metier>();
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                //creation d'un curseur de résultats 
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        while (unReader.Read())
+                        {
+                            //instanciation d'un client
+                            Categorie_metier uneCategorie_metier = new Categorie_metier(
+                                unReader.GetInt16(0),
+                                unReader.GetString(1),
+                                unReader.GetString(2)
+                                );
+                            //ajouter dans la liste
+                            lesCategories_metiers.Add(uneCategorie_metier);
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return lesCategories_metiers;
+        }
+
+        public Categorie_metier SelectWhereCategorie_metier(int id_cat_met)
+        {
+            string requete = "select * from categorie_metier where id_cat_met = @id_cat_met;";
+            Categorie_metier uneCategorie_metier = null;
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                uneCmde.Parameters.AddWithValue("@id_cat_met", id_cat_met);
+
+                //creation d'un cruseur de résultats
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        if (unReader.Read())
+                        {
+                            //instanciation d'un client
+
+                            uneCategorie_metier = new Categorie_metier(
+                            getIntSafe(unReader, 0),
+                            getStringSafe(unReader, 1),
+                            getStringSafe(unReader, 2)
+                            );
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return uneCategorie_metier;
+
+        }
+
+
+
+        public Metier SelectWhereMetier(int id_met)
+        {
+            string requete = "select * from vMetier where id_met = @id_met;";
+            Metier unMetier = null;
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                uneCmde.Parameters.AddWithValue("@id_met", id_met);
+
+                //creation d'un cruseur de résultats
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        if (unReader.Read())
+                        {
+                            //instanciation d'un client
+
+                            unMetier = new Metier(
+                            unReader.GetInt16(0),
+                            unReader.GetString(1),
+                            unReader.GetFloat(2),
+                            unReader.GetInt16(3)
+                            );
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return unMetier;
+
+        }
+
+        /****************************** LOCAL */
+
+        public void InsertLocal(Local unLocal)
+        {
+            string requete = "insert into locaux values (null, @nom, @numrue, @rue, @ville, @cp);";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables Mysql et C#
+                uneCmde.Parameters.AddWithValue("@nom", unLocal.Nom);
+                uneCmde.Parameters.AddWithValue("@numrue", unLocal.Numrue);
+                uneCmde.Parameters.AddWithValue("@rue", unLocal.Rue);
+                uneCmde.Parameters.AddWithValue("@ville", unLocal.Ville);
+                uneCmde.Parameters.AddWithValue("@cp", unLocal.Cp);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public void DeleteLocal(int id_local)
+        {
+            string requete = "delete from locaux where id_local = @id_local;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                uneCmde.Parameters.AddWithValue("@id_local", id_local);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+
+        }
+
+
+        public void UpdateLocal(Local unLocal)
+        {
+            string requete = "update locaux set nom = @nom, numrue = @numrue, rue = @rue, ville = @ville, cp = @cp where id_local = @id_local;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                uneCmde.Parameters.AddWithValue("@id_local", unLocal.Id_local);
+
+                uneCmde.Parameters.AddWithValue("@nom", unLocal.Nom);
+                uneCmde.Parameters.AddWithValue("@numrue", unLocal.Numrue);
+                uneCmde.Parameters.AddWithValue("@rue", unLocal.Rue);
+                uneCmde.Parameters.AddWithValue("@ville", unLocal.Ville);
+                uneCmde.Parameters.AddWithValue("@cp", unLocal.Cp);
+
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public List<Local> SelectAllLocal()
+        {
+            string requete = "select * from locaux;";
+            List<Local> lesLocals = new List<Local>();
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                //creation d'un curseur de résultats 
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        while (unReader.Read())
+                        {
+
+                            //instanciation d'un client
+                            Local unLocal = new Local(
+                                getIntSafe(unReader, 0),
+                                getStringSafe(unReader, 1),
+                                getStringSafe(unReader, 2),
+                                getStringSafe(unReader, 3),
+                                getStringSafe(unReader, 4),
+                                getStringSafe(unReader, 5)
+                                );
+                            //ajouter dans la liste
+                            lesLocals.Add(unLocal);
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return lesLocals;
+        }
+
+        public Local SelectWhereLocal(int id_local)
+        {
+            string requete = "select * from locaux where id_local = @id_local;";
+            Local unLocal = null;
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                uneCmde.Parameters.AddWithValue("@id_local", id_local);
+
+                //creation d'un cruseur de résultats
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        if (unReader.Read())
+                        {
+                            //instanciation d'un client
+
+                            unLocal = new Local(
+                                getIntSafe(unReader, 0),
+                                getStringSafe(unReader, 1),
+                                getStringSafe(unReader, 2),
+                                getStringSafe(unReader, 3),
+                                getStringSafe(unReader, 4),
+                                getStringSafe(unReader, 5)
+                            );
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return unLocal;
+
+        }
+
+        /********************* CATEGORIE D ARTICLE */
+
+        public void InsertCatArticle(Categorie_article uneCategorie_article)
+        {
+            string requete = "insert into categorie_article values (null, @libelle, @description);";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables Mysql et C#
+                uneCmde.Parameters.AddWithValue("@libelle", uneCategorie_article.Libelle);
+                uneCmde.Parameters.AddWithValue("@description", uneCategorie_article.Description);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+
+        public void InsertArticle(Article unArticle)
+        {
+            string requete = "insert into article values (null, @titre, @sous_titre, @id_cat_art, @id_auteur);";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables Mysql et C#
+                uneCmde.Parameters.AddWithValue("@titre", unArticle.Titre);
+                uneCmde.Parameters.AddWithValue("@sous_titre", unArticle.Sous_titre);
+                uneCmde.Parameters.AddWithValue("@id_cat_art", unArticle.Id_cat_art);
+                uneCmde.Parameters.AddWithValue("@id_auteur", unArticle.Id_auteur);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public void DeleteCatArticle(int id_cat_art)
+        {
+            string requete = "delete from categorie_article where id_cat_art = @id_cat_art;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                uneCmde.Parameters.AddWithValue("@id_cat_art", id_cat_art);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+
+        }
+
+
+
+        public void DeleteArticle(int id_article)
+        {
+            string requete = "delete from article where id_article = @id_article;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                uneCmde.Parameters.AddWithValue("@id_article", id_article);
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+
+        }
+
+        public void UpdateCatArticle(Categorie_article uneCategorie_article)
+        {
+            string requete = "update categorie_article set libelle = @libelle, description = @description where id_cat_art = @id_cat_art;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                uneCmde.Parameters.AddWithValue("@id_cat_art", uneCategorie_article.Id_cat_art);
+
+                uneCmde.Parameters.AddWithValue("@libelle", uneCategorie_article.Libelle);
+                uneCmde.Parameters.AddWithValue("@description", uneCategorie_article.Description);
+
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public void UpdateArticle(Article unArticle)
+        {
+            string requete = "update article set titre = @titre, sous_titre = @sous_titre, id_cat_art = @id_cat_art, id_auteur = @id_auteur where id_article = @id_article;";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                uneCmde.Parameters.AddWithValue("@id_article", unArticle.Id_article);
+
+                uneCmde.Parameters.AddWithValue("@titre", unArticle.Titre);
+                uneCmde.Parameters.AddWithValue("@sous_titre", unArticle.Sous_titre);
+                uneCmde.Parameters.AddWithValue("@id_cat_art", unArticle.Id_cat_art);
+                uneCmde.Parameters.AddWithValue("@id_auteur", unArticle.Id_auteur);
+
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+
+    /*    public List<VArticle> SelectAllvArticle()
+        {
+            string requete = "select * from vArticle;";
+            List<VArticle> lesvArticles = new List<VArticle>();
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                //creation d'un curseur de résultats 
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        while (unReader.Read())
+                        {
+
+                            //instanciation d'un client
+                            VArticle uneVArticle = new VArticle(
+                                getIntSafe(unReader, 0),
+                                getStringSafe(unReader, 1),
+                                getStringSafe(unReader, 2),
+                                getStringSafe(unReader, 3),
+                                getStringSafe(unReader, 4)
+                                );
+                            //ajouter dans la liste
+                            lesVArticles.Add(uneVArticle);
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return lesvArticles;
+        }*/
+
+        public List<Categorie_article> SelectAllCategorie_article()
+        {
+            string requete = "select * from categorie_article;";
+            List<Categorie_article> lesCategories_articles = new List<Categorie_article>();
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+
+                //creation d'un curseur de résultats 
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        while (unReader.Read())
+                        {
+                            //instanciation d'un client
+                            Categorie_article uneCategorie_article = new Categorie_article(
+                                unReader.GetInt16(0),
+                                unReader.GetString(1),
+                                unReader.GetString(2)
+                                );
+                            //ajouter dans la liste
+                            lesCategories_articles.Add(uneCategorie_article);
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return lesCategories_articles;
+        }
+
+        public Categorie_article SelectWhereCategorie_article(int id_cat_art)
+        {
+            string requete = "select * from categorie_article where id_cat_art = @id_cat_art;";
+            Categorie_article uneCategorie_article = null;
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                uneCmde.Parameters.AddWithValue("@id_cat_art", id_cat_art);
+
+                //creation d'un cruseur de résultats
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        if (unReader.Read())
+                        {
+                            //instanciation d'un client
+
+                            uneCategorie_article = new Categorie_article(
+                            getIntSafe(unReader, 0),
+                            getStringSafe(unReader, 1),
+                            getStringSafe(unReader, 2)
+                            );
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return uneCategorie_article;
+
+        }
+
+
+
+    /*    public Article SelectWhereArticle(int id_article)
+        {
+            string requete = "select * from vArticle where id_article = @id_article;";
+            Article unArticle = null;
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                uneCmde.Parameters.AddWithValue("@id_article", id_article);
+
+                //creation d'un cruseur de résultats
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        if (unReader.Read())
+                        {
+                            //instanciation d'un client
+
+                            unArticle = new Article(
+                            unReader.GetInt16(0),
+                            unReader.GetString(1),
+                            unReader.GetString(2),
+                            unReader.GetString(3),
+                            unReader.GetString(4)
+                            );
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return unArticle;
+
+        }*/
+
+
+
     }
 }
