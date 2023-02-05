@@ -449,8 +449,6 @@ namespace Intranet
 
         }
 
-
-
         public Demande_rh SelectWhereDemande_rh(int id_demande_rh)
         {
             string requete = "select * from VDemande_rh where id_demande_rh = @id_demande_rh;";
