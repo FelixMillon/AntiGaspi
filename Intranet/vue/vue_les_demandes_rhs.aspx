@@ -10,13 +10,14 @@
             <td>Etat</td>
             <td>Employe</td>
             <td>Manager</td>
+            <td>Action</td>
         </tr>
         
         <%
 
     foreach(VDemande_rh uneDemande_rh in lesDemande_rhs)
     {   
-         chaine += "<tr>";
+         chaine += "<tr class='text-center' >";
          chaine += "<td>" + uneDemande_rh.Id_demande_rh + "</td>";
          chaine += "<td>" + uneDemande_rh.Libelle + "</td>";
          chaine += "<td>" + uneDemande_rh.Objet + "</td>";
@@ -28,11 +29,8 @@
          chaine += "<td>" + uneDemande_rh.NomM + " " + uneDemande_rh.PrenomM + "</td>";
 
          chaine += "<td>";
-         chaine += "<a href='Default.aspx?page=4&action=sup&id_demande_rh=" + uneDemande_rh.Id_demande_rh + "'>Supprimer</a>";
-         chaine += "</td>";
-
-         chaine += "<td>";
-         chaine += "<a href='Default.aspx?page=4&action=edit&id_demande_rh=" + uneDemande_rh.Id_demande_rh + "'>Modifier</a>";
+         chaine += "<a href='Default.aspx?page=5&action=sup&id_demande_rh=" + uneDemande_rh.Id_demande_rh + "'><img src='images/sup.png' height='35' width='35'></a>";
+         chaine += "<a href='Default.aspx?page=5&action=edit&id_demande_rh=" + uneDemande_rh.Id_demande_rh + "'><img src='images/edit.png' height='35' width='35'></a>";
          chaine += "</td>";
 
          chaine += "</tr>";
