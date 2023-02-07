@@ -5,7 +5,7 @@
 <div style="display: flex; flex-direction: column; height: 87vh;"> 
     <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" >Gestion Demande autre </h2>
 <div class="d-flex justifiy-content-center" style="padding-top:8%">
-    <div class="col-2"></div>
+    <div class="col-1"></div>
     <div class="col-4" style="padding-right:3%;"> 
 
 
@@ -35,12 +35,12 @@
 
 <%
 
-    if (Request.Form["valider"] != null){
+    if(Request.Form["valider"] != null){
         string libelle = Request.Form["libelle"];
         string description = Request.Form["description"];
         DateTime date_demande = DateTime.Parse(Request.Form["date_demande"]);
         DateTime date_resolution = DateTime.Parse(Request.Form["date_resolution"]);
-        string etat = Request.Form["etat"];
+        string etat = "attente";
         int id_employe = int.Parse(Request["id_employe"]);
         int id_manager = int.Parse(Request["id_manager"]);
 
@@ -66,7 +66,7 @@
 
         Intranet.Controleur.UpdateDemande_autre(uneDemande_autre);
         message = "<br> Modification reussie";
-        Response.Redirect("Default.aspx?page=4");
+        Response.Redirect("Default.aspx?page=5");
         
     }
 
