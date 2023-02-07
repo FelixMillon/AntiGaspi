@@ -263,7 +263,12 @@
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controleur\Categorie_metier.cs" />
+    <Compile Include="controleur\Metier.cs" />
+    <Compile Include="controleur\Local.cs" />
+    <Compile Include="controleur\Categorie_article.cs" />
     <Compile Include="controleur\Controleur.cs" />
+    <Compile Include="controleur\Article.cs" />
     <Compile Include="controleur\Manager.cs" />
     <Compile Include="controleur\Employe.cs" />
     <Compile Include="controleur\VDemande_rh.cs" />
