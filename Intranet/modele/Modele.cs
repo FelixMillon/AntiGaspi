@@ -7,7 +7,7 @@ using System.Text;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Runtime.Remoting.Messaging;
-
+using System.Security.Cryptography;
 
 namespace Intranet
 {
@@ -32,6 +32,24 @@ namespace Intranet
                 Debug.WriteLine("Erreur de connexion a : " + url);
             }
 
+        }
+
+        public static string Sha256(string rawData)
+        {
+            // Create a SHA256   
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                // ComputeHash - returns byte array  
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+
+                // Convert byte array to a string   
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
         }
 
         public static string getStringSafe(DbDataReader reader, int numero)
@@ -61,6 +79,83 @@ namespace Intranet
             }
             return valeur;
         }
+
+
+        public Employe SelectWhereEmploye(string email, string mdp)
+        {
+            string requete = "select * from employe where email = @email and mdp = @mdp;";
+            Employe unEmploye = null;
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                uneCmde.Parameters.AddWithValue("@email", email);
+                uneCmde.Parameters.AddWithValue("@mdp", Sha256(mdp));
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+                    if (unReader.HasRows)
+                    {
+                        if (unReader.Read())
+                        {
+                            unEmploye = new Employe(
+                                getIntSafe(unReader, 0),
+                                getStringSafe(unReader, 1),
+                                getStringSafe(unReader, 2),
+                                getStringSafe(unReader, 3),
+                                getStringSafe(unReader, 4),
+                                getStringSafe(unReader, 5),
+                                getStringSafe(unReader, 6),
+                                getStringSafe(unReader, 7),
+                                getStringSafe(unReader, 8),
+                                getStringSafe(unReader, 9),
+                                getStringSafe(unReader, 10),
+                                getStringSafe(unReader, 11),
+                                getStringSafe(unReader, 12),
+                                getDateTimeSafe(unReader, 13),
+                                getDateTimeSafe(unReader, 14),
+                                getStringSafe(unReader, 15),
+                                getIntSafe(unReader, 16),
+                                getIntSafe(unReader, 17),
+                                getIntSafe(unReader, 18)
+                                ); 
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return unEmploye;
+        }
+
+
+
 
         public void InsertDemande_autre(Demande_autre uneDemande_autre)
         {
@@ -188,7 +283,7 @@ namespace Intranet
         {
             string requete = "update demande_rh set libelle = @libelle, objet = @objet, requete_sql = @requete_sql,";
             requete += "date_demande = @date_demande, date_resolution = @date_resolution, etat = @etat, id_employe = @id_employe, id_manager = @id_manager";
-            requete += "where id_demande_rh = @id_demande_rh;";
+            requete += " where id_demande_rh = @id_demande_rh;";
             MySqlCommand uneCmde = null;
             try
             {
@@ -225,7 +320,7 @@ namespace Intranet
         {
             string requete = "update demande_autre set libelle = @libelle, description = @description,";
             requete += "date_demande = @date_demande, date_resolution = @date_resolution, etat = @etat, id_employe = @id_employe, id_manager = @id_manager";
-            requete += "where id_demande_autre = @id_demande_autre;";
+            requete += " where id_demande_autre = @id_demande_autre;";
             MySqlCommand uneCmde = null;
             try
             {
@@ -280,7 +375,7 @@ namespace Intranet
 
                             //instanciation d'un client
                             VDemande_autre uneVDemande_autre = new VDemande_autre(
-                                getIntSafe(unReader, 0),
+                                unReader.GetInt32(0),
                                 getStringSafe(unReader, 1),
                                 getStringSafe(unReader, 2),
                                 getDateTimeSafe(unReader, 3),

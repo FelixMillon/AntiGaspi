@@ -44,6 +44,7 @@ namespace Intranet
         public VDemande_autre(int id_demande_autre, string libelle, string description, DateTime date_demande,
             DateTime date_resolution, string etat, int id_employe, int id_manager, string nomE, string prenomE, string nomM, string prenomM)
         {
+            this.id_demande_autre = id_demande_autre;
             this.libelle = libelle;
             this.description = description;
             this.date_demande = date_demande;

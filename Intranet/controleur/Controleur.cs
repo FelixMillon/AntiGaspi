@@ -48,6 +48,11 @@ namespace Intranet
         {
             return unModele.SelectWhereDemande_autre(id_demande_autre);
         }
+        public static Employe SelectWhereEmploye(string email, string mdp)
+        {
+            return unModele.SelectWhereEmploye(email, mdp);
+        }
+
 
         public static Demande_rh SelectWhereDemande_rh(int id_demande_rh)
         {
