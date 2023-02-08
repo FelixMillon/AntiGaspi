@@ -75,8 +75,9 @@
     <%
         int page = 0;
         string message = "";
-
-        // EXEMPLE INSERT,UPDATE, DELETE UNIVERSEL
+        Dictionary<string, string> valeurs = new Dictionary<string, string>();
+        Dictionary<string, string> where = new Dictionary<string, string>();
+        // EXEMPLE INSERT,UPDATE 
         //Dictionary<string, string> valeurs = new Dictionary<string, string>(){
         //    {"email", "felix.millon@test.fr"},
         //    {"mdp", "123"},
