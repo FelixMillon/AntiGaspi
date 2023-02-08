@@ -14,6 +14,10 @@ namespace Intranet
     {
         private static Modele unModele = new Modele("localhost", "bdd_anti_gaspi", "root", "");
 
+        public static void InsertUniversel(Dictionary<string, string> donnees, string table, Boolean id_is_null)
+        {
+            unModele.InsertUniversel(donnees,table,id_is_null);
+        }
         public static void InsertDemande_autre(Demande_autre uneDemande_autre)
         {
             unModele.InsertDemande_autre(uneDemande_autre);

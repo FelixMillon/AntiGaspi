@@ -75,6 +75,29 @@
     <%
     int page = 0;
     string message = "";
+    List<string> cars = new List<string>() {"Volvo", "BMW", "Ford", "Mazda"};
+    List<string> testtab = new List<string>();
+    Dictionary<string, string> testdict = new Dictionary<string, string>(){
+            {"email", "felix.millon@test.fr"},
+            {"mdp", "123"},
+            {"nom", "Millon"},
+            {"prenom", "Felix"},
+            {"tel", "0123456789"},
+            {"rue", "rue du test"},
+            {"numrue", "14"},
+            {"ville", "Paris"},
+            {"cp", "75018"},
+            {"fonction", "Testeur"},
+            {"salaire", "2300"},
+            {"niveau_diplome", "5"},
+            {"date_embauche", "2021-01-01"},
+            {"date_depart", "null"},
+            {"droits", "developpeur"},
+            {"id_planning", "1"},
+            {"id_manager", "null"},
+            {"id_local", "null"}
+    };
+    Controleur.InsertUniversel(testdict,"employe",true);
     string chainemdp ="";
     string chaine = "";
     if (Request["page"] != null)

@@ -1251,6 +1251,55 @@ begin
 end //
 delimiter ;
 
+drop trigger if exists demande_rh_before_insert;
+delimiter // 
+create trigger demande_rh_before_insert 
+before insert on demande_rh
+for each row
+	begin
+		set new.date_demande = SYSDATE();
+		set new.date_resolution = null;
+	end //
+delimiter ;
+
+drop trigger if exists demande_autre_before_insert;
+delimiter // 
+create trigger demande_autre_before_insert 
+before insert on demande_autre
+for each row
+	begin
+		set new.date_demande = SYSDATE();
+		set new.date_resolution = null;
+	end //
+delimiter ;
+
+drop trigger if exists demande_rh_before_update;
+delimiter // 
+create trigger demande_rh_before_update 
+before update on demande_rh
+for each row
+begin
+	if new.etat != old.etat
+	then
+		set new.date_resolution = SYSDATE();
+	end if;
+end //
+delimiter ;
+
+
+drop trigger if exists demande_autre_before_update;
+delimiter // 
+create trigger demande_autre_before_update 
+before update on demande_autre
+for each row
+begin
+	if new.etat != old.etat
+	then
+		set new.date_resolution = SYSDATE();
+	end if;
+end //
+delimiter ;
+
 insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,null,'particulier','attente');
 insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
 insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','rue des grands moulins','15 bis','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');

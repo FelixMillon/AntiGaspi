@@ -8,6 +8,8 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
+using System.Web.Services.Description;
+using System.Collections;
 
 namespace Intranet
 {
@@ -80,7 +82,52 @@ namespace Intranet
             return valeur;
         }
 
-
+        public void InsertUniversel(Dictionary<string, string> donnees, string table,Boolean id_is_null)
+        {
+            List<string> attributs = new List<string>();
+            Dictionary<string, string> valeurs = new Dictionary<string, string>();
+            foreach(KeyValuePair<string, string> unedonnee in donnees)
+            {
+                if(unedonnee.Value == "null")
+                {
+                    attributs.Add("null");
+                }else{
+                    attributs.Add("@"+unedonnee.Key);
+                    valeurs.Add("@"+unedonnee.Key,unedonnee.Value);
+                }
+            }
+            string null_or_not="";
+            if(id_is_null)
+            {
+                null_or_not="null,";
+            }
+            string requete = "insert into "+table+" values ("+null_or_not+String.Join(",", attributs)+");";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables Mysql et C#
+                foreach(KeyValuePair<string, string> unevaleur in valeurs)
+                {
+                    uneCmde.Parameters.AddWithValue(unevaleur.Key,unevaleur.Value);
+                }
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+       
         public Employe SelectWhereEmploye(string email, string mdp)
         {
             string requete = "select * from employe where email = @email and mdp = @mdp;";
@@ -153,9 +200,6 @@ namespace Intranet
             }
             return unEmploye;
         }
-
-
-
 
         public void InsertDemande_autre(Demande_autre uneDemande_autre)
         {
@@ -364,7 +408,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -429,7 +473,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -495,7 +539,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_demande_autre", id_demande_autre);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -556,7 +600,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_demande_rh", id_demande_rh);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -625,7 +669,7 @@ namespace Intranet
                 }
 
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -696,7 +740,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -944,7 +988,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1001,7 +1045,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1057,7 +1101,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_cat_met", id_cat_met);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1115,7 +1159,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_met", id_met);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1264,7 +1308,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1324,7 +1368,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_local", id_local);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1560,7 +1604,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1618,7 +1662,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1674,7 +1718,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_cat_art", id_cat_art);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1732,7 +1776,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_article", id_article);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
