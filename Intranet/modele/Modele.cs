@@ -184,12 +184,15 @@ namespace Intranet
             Dictionary<string, string> valeurswhere = new Dictionary<string, string>();
             foreach(KeyValuePair<string, string> unedonnee in donnees)
             {
-                if(unedonnee.Value == "sysdate")
+                if(unedonnee.Value != "")
                 {
-                    attributs.Add(unedonnee.Key+"= sysdate()");
-                }else{
-                    attributs.Add(unedonnee.Key+"=@"+unedonnee.Key);
-                    valeurs.Add("@"+unedonnee.Key,unedonnee.Value);
+                    if(unedonnee.Value == "sysdate")
+                    {
+                        attributs.Add(unedonnee.Key+"= sysdate()");
+                    }else{
+                        attributs.Add(unedonnee.Key+"=@"+unedonnee.Key);
+                        valeurs.Add("@"+unedonnee.Key,unedonnee.Value);
+                    }
                 }
             }
             foreach(KeyValuePair<string, string> unecondition in where)
@@ -528,7 +531,7 @@ namespace Intranet
 
                             //instanciation d'un client
                             VDemande_autre uneVDemande_autre = new VDemande_autre(
-                                unReader.GetInt32(0),
+                                getIntSafe(unReader,0),
                                 getStringSafe(unReader, 1),
                                 getStringSafe(unReader, 2),
                                 getDateTimeSafe(unReader, 3),
@@ -592,19 +595,19 @@ namespace Intranet
                         {
                             //instanciation d'un client
                             VDemande_rh uneVDemande_rh = new VDemande_rh(
-                                unReader.GetInt16(0),
-                                unReader.GetString(1),
-                                unReader.GetString(2), 
-                                unReader.GetString(3),
-                                unReader.GetString(4),
-                                unReader.GetString(5),
-                                unReader.GetString(6),
-                                unReader.GetInt16(7),
-                                unReader.GetInt16(8),
-                                unReader.GetString(9),
-                                unReader.GetString(10),
-                                unReader.GetString(11),
-                                unReader.GetString(12)
+                                getIntSafe(unReader,0),
+                                getStringSafe(unReader, 1),
+                                getStringSafe(unReader, 2),
+                                getStringSafe(unReader, 3),
+                                getStringSafe(unReader, 4),
+                                getStringSafe(unReader, 5),
+                                getStringSafe(unReader, 6),
+                                getIntSafe(unReader, 7),
+                                getIntSafe(unReader, 8),
+                                getStringSafe(unReader, 9),
+                                getStringSafe(unReader, 10),
+                                getStringSafe(unReader, 11),
+                                getStringSafe(unReader, 12)
                                 );
                             //ajouter dans la liste
                             lesVDemande_rhs.Add(uneVDemande_rh);
@@ -720,15 +723,15 @@ namespace Intranet
                             //instanciation d'un client
 
                             uneDemande_rh = new Demande_rh(
-                            unReader.GetInt16(0),
-                            unReader.GetString(1),
-                            unReader.GetString(2),
-                            unReader.GetString(3),
-                            unReader.GetString(4),
-                            unReader.GetString(5),
-                            unReader.GetString(6),
-                            unReader.GetInt16(7),
-                            unReader.GetInt16(8)
+                            getIntSafe(unReader,0),
+                            getStringSafe(unReader,1),
+                            getStringSafe(unReader,2),
+                            getStringSafe(unReader,3),
+                            getStringSafe(unReader,4),
+                            getStringSafe(unReader,5),
+                            getStringSafe(unReader,6),
+                            getIntSafe(unReader,7),
+                            getIntSafe(unReader,8)
                             );
                         }
                     }

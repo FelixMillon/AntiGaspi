@@ -36,35 +36,30 @@
 <%
 
     if(Request.Form["valider"] != null){
-        string libelle = Request.Form["libelle"];
-        string description = Request.Form["description"];
-        DateTime date_demande = DateTime.Parse(Request.Form["date_demande"]);
-        DateTime date_resolution = DateTime.Parse(Request.Form["date_resolution"]);
-        string etat = "attente";
-        int id_employe = int.Parse(Request["id_employe"]);
-        int id_manager = int.Parse(Request["id_manager"]);
-
-        Intranet.Demande_autre uneDemande_autre = new Demande_autre(libelle, description, date_demande, date_resolution, etat, id_employe, id_manager);
-        
-        
-
-        Intranet.Controleur.InsertDemande_autre(uneDemande_autre);
+        valeurs.Clear();
+        valeurs.Add("libelle",Request.Form["libelle"]);
+        valeurs.Add("description",Request.Form["description"]);
+        valeurs.Add("date_demande",Request.Form["date_demande"]);
+        valeurs.Add("date_resolution",Request.Form["date_resolution"]);
+        valeurs.Add("etat","attente");
+        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("id_manager",Request.Form["id_manager"]);
+        Controleur.InsertUniversel(valeurs,"demande_autre",true);
         message = "<br> Insertion reussie";
     }
 
     if(Request.Form["modifier"] != null ){
-        int id_demande_autre = int.Parse(Request["id_demande_autre"]);
-        string libelle = Request.Form["libelle"];
-        string description = Request.Form["description"];
-        DateTime date_demande = DateTime.Parse(Request.Form["date_demande"]);
-        DateTime date_resolution = DateTime.Parse(Request.Form["date_resolution"]);
-        string etat = Request.Form["etat"];
-        int id_employe = int.Parse(Request["id_employe"]);
-        int id_manager = int.Parse(Request["id_manager"]);
-
-        Intranet.Demande_autre uneDemande_autre = new Demande_autre(id_demande_autre, libelle, description, date_demande, date_resolution, etat, id_employe, id_manager);
-
-        Intranet.Controleur.UpdateDemande_autre(uneDemande_autre);
+        valeurs.Clear();
+        valeurs.Add("libelle",Request.Form["libelle"]);
+        valeurs.Add("description",Request.Form["description"]);
+        valeurs.Add("date_demande",Request.Form["date_demande"]);
+        valeurs.Add("date_resolution",Request.Form["date_resolution"]);
+        valeurs.Add("etat","attente");
+        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("id_manager",Request.Form["id_manager"]);
+        where.Clear();
+        where.Add("id_demande_autre",Request["id_demande_autre"]);
+        Controleur.UpdateUniversel(valeurs,"demande_autre",where,true);
         message = "<br> Modification reussie";
         Response.Redirect("Default.aspx?page=5");
         
