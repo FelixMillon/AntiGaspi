@@ -56,7 +56,7 @@ namespace Intranet
 
         public static string getStringSafe(DbDataReader reader, int numero)
         {
-            string valeur = null;
+            string valeur = "";
             if (!reader.IsDBNull(numero))
             {
                 valeur = reader.GetString(numero);
@@ -91,7 +91,7 @@ namespace Intranet
                 if(unedonnee.Value == "null")
                 {
                     attributs.Add("null");
-                }elseif(unedonnee.Value == "sysdate")
+                }else if(unedonnee.Value == "sysdate")
                 {
                     attributs.Add("sysdate()");
                 }else{
@@ -118,6 +118,112 @@ namespace Intranet
                 }
                 uneCmde.ExecuteNonQuery();
                 this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public void DeleteUniversel(string table,Dictionary<string, string> where, Boolean is_and)
+        {
+            List<string> lesconditions = new List<string>();
+            Dictionary<string, string> valeurswhere = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, string> unecondition in where)
+            {
+                lesconditions.Add(unecondition.Key + "= @" + unecondition.Key);
+                valeurswhere.Add("@" + unecondition.Key, unecondition.Value);
+            }
+            string operateur = "";
+            if (is_and)
+            {
+                operateur = "and";
+            }
+            else
+            {
+                operateur = "or";
+            }
+            string requete = "delete from " + table + " where " + String.Join(" " + operateur + " ", lesconditions) + ";";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                foreach (KeyValuePair<string, string> unevaleurwhere in valeurswhere)
+                {
+                    uneCmde.Parameters.AddWithValue(unevaleurwhere.Key, unevaleurwhere.Value);
+                }
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public void UpdateUniversel(Dictionary<string, string> donnees, string table, Dictionary<string, string> where, Boolean is_and)
+        {
+            List<string> attributs = new List<string>();
+            List<string> lesconditions = new List<string>();
+            Dictionary<string, string> valeurs = new Dictionary<string, string>();
+            Dictionary<string, string> valeurswhere = new Dictionary<string, string>();
+            foreach(KeyValuePair<string, string> unedonnee in donnees)
+            {
+                if(unedonnee.Value == "sysdate")
+                {
+                    attributs.Add(unedonnee.Key+"= sysdate()");
+                }else{
+                    attributs.Add(unedonnee.Key+"=@"+unedonnee.Key);
+                    valeurs.Add("@"+unedonnee.Key,unedonnee.Value);
+                }
+            }
+            foreach(KeyValuePair<string, string> unecondition in where)
+            {
+                lesconditions.Add(unecondition.Key+"= @w"+unecondition.Key);
+                valeurswhere.Add("@w"+unecondition.Key,unecondition.Value);
+            }
+            string operateur="";
+            if(is_and)
+            {
+                operateur="and";
+            }else{
+                operateur="or";
+            }
+
+            string requete = "update "+table+" set "+String.Join(",", attributs)+" where "+String.Join(" "+operateur+" ", lesconditions)+";";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                foreach(KeyValuePair<string, string> unevaleur in valeurs)
+                {
+                    uneCmde.Parameters.AddWithValue(unevaleur.Key,unevaleur.Value);
+                }
+                foreach(KeyValuePair<string, string> unevaleurwhere in valeurswhere)
+                {
+                    uneCmde.Parameters.AddWithValue(unevaleurwhere.Key,unevaleurwhere.Value);
+                }
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+
             }
             catch (Exception exp)
             {
