@@ -79,7 +79,7 @@
     List<string> testtab = new List<string>();
     Dictionary<string, string> testdict = new Dictionary<string, string>(){
             {"email", "felix.millon@test.fr"},
-            {"mdp", "null"},
+            {"mdp", "123"},
             {"nom", "Millon"},
             {"prenom", "Felix"},
             {"tel", "0123456789"},
