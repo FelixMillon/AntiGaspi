@@ -91,6 +91,9 @@ namespace Intranet
                 if(unedonnee.Value == "null")
                 {
                     attributs.Add("null");
+                }elseif(unedonnee.Value == "sysdate")
+                {
+                    attributs.Add("sysdate()");
                 }else{
                     attributs.Add("@"+unedonnee.Key);
                     valeurs.Add("@"+unedonnee.Key,unedonnee.Value);
