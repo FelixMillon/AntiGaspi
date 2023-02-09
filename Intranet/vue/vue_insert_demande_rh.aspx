@@ -13,21 +13,20 @@
                         </div>	
                         
                         <div class="col-12">
-                            <input type="text" name="requete_sql" placeholder="Requete SQL" class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490" value="<%= (laDemande_rh!= null) ? laDemande_rh.Requete_sql : "" %>" > 
-                        </div>
-                        <div class="col-12">
-                        <select class='inscricase form-Select text-center fw-bold w-100' style='border:3px solid #9FC490' name="type_operation" id="type_op" onchange="choixcases();">
+                        <select class='inscricase form-select text-center fw-bold w-100' style='border:3px solid #9FC490' name="type_operation" id="type_op" onchange="choixcases();">
                             <option value="" selected disabled hidden> ---- Type d'opération ----</option>
                             <option value="insert"> Ajout d'un employé </option>
                             <option value="update"> Modification d'un employé </option>
                             <option value="delete"> Suppression d'un employé </option>
                         </select>
                         </div>
-                        <div id="casechoisis"></div> 
-                        <div id="attributschoisis"></div> 
+                        <div  id="casechoisis"></div> 
+          
+                        <div id="attributschoisis"></div>
+
                         <div class='col-12'>
                         <%
-                        string chaineEtat2 = "";
+                        String chaineEtat2 = "";
                         if (laDemande_rh != null){
                             chaineEtat2 += "<select class='inscricase form-Select text-center fw-bold w-100' name='etat' style='border:3px solid #9FC490'>"; 
                                 chaineEtat2 += "<option value = '' > État</option>";
@@ -64,10 +63,10 @@
                                     %>
 
                                       
-                        <div class="col-6" style="padding-top: 6%"> 
+                        <div class="col-6" > 
                             <input class="btn btn-outline-danger btn-small w-75 fw-bold" type="reset" name="Annuler" value="Annuler">
                         </div>
-                        <div class="col-6" style="padding-top: 6%"> 
+                        <div class="col-6"> 
                             <input class="btn btn-outline-success btn-small w-75 fw-bold" type="submit"  <%= (laDemande_rh!= null) ? "name = 'modifier' value='Modifier'" : "name = 'valider' value='Valider'" %> />
                         </div>
                     </div>       
@@ -76,7 +75,7 @@
 </form>
 
 </div>
-<div class="col-6" style="padding-left:3%"> 
+<div class="col-6" style="padding-left:3% ;padding-top:6%"> 
 <script>
 function PlaceLesAttributs()
 {
@@ -89,31 +88,31 @@ function PlaceLesAttributs()
     document.getElementById("attributschoisis").innerHTML = "";
     if(choix == "update")
     {
-        chaine += '<div class="row">';
+        chaine += '<div class="row py-2" style="overflow-y :scroll; overflow-x :hidden; height : 13vh; border : 3px #9FC490 solid">'; 
         for(let i=0; i<=9; i++)
         {
             if(document.getElementById(lesattributs[i]).checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine += '<input type="text"  class="form-control" name="'+lesattributs[i]+'" placeholder="'+lesattributs[i]+'">';
+                chaine += '<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="'+lesattributs[i]+'" placeholder="'+lesattributs[i]+'">';
                 chaine+='</div>';
             }else{
-                chaine += '<input type="hidden"  class="form-control" name="'+lesattributs[i]+'" value="">';
+                chaine += '<input type="hidden" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="'+lesattributs[i]+'" value="">';
             }
         }
         if(document.getElementById("adresse").checked == true)
         {
             chaine+='<div class="col-6">';
-            chaine += '<input type="text"  class="form-control" name="rue" placeholder="rue">';
+            chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="rue" placeholder="rue">';
             chaine+='</div>';
             chaine+='<div class="col-6">';
-            chaine += '<input type="text"  class="form-control" name="numrue" placeholder="numero de rue">';
+            chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="numrue" placeholder="numero de rue">';
             chaine+='</div>';
             chaine+='<div class="col-6">';
-            chaine += '<input type="text"  class="form-control" name="ville" placeholder="ville">';
+            chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="ville" placeholder="ville">';
             chaine+='</div>';
             chaine+='<div class="col-6">';
-            chaine += '<input type="text"  class="form-control" name="cp" placeholder="Code postal">';
+            chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="cp" placeholder="Code postal">';
             chaine+='</div>';
         }else{
             chaine += '<input type="hidden"  class="form-control" name="rue" value="">';
@@ -123,8 +122,8 @@ function PlaceLesAttributs()
         }
         if(document.getElementById("droits").checked == true)
         {
-            chaine+='<div class="col-12" style="width:100%">';
-            chaine += '<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490"  name="droits" >';
+            chaine +='<div class="col-12">';
+            chaine += '<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490;"  name="droits" >';
                 chaine += '<option value="" selected disabled hidden> ---- Droits ----</option>';
                 chaine += '<option value="administrateur"> Administrateur </option>';
                 chaine += '<option value="developpeur"> Developpeur </option>';
@@ -166,27 +165,27 @@ function choixcases()
     if(choix == "insert")
     {
         let lesattributs=["email","nom","prenom","tel","fonction","salaire","niveau_diplome","id_planning","id_manager","id_local"];
-        chaine += '<div class="row">';
+        chaine += '<div class="row py-3" style="overflow-y :scroll; overflow-x :hidden; height : 25vh; border : 3px #9FC490 solid">'; 
         for(let i=0; i<=9; i++)
         {
             chaine += '<div class="col-6">';
-            chaine += '<input type="text"  class="form-control" name="'+lesattributs[i]+'" placeholder="'+lesattributs[i]+'">';
+            chaine += '<input type="text"  class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490; margin-top: 3%" name="'+lesattributs[i]+'" placeholder="'+lesattributs[i]+'">';
             chaine += '</div>';
         }
         chaine += '<div class="col-6">';
-        chaine += '<input type="text"  class="form-control" name="rue" placeholder="rue">';
+        chaine += '<input type="text" class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490; margin-top: 3%" name="rue" placeholder="rue">';
         chaine += '</div>';
         chaine += '<div class="col-6">';
-        chaine += '<input type="text"  class="form-control" name="numrue" placeholder="numero de rue">';
+        chaine += '<input type="text"  class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490; margin-top: 3%" name="numrue" placeholder="numero de rue">';
         chaine += '</div>';
         chaine += '<div class="col-6">';
-        chaine += '<input type="text"  class="form-control" name="ville" placeholder="ville">';
+        chaine += '<input type="text"  class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490; margin-top: 3%" name="ville" placeholder="ville">';
         chaine += '</div>';
         chaine += '<div class="col-6">';
-        chaine += '<input type="text"  class="form-control" name="cp" placeholder="Code postal">';
+        chaine += '<input type="text"  class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490; margin-top: 3%" name="cp" placeholder="Code postal">';
         chaine += '</div>';
         chaine+='<div class="col-12" style="width:100%">';
-        chaine += '<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490"  name="droits" >';
+        chaine += '<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490 ; margin-top: 3%"  name="droits" >';
             chaine += '<option value="" selected disabled hidden> ---- Droits ----</option>';
             chaine += '<option value="administrateur"> Administrateur </option>';
             chaine += '<option value="developpeur"> Developpeur </option>';
@@ -201,47 +200,74 @@ function choixcases()
         chaine += '</div>';
     }else if(choix == "update")
     {
-        chaine+='<div class="row">';
-        chaine+='<label class="reponse" > Attributs à modifier :</label>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input type="radio" id="email" onchange="PlaceLesAttributs()"/> Email';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input type="radio" id="nom" onchange="PlaceLesAttributs()"/> Nom';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input type="radio" id="prenom" onchange="PlaceLesAttributs()"/> Prenom';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="tel" onchange="PlaceLesAttributs()"/> Tel';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="adresse" onchange="PlaceLesAttributs()"/> Adresse';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="fonction" onchange="PlaceLesAttributs()"/> Fonction';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="salaire" onchange="PlaceLesAttributs()"/> Salaire';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="niveau_diplome" onchange="PlaceLesAttributs()"/> Niveau du diplome';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="droits" onchange="PlaceLesAttributs()"/> Droits';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="id_planning" onchange="PlaceLesAttributs()"/> Planning';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="id_manager" onchange="PlaceLesAttributs()"/> Manager';
-        chaine+='</div>';
-        chaine+='<div class="col-md-3 reponse">';
-        chaine+='<input class="reponse" type="radio" id="id_local" onchange="PlaceLesAttributs()"/> Locaux';
-        chaine+='</div>';
+        chaine += '<center> Attributs à modifier :</center>';
+        chaine += '<div class="row row-cols-2 row-cols-lg-4 g-2 g-lg-3">';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="email" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Email</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="nom" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Nom</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="prenom" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Prénom</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="tel" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Téléphone</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="adresse" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Adresse</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="fonction" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Fonction</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="salaire" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Salaire</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="droits" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Droits</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="id_planning" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Planning</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="niveau_diplome" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Niveau diplome</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="id_manager" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Manager</label>';
+        chaine += '</div>';
+
+        chaine += '<div class="col-3 form-check form-switch">';
+        chaine += '<input class="form-check-input" type="checkbox" id="id_local" onchange="PlaceLesAttributs()"/>';
+        chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Local</label>';
+        chaine += '</div>';
+
+
+
         chaine+='</div>';
         chaine+='<div class="col-12" style="width:100%">';
-            chaine+='<select class="inscricase form-select text-center fw-bold" name="id_employe" style="border:3px solid #9FC490">';
+        chaine +='<select class="inscricase form-select text-center fw-bold" name="id_employe" style="border:3px solid #9FC490; margin-top : 3%">';
             chaine+="<option value=''>Selectionner l'employé</option>";
             chaine+="<%= chaineEmployerh %>";
             chaine+='</select>';
@@ -272,3 +298,7 @@ function choixcases()
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
 <!-- Select à utiliser -->
+
+
+
+
