@@ -4,10 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="js/style.css">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
-    <link rel="stylesheet" href="js/style_ambrine.css">
-	<link rel="stylesheet" href="js/felix.css">
+
 
 	<link rel="icon" type="image/png" sizes="16x16" href="images/icon.png">
     <meta charset="UTF-8">
@@ -133,7 +132,6 @@
         <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Conditions générle d'uilisation</a></li>
         </ul>
       <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-      <script src="js/gestion_cookie.js"></script>
     </footer>
     </body>
     </html>
