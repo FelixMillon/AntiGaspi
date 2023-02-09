@@ -11,7 +11,7 @@
 
 
 <%
-    Demande_rh laDemande_rh = null;
+    Demande_rh laDemande_rh = null; 
 
     if (Request["page"] != null && Request["action"] != null && Request["id_demande_rh"] != null)
     {
@@ -20,7 +20,11 @@
 
     switch(action)
         {
-            case "sup" : Intranet.Controleur.DeleteDemande_rh(id_demande_rh); break;
+            case "sup" :
+                where.Clear();
+                where.Add("id_demande_rh",Request["id_demande_rh"]);
+                Controleur.DeleteUniversel("demande_rh", where, true);
+                break;
             case "edit" : laDemande_rh = Intranet.Controleur.SelectWhereDemande_rh(id_demande_rh); break;
         }
     }
@@ -36,44 +40,38 @@
 <%
 
     if(Request.Form["valider"] != null){
-        string libelle = Request.Form["libelle"];
-        string objet = Request.Form["objet"];
-        string requete_sql = Request.Form["requete_sql"];
-        string date_demande = Request.Form["date_demande"];
-        string date_resolution = Request.Form["date_resolution"];
-        string etat = "attente";
-        int id_employe = int.Parse(Request["id_employe"]);
-        int id_manager = int.Parse(Request["id_manager"]);
+        valeurs.Clear();
+        valeurs.Add("libelle",Request.Form["libelle"]);
+        valeurs.Add("objet",Request.Form["objet"]);
+        valeurs.Add("requete_sql",Request.Form["requete_sql"]);
+        valeurs.Add("date_demande","sysdate");
+        valeurs.Add("date_resolution","null");
+        valeurs.Add("etat","attente");
+        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("id_manager",Request.Form["id_manager"]);
 
-        Intranet.Demande_rh uneDemande_rh = new Demande_rh(libelle, objet, requete_sql, date_demande, date_resolution, etat, id_employe, id_manager);
-        
-        
+        Controleur.InsertUniversel(valeurs,"demande_rh",true);
 
-        Intranet.Controleur.InsertDemande_rh(uneDemande_rh);
         message = "<br> Insertion reussie";
     }
 
     if(Request.Form["modifier"] != null ){
-        int id_demande_rh = int.Parse(Request["id_demande_rh"]);
-        string libelle = Request.Form["libelle"];
-        string objet = Request.Form["objet"];
-        string requete_sql = Request.Form["requete_sql"];
-        string date_demande = Request.Form["date_demande"];
-        string date_resolution = Request.Form["date_resolution"];
-        string etat = Request.Form["etat"];
-        int id_employe = int.Parse(Request["id_employe"]);
-        int id_manager = int.Parse(Request["id_manager"]);
+        valeurs.Clear();
+        valeurs.Add("libelle",Request.Form["libelle"]);
+        valeurs.Add("objet",Request.Form["objet"]);
+        valeurs.Add("requete_sql",Request.Form["requete_sql"]);
+        valeurs.Add("etat",Request.Form["etat"]);
+        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("id_manager",Request.Form["id_manager"]);
 
-       Intranet.Demande_rh uneDemande_rh = new Demande_rh(id_demande_rh, libelle, objet, requete_sql, date_demande, date_resolution, etat, id_employe, id_manager);
+        where.Clear();
+        where.Add("id_demande_rh",Request["id_demande_rh"]);
 
-        Intranet.Controleur.UpdateDemande_rh(uneDemande_rh);
+        Controleur.UpdateUniversel(valeurs,"demande_rh",where,true);
+
         message = "<br> Modification reussie";
-        Response.Redirect("Default.aspx?page=4");
-        
+        Response.Redirect("Default.aspx?page=5");
     }
-
-
-
 %>
 
 <%= message %>

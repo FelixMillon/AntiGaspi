@@ -8,6 +8,8 @@ using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
+using System.Web.Services.Description;
+using System.Collections;
 
 namespace Intranet
 {
@@ -54,7 +56,7 @@ namespace Intranet
 
         public static string getStringSafe(DbDataReader reader, int numero)
         {
-            string valeur = null;
+            string valeur = "";
             if (!reader.IsDBNull(numero))
             {
                 valeur = reader.GetString(numero);
@@ -80,7 +82,169 @@ namespace Intranet
             return valeur;
         }
 
+        public void InsertUniversel(Dictionary<string, string> donnees, string table,Boolean id_is_null)
+        {
+            List<string> attributs = new List<string>();
+            Dictionary<string, string> valeurs = new Dictionary<string, string>();
+            foreach(KeyValuePair<string, string> unedonnee in donnees)
+            {
+                if(unedonnee.Value == "null")
+                {
+                    attributs.Add("null");
+                }else if(unedonnee.Value == "sysdate")
+                {
+                    attributs.Add("sysdate()");
+                }else{
+                    attributs.Add("@"+unedonnee.Key);
+                    valeurs.Add("@"+unedonnee.Key,unedonnee.Value);
+                }
+            }
+            string null_or_not="";
+            if(id_is_null)
+            {
+                null_or_not="null,";
+            }
+            string requete = "insert into "+table+" values ("+null_or_not+String.Join(",", attributs)+");";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables Mysql et C#
+                foreach(KeyValuePair<string, string> unevaleur in valeurs)
+                {
+                    uneCmde.Parameters.AddWithValue(unevaleur.Key,unevaleur.Value);
+                }
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
 
+        public void DeleteUniversel(string table,Dictionary<string, string> where, Boolean is_and)
+        {
+            List<string> lesconditions = new List<string>();
+            Dictionary<string, string> valeurswhere = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, string> unecondition in where)
+            {
+                lesconditions.Add(unecondition.Key + "= @" + unecondition.Key);
+                valeurswhere.Add("@" + unecondition.Key, unecondition.Value);
+            }
+            string operateur = "";
+            if (is_and)
+            {
+                operateur = "and";
+            }
+            else
+            {
+                operateur = "or";
+            }
+            string requete = "delete from " + table + " where " + String.Join(" " + operateur + " ", lesconditions) + ";";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                foreach (KeyValuePair<string, string> unevaleurwhere in valeurswhere)
+                {
+                    uneCmde.Parameters.AddWithValue(unevaleurwhere.Key, unevaleurwhere.Value);
+                }
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+
+        public void UpdateUniversel(Dictionary<string, string> donnees, string table, Dictionary<string, string> where, Boolean is_and)
+        {
+            List<string> attributs = new List<string>();
+            List<string> lesconditions = new List<string>();
+            Dictionary<string, string> valeurs = new Dictionary<string, string>();
+            Dictionary<string, string> valeurswhere = new Dictionary<string, string>();
+            foreach(KeyValuePair<string, string> unedonnee in donnees)
+            {
+                if(unedonnee.Value != "")
+                {
+                    if(unedonnee.Value == "sysdate")
+                    {
+                        attributs.Add(unedonnee.Key+"= sysdate()");
+                    }else{
+                        attributs.Add(unedonnee.Key+"=@"+unedonnee.Key);
+                        if(unedonnee.Key == "mdp")
+                        {
+                            valeurs.Add("@"+unedonnee.Key,Sha256(unedonnee.Value));
+                        }else{
+                            valeurs.Add("@"+unedonnee.Key,unedonnee.Value);
+                        }
+                    }
+                }
+            }
+            foreach(KeyValuePair<string, string> unecondition in where)
+            {
+                lesconditions.Add(unecondition.Key+"= @w"+unecondition.Key);
+                valeurswhere.Add("@w"+unecondition.Key,unecondition.Value);
+            }
+            string operateur="";
+            if(is_and)
+            {
+                operateur="and";
+            }else{
+                operateur="or";
+            }
+
+            string requete = "update "+table+" set "+String.Join(",", attributs)+" where "+String.Join(" "+operateur+" ", lesconditions)+";";
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                foreach(KeyValuePair<string, string> unevaleur in valeurs)
+                {
+                    uneCmde.Parameters.AddWithValue(unevaleur.Key,unevaleur.Value);
+                }
+                foreach(KeyValuePair<string, string> unevaleurwhere in valeurswhere)
+                {
+                    uneCmde.Parameters.AddWithValue(unevaleurwhere.Key,unevaleurwhere.Value);
+                }
+                uneCmde.ExecuteNonQuery();
+                this.maConnexion.Close();
+
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+        }
+       
         public Employe SelectWhereEmploye(string email, string mdp)
         {
             string requete = "select * from employe where email = @email and mdp = @mdp;";
@@ -153,9 +317,6 @@ namespace Intranet
             }
             return unEmploye;
         }
-
-
-
 
         public void InsertDemande_autre(Demande_autre uneDemande_autre)
         {
@@ -364,7 +525,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -375,7 +536,7 @@ namespace Intranet
 
                             //instanciation d'un client
                             VDemande_autre uneVDemande_autre = new VDemande_autre(
-                                unReader.GetInt32(0),
+                                getIntSafe(unReader,0),
                                 getStringSafe(unReader, 1),
                                 getStringSafe(unReader, 2),
                                 getDateTimeSafe(unReader, 3),
@@ -429,7 +590,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -439,19 +600,19 @@ namespace Intranet
                         {
                             //instanciation d'un client
                             VDemande_rh uneVDemande_rh = new VDemande_rh(
-                                unReader.GetInt16(0),
-                                unReader.GetString(1),
-                                unReader.GetString(2), 
-                                unReader.GetString(3),
-                                unReader.GetString(4),
-                                unReader.GetString(5),
-                                unReader.GetString(6),
-                                unReader.GetInt16(7),
-                                unReader.GetInt16(8),
-                                unReader.GetString(9),
-                                unReader.GetString(10),
-                                unReader.GetString(11),
-                                unReader.GetString(12)
+                                getIntSafe(unReader,0),
+                                getStringSafe(unReader, 1),
+                                getStringSafe(unReader, 2),
+                                getStringSafe(unReader, 3),
+                                getStringSafe(unReader, 4),
+                                getStringSafe(unReader, 5),
+                                getStringSafe(unReader, 6),
+                                getIntSafe(unReader, 7),
+                                getIntSafe(unReader, 8),
+                                getStringSafe(unReader, 9),
+                                getStringSafe(unReader, 10),
+                                getStringSafe(unReader, 11),
+                                getStringSafe(unReader, 12)
                                 );
                             //ajouter dans la liste
                             lesVDemande_rhs.Add(uneVDemande_rh);
@@ -495,7 +656,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_demande_autre", id_demande_autre);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -556,7 +717,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_demande_rh", id_demande_rh);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -567,15 +728,15 @@ namespace Intranet
                             //instanciation d'un client
 
                             uneDemande_rh = new Demande_rh(
-                            unReader.GetInt16(0),
-                            unReader.GetString(1),
-                            unReader.GetString(2),
-                            unReader.GetString(3),
-                            unReader.GetString(4),
-                            unReader.GetString(5),
-                            unReader.GetString(6),
-                            unReader.GetInt16(7),
-                            unReader.GetInt16(8)
+                            getIntSafe(unReader,0),
+                            getStringSafe(unReader,1),
+                            getStringSafe(unReader,2),
+                            getStringSafe(unReader,3),
+                            getStringSafe(unReader,4),
+                            getStringSafe(unReader,5),
+                            getStringSafe(unReader,6),
+                            getIntSafe(unReader,7),
+                            getIntSafe(unReader,8)
                             );
                         }
                     }
@@ -625,7 +786,7 @@ namespace Intranet
                 }
 
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -696,7 +857,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -944,7 +1105,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1001,7 +1162,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1057,7 +1218,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_cat_met", id_cat_met);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1115,7 +1276,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_met", id_met);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1264,7 +1425,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1324,7 +1485,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_local", id_local);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1560,7 +1721,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1618,7 +1779,7 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
 
-                //creation d'un curseur de résultats 
+                //creation d'un curseur de rï¿½sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1674,7 +1835,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_cat_art", id_cat_art);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -1732,7 +1893,7 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_article", id_article);
 
-                //creation d'un cruseur de résultats
+                //creation d'un cruseur de rï¿½sultats
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
