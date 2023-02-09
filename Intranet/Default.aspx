@@ -57,7 +57,7 @@
             <%
                 string chaineConnect = "";
                 if (Session["email"] != null) {
-                    chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light'>Se Déconnecter</a></li>";                  
+                    chaineConnect += "<form method='post'><li><button name='deconnexion' class='px-2 btn text-light'>Se Déconnecter</button></li></form>";                  
                 }
                 else
                 {
@@ -97,8 +97,13 @@
         case 8: %> <!-- #include file="Modification.aspx --> <% break;
         case 9: %> <!-- #include file="Planning.aspx --> <% break;
         case 10: %> <!-- #include file="Dashboard.aspx --> <% break;
-        case 11 : Session.RemoveAll(); %> <!-- #include file="Login.aspx --> <%  break;
-     }
+    }
+
+    if (Request.Form["deconnexion"] != null)
+    {
+       Session.RemoveAll();
+       Response.Redirect("Default.aspx?page=0");
+    }
 
     %>
 </center>    
