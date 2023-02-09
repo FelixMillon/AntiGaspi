@@ -1,0 +1,130 @@
+.colorHeader{
+background-color: #4274BD ;   
+}
+
+body{
+
+
+    height: 100%; 
+
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0; 
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+
+
+#footer {
+         
+  }
+
+
+
+
+
+h3{
+    text-align: center;
+}
+
+.imgcenter{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 5vw;
+}
+
+.borders{
+    border-radius: 8px;
+    border: solid;
+    border-color: #f0f0c9;
+    border-width: 3px;
+}
+
+.card2 {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 0.25rem;
+}
+
+.borderbutton{
+    border-radius: 30px; 
+    padding: 15px;
+    white-space: nowrap;
+}
+
+.borderRouge{
+    border-radius: 8px;
+    border: solid;
+    border-color: #d74e09;
+    border-width: 3px;
+}
+
+.bg-bleu{
+    background-color: #124e78;
+    color : white;
+}
+
+.bg-orange{
+    background-color: #d74e09;
+    color : white;
+}
+
+.bg-beige{
+    background-color: #f0f0c9;
+}
+
+.img{
+    border-radius: 5px;  
+}
+
+.row {
+    --bs-gutter-x: 0.3rem;
+}
+
+
+.btn{
+    border-radius: 50px;
+}
+
+  .inputfile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+
+
+	z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    border-radius: 50px;
+    padding: 10px;
+    background-color: #72A5EF;
+    display: inline-block;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #4274BD;
+}
+
+.inputfile + label {
+	cursor: pointer; /* "hand" cursor */
+}
+
+.btn{
+    border : 0;
+}
+
+
