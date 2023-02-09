@@ -56,7 +56,7 @@
             <%
                 string chaineConnect = "";
                 if (Session["email"] != null) {
-                    chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light'>Se Déconnecter</a></li>";                  
+                    chaineConnect += "<form method='post'><li><button name='deconnexion' class='px-2 btn text-light'>Se Déconnecter</button></li></form>";                  
                 }
                 else
                 {
@@ -112,13 +112,18 @@
         case 8: %> <!-- #include file="Modification.aspx --> <% break;
         case 9: %> <!-- #include file="Planning.aspx --> <% break;
         case 10: %> <!-- #include file="Dashboard.aspx --> <% break;
-        case 11 : Session.RemoveAll(); %> <!-- #include file="Login.aspx --> <%  break;
-     }
+    }
+
+    if (Request.Form["deconnexion"] != null)
+    {
+       Session.RemoveAll();
+       Response.Redirect("Default.aspx?page=0");
+    }
 
     %>
 </center>    
 
-    
+
 
     <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-4" style="background : #9FC490;" id="footer" >
         <p class="col-md-4 mb-0 text-light" style="padding-left: 6%; white-space: nowrap;" >©Copyright 2022 FireCrest</p>
@@ -131,7 +136,8 @@
         <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Mentions légales</a></li>
         <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Conditions générle d'uilisation</a></li>
         </ul>
-      <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
     </footer>
     </body>
     </html>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
