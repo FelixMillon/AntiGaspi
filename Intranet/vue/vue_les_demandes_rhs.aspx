@@ -41,7 +41,7 @@
 <%= chaine %>
 
 </div>
-
+<div  id="casedroite"></div> 
 
     
 </div>
