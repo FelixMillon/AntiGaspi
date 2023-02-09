@@ -167,7 +167,7 @@ function choixcases()
     {
         let lesattributs=["email","nom","prenom","tel","fonction","salaire","niveau_diplome","id_planning","id_manager","id_local"];
         chaine += '<div class="row">';
-        for(let i=0; i<=9; i++)
+        for(let i=0; i<=9; i++) 
         {
             chaine += '<div class="col-6">';
             chaine += '<input type="text"  class="form-control" name="'+lesattributs[i]+'" placeholder="'+lesattributs[i]+'">';
