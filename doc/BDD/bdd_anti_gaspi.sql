@@ -698,6 +698,38 @@ create or replace view VDemande_rh as (
         where D.id_employe = E.id_employe
 );
 
+
+create or replace view VManager as (
+    select Ma.id_manager as id_manag_sup, Ma.nom as nom_sup, Ma.prenom as prenom_sup,
+     P.*, L.*
+    from Manager M, Manager Ma, Locaux L, Planning P
+    where M.id_manager_sup = Ma.id_manager and M.id_planning = P.id_planning and M.id_local = L.id_local
+);
+
+create or replace view VEmployeIHM as (
+    select E.id_employe, M.id_manager, M.nom as nom_manager, M.prenom as prenom_manager,
+    P.*, L.*
+    from Manager M, Employe E, Locaux L, Planning P
+    where E.id_manager = M.id_manager and M.id_planning = P.id_planning and M.id_local = L.id_local
+);
+
+create or replace view VGerer as (
+    select G.*, E.nom as nom_emp, E.prenom as prenom_emp, U.nom as nom_user, U.prenom as prenom_user
+    from Gerer G, Employe E, Utilisateur U
+    where G.id_utilisateur = U.id and G.id_employe = E.id_Employe
+);
+
+
+create or replace view VBadgeage as (
+    select B.*, E.nom, E.prenom
+    from Badgeage B, Employe E
+    where B.id_employe = E.id_employe
+);
+
+
+
+
+
 create or replace view vposte as (
       select  P.id_poste, 
         P.libelle libelle_poste,
@@ -1032,24 +1064,15 @@ begin
 end //
 delimiter ;
 
-drop trigger if exists employe_after_update;
+
 delimiter // 
 create trigger employe_after_update 
 after update on employe
 for each row
 begin
     update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp where id=old.id_employe;
-end //
-delimiter ;
-
-drop trigger if exists manager_after_update;
-delimiter // 
-create trigger manager_after_update 
-after update on manager
-for each row
-begin
-    update employe set 
-        id_employe=new.id_manager,
+        update manager set 
+        id_manager=new.id_employe,
         email=new.email,
         mdp=new.mdp,
         nom=new.nom,
@@ -1066,11 +1089,13 @@ begin
         date_depart=new.date_depart,
         droits=new.droits,
         id_planning=new.id_planning,
-        id_manager=new.id_manager_sup,
+        id_manager_sup=new.id_manager,
         id_local=new.id_local
-    where id_employe=old.id_manager;
+    where id_manager=old.id_employe;
 end //
 delimiter ;
+
+
 
 drop trigger if exists client_before_delete;
 delimiter // 
