@@ -10,6 +10,7 @@ using System.Runtime.Remoting.Messaging;
 using System.Security.Cryptography;
 using System.Web.Services.Description;
 using System.Collections;
+using System.Web.UI.WebControls;
 
 namespace Intranet
 {
@@ -184,7 +185,7 @@ namespace Intranet
             Dictionary<string, string> valeurswhere = new Dictionary<string, string>();
             foreach(KeyValuePair<string, string> unedonnee in donnees)
             {
-                if(unedonnee.Value != "")
+                if(unedonnee.Value != "" && unedonnee.Value != null)
                 {
                     if(unedonnee.Value == "sysdate")
                     {
@@ -244,7 +245,41 @@ namespace Intranet
                 Debug.WriteLine(exp.Message);
             }
         }
-       
+       public void constructeurrequete(string donnees)
+       {
+            string[] subs = donnees.Split('|');
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            //string insert = "insert|nom=machin,prenom=truc";
+            //string update = "update|nom=machin,prenom=truc|id=1";
+            //string delete = "delete|id=1";
+            string operation = subs[0];
+            if(operation=="insert")
+            {
+                string[] lesattribs = subs[1].Split(',');
+                foreach(string pairattrib in lesattribs)
+                {
+                    data.Add(pairattrib.Split('=')[0], pairattrib.Split('=')[1]);
+                }
+                InsertUniversel(data, "employe", true);
+            }
+            if (operation == "update")
+            {
+                Dictionary<string, string> where = new Dictionary<string, string>();
+                string[] lesattribs = subs[1].Split(',');
+                foreach (string pairattrib in lesattribs)
+                {
+                    data.Add(pairattrib.Split('=')[0], pairattrib.Split('=')[1]);
+                }
+                where.Add("id_employe", subs[2]);
+                UpdateUniversel( data,"employe", where, true);
+            }
+            if (operation == "delete")
+            {
+                Dictionary<string, string> where = new Dictionary<string, string>();
+                where.Add("id_employe", subs[1]);
+                DeleteUniversel("employe", where, true);
+            }
+        }
         public Employe SelectWhereEmploye(string email, string mdp)
         {
             string requete = "select * from employe where email = @email and mdp = @mdp;";
