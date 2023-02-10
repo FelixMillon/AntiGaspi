@@ -16,7 +16,7 @@ namespace Intranet
 
         public static void InsertUniversel(Dictionary<string, string> donnees, string table, Boolean id_is_null)
         {
-            unModele.InsertUniversel(donnees,table,id_is_null);
+            unModele.InsertUniversel(donnees, table, id_is_null);
         }
         public static void constructeurrequete(string donnees)
         {
@@ -24,40 +24,11 @@ namespace Intranet
         }
         public static void UpdateUniversel(Dictionary<string, string> donnees, string table, Dictionary<string, string> where, Boolean is_and)
         {
-            unModele.UpdateUniversel(donnees,table,where,is_and);
+            unModele.UpdateUniversel(donnees, table, where, is_and);
         }
         public static void DeleteUniversel(string table, Dictionary<string, string> where, Boolean is_and)
         {
             unModele.DeleteUniversel(table, where, is_and);
-        }
-        public static void InsertDemande_autre(Demande_autre uneDemande_autre)
-        {
-            unModele.InsertDemande_autre(uneDemande_autre);
-        }
-
-        public static void InsertDemande_rh(Demande_rh uneDemande_rh)
-        {
-            unModele.InsertDemande_rh(uneDemande_rh);
-        }
-
-        public static void DeleteDemande_autre(int id_demande_autre)
-        {
-            unModele.DeleteDemande_autre(id_demande_autre);
-        }
-
-        public static void DeleteDemande_rh(int id_demande_rh)
-        {
-            unModele.DeleteDemande_rh(id_demande_rh);
-        }
-
-        public static void UpdateDemande_autre(Demande_autre uneDemande_autre)
-        {
-            unModele.UpdateDemande_autre(uneDemande_autre);
-        }
-
-        public static void UpdateDemande_rh(Demande_rh uneDemande_rh)
-        {
-            unModele.UpdateDemande_rh(uneDemande_rh);
         }
 
         public static Demande_autre SelectWhereDemande_autre(int id_demande_autre)
@@ -94,5 +65,61 @@ namespace Intranet
         {
             return unModele.SelectAllEmploye();
         }
+
+        public static List<VBadgeage> SelectAllVBadgeage()
+        {
+            return unModele.SelectAllVBadgeage();
+        }
+
+        public static VBadgeage SelectWhereVBadgeage(int id_badgeage)
+        {
+            return unModele.SelectWhereVBadgeage(id_badgeage);
+        }
+
+        public static List<Utilisateur> SelectAllUtilisateur()
+        {
+            return unModele.SelectAllUtilisateur();
+        }
+
+        public static List<VGerer> SelectAllVGestion()
+        {
+            return unModele.SelectAllVGestion();
+        }
+
+        public static VGerer SelectWhereGerer(int id_employe, int id_utilisateur, string dateheure_action)
+        {
+            return unModele.SelectWhereGerer(id_employe, id_utilisateur, dateheure_action);
+        }
+
+        public static VArticle SelectWhereVArticle(int id_article)
+        {
+            return unModele.SelectWhereVArticle(id_article);
+        }
+
+        public static List<VArticle> SelectAllVArticle()
+        {
+            return unModele.SelectAllVArticle();
+        }
+
+        public static Categorie_article SelectWhereCategorie_article(int id_cat_art)
+        {
+            return unModele.SelectWhereCategorie_article(id_cat_art);
+        }
+
+        public static List<Categorie_article> SelectAllCategorie_article()
+        {
+            return unModele.SelectAllCategorie_article();
+        }
+        public static Local SelectWhereLocal(int id_local)
+        {
+            return unModele.SelectWhereLocal(id_local);
+        }
+
+        public static List<Local> SelectAllLocal()
+        {
+            return unModele.SelectAllLocal();
+        }
+
+
     }
 }

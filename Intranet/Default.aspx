@@ -49,6 +49,11 @@
         <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
             <li><a href="Default.aspx?page=5" class="px-2 btn text-light ">Demande RH</a></li> 
             <li><a href="Default.aspx?page=4" class="px-2 btn text-light ">Demande Autre</a></li> 
+            <li><a href="Default.aspx?page=11" class="px-2 btn text-light ">Badgeage </a></li> 
+            <li><a href="Default.aspx?page=12" class="px-2 btn text-light ">Gestion</a></li> 
+            <li><a href="Default.aspx?page=13" class="px-2 btn text-light ">Article</a></li> 
+            <li><a href="Default.aspx?page=14" class="px-2 btn text-light ">Cat Article</a></li> 
+            <li><a href="Default.aspx?page=15" class="px-2 btn text-light ">Local</a></li> 
         </ul>
       
       
@@ -76,6 +81,7 @@
         string message = "";
         Dictionary<string, string> valeurs = new Dictionary<string, string>();
         Dictionary<string, string> where = new Dictionary<string, string>();
+
         // EXEMPLE INSERT,UPDATE 
         //Dictionary<string, string> valeurs = new Dictionary<string, string>(){
         //    {"email", "felix.millon@test.fr"},
@@ -92,6 +98,7 @@
         //Controleur.constructeurrequete("insert|nom=toto,prenom=bidule");
         //Controleur.constructeurrequete("update|nom=machin,prenom=truc|id_employe=2");
         //Controleur.constructeurrequete("delete|id_employe=2");
+
         string chainemdp ="";
         string chaine = "";
         if (Request["page"] != null)
@@ -103,17 +110,20 @@
         }
         switch(page)
         {
-            case 0: %> <!-- #include file="Login.aspx --> <%  break;
-        case 1: %> <!-- #include file="Employe.aspx --> <% break;
-        case 2: %> <!-- #include file="Article.aspx --> <% break;
-        case 3: %> <!-- #include file="Emploi.aspx --> <% break;
-        case 4: %> <!-- #include file="Demande_autre.aspx --> <% break;
-        case 5: %> <!-- #include file="Demande_rh.aspx --> <% break;
-        case 6: %> <!-- #include file="Moncompte.aspx --> <% break;
-        case 7: %> <!-- #include file="Ticketing.aspx --> <% break;
-        case 8: %> <!-- #include file="Modification.aspx --> <% break;
-        case 9: %> <!-- #include file="Planning.aspx --> <% break;
-        case 10: %> <!-- #include file="Dashboard.aspx --> <% break;
+        case 0: %> <!-- #include file="Login.aspx" --> <%  break;
+        case 4: %> <!-- #include file="Demande_autre.aspx" --> <% break;
+        case 5: %> <!-- #include file="Demande_rh.aspx" --> <% break;
+        case 6: %> <!-- #include file="Moncompte.aspx" --> <% break;
+        case 7: %> <!-- #include file="Ticketing.aspx" --> <% break;
+        case 8: %> <!-- #include file="Modification.aspx" --> <% break;
+        case 9: %> <!-- #include file="Planning.aspx" --> <% break;
+        case 10: %> <!-- #include file="Dashboard.aspx" --> <% break;
+        case 11: %> <!-- #include file="Badgeage.aspx" --> <% break;
+        case 12: %> <!-- #include file="Gerer.aspx" --> <% break;
+        case 13: %> <!-- #include file="Article.aspx" --> <% break;
+        case 14: %> <!-- #include file="Cat_Article.aspx" --> <% break;
+        case 15: %> <!-- #include file="Local.aspx" --> <% break;
+
     }
 
     if (Request.Form["deconnexion"] != null)

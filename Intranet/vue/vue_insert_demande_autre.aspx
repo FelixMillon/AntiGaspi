@@ -41,7 +41,7 @@
                             <select class="inscricase form-select text-center fw-bold" name="id_employe" style="border:3px solid #9FC490"> 
                                 <option value="">Employé</option>
                                 <%
-                                    String chaineEmploye = ""; 
+                                    string chaineEmploye = ""; 
                                 foreach(Employe unEmploye in lesEmploye_autres)
                                 {
                                     chaineEmploye += "<option value='" + unEmploye.Id_employe + "'>"; 
