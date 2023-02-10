@@ -100,7 +100,7 @@
         valeurs.Add("date_demande","sysdate");
         valeurs.Add("date_resolution","null");
         valeurs.Add("etat","attente");
-        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("id_employe",Session["id"].ToString());
         valeurs.Add("id_manager","null");
 
         Controleur.InsertUniversel(valeurs,"demande_rh",true);
@@ -121,7 +121,7 @@
         }
         
         valeurs.Add("etat",Request.Form["etat"]);
-        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("id_employe",Session["id"].ToString());
 
         where.Clear();
         where.Add("id_demande_rh",Request["id_demande_rh"]);
