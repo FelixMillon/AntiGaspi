@@ -98,6 +98,11 @@
         case 9: %> <!-- #include file="Planning.aspx --> <% break;
         case 10: %> <!-- #include file="Dashboard.aspx --> <% break;
         case 11 : Session.RemoveAll(); %> <!-- #include file="Login.aspx --> <%  break;
+        case 12: %> <!-- #include file="Cat_metier.aspx --> <% break;
+        case 13: %> <!-- #include file="Local.aspx --> <% break;
+        case 14: %> <!-- #include file="Cat_article.aspx --> <% break;
+        case 15: %> <!-- #include file="Article.aspx --> <% break;
+        case 16: %> <!-- #include file="Metier.aspx --> <% break;
      }
 
     %>
