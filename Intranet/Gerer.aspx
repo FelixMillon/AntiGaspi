@@ -3,7 +3,7 @@
 <%@ Import Namespace="System.Collections.Generic" %>
 
 <div style="display: flex; flex-direction: column; height: 87vh;"> 
-    <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" >Gestion des Badgeages </h2>
+    <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" >Gestion</h2>
 <div class="d-flex justifiy-content-center" style="padding-top:8%">
     <div class="col-1"></div>
     <div class="col-4" style="padding-right:3%;"> 
@@ -36,7 +36,7 @@
     List<Intranet.Utilisateur> lesUtilisateur_gestions = Intranet.Controleur.SelectAllUtilisateur();
 %>
 
-<h4>Insertion d'un Badgeage</h4>
+<h4>Insertion gestion</h4>
 <!-- #include file="vue/vue_insert_gestion.aspx"-->
 
 

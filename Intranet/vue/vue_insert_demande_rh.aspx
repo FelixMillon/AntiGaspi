@@ -26,7 +26,7 @@
 
                         <div class='col-12'>
                         <%
-                        String chaineEtat2 = "";
+                        string chaineEtat2 = "";
                         if (laDemande_rh != null){
                             chaineEtat2 += "<select class='inscricase form-Select text-center fw-bold w-100' name='etat' style='border:3px solid #9FC490'>"; 
                                 chaineEtat2 += "<option value = '' > État</option>";
