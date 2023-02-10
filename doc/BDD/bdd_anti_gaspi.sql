@@ -2,8 +2,6 @@ drop database if exists bdd_anti_gaspi;
 create database bdd_anti_gaspi;
 	use bdd_anti_gaspi;
 
-
-
 create table utilisateur
 (
 	id int(5) not null auto_increment,
@@ -41,7 +39,6 @@ create table sujet
     on update cascade
     on delete cascade
 )engine=innodb;
-
 
 create table consommateur
 (
@@ -262,8 +259,6 @@ create table image
     on update cascade
     on delete cascade
 )engine=innodb;
-
-
 
 create table commande  
 (
@@ -579,7 +574,7 @@ create table demande_rh
     id_demande_rh int(5) not null auto_increment,
     libelle varchar(100) not null,
     objet varchar(255) not null,
-    requete_sql varchar(255),
+    requete_sql varchar(2000),
     date_demande datetime not null,
     date_resolution datetime,
     etat enum("attente","refuse","accepte"),
@@ -667,6 +662,8 @@ create table badgeage
     on delete cascade
 )engine=innodb;
 
+/***********************************************VUES********************************************************/
+
 create or replace view vCandidater as (
       select  C.id_candidat, C.id_poste, CD.prenom, CD.nom,  P.libelle, L.ville, L.cp, P.type_poste, P.date_debut, P.date_fin, C.etat, 
         C.date_candidature, C.date_cloture
@@ -683,7 +680,7 @@ create or replace view vEmployemanager as (
 create or replace view vEmploye as (
       select E.*, ifnull(L.nom,"nomade") as nom_local
         from  locaux L
-        RIGHT JOIN vEmployemanager E on L.id_local = E.id_local 
+        RIGHT JOIN vEmployemanager E on L.id_local = E.id_local
 );
 
 create or replace view VDemande_autre as (
@@ -698,19 +695,15 @@ create or replace view VDemande_rh as (
         where D.id_employe = E.id_employe
 );
 
-
-create or replace view VManager as (
-    select Ma.id_manager as id_manag_sup, Ma.nom as nom_sup, Ma.prenom as prenom_sup,
-     P.*, L.*
-    from Manager M, Manager Ma, Locaux L, Planning P
-    where M.id_manager_sup = Ma.id_manager and M.id_planning = P.id_planning and M.id_local = L.id_local
-);
-
-create or replace view VEmployeIHM as (
-    select E.id_employe, M.id_manager, M.nom as nom_manager, M.prenom as prenom_manager,
-    P.*, L.*
-    from Manager M, Employe E, Locaux L, Planning P
-    where E.id_manager = M.id_manager and M.id_planning = P.id_planning and M.id_local = L.id_local
+create or replace view Vmanager as(
+    select m.email, m.mdp, m.nom, m.prenom,
+    m.rue, m.tel, m.numrue, m.ville,
+    m.fonction, m.salaire, m.niveau_diplome,
+    m.date_embauche, m.date_depart, m.droits,
+    m.id_planning,m.id_manager_sup,e.prenom_manager as prenom_m_sup,
+    e.nom_manager as nom_m_sup, m.id_local, e.nom_local
+    from manager m, vemploye e
+    where m.id_manager = e.id_employe
 );
 
 create or replace view VGerer as (
@@ -719,16 +712,11 @@ create or replace view VGerer as (
     where G.id_utilisateur = U.id and G.id_employe = E.id_Employe
 );
 
-
 create or replace view VBadgeage as (
     select B.*, E.nom, E.prenom
     from Badgeage B, Employe E
     where B.id_employe = E.id_employe
 );
-
-
-
-
 
 create or replace view vposte as (
       select  P.id_poste, 
@@ -755,7 +743,7 @@ create or replace view vposte as (
         P.id_met = M.id_met
         and P.id_local = L.id_local
         and M.id_cat_met = CM.id_cat_met
-);  
+);
 
 create or replace view viewmoyparenquete as (
 select avg(a.note) as moyenne, a.id_enquete, (select libelle from enquete where id_enquete = a.id_enquete) as libelle
@@ -809,6 +797,22 @@ from avis_enquete a
 group by a.tranche_age, a.id_enquete
 order by a.id_enquete);
 
+/***********************************************VUES********************************************************/
+
+/****************************TRIGGERS SUR UTILISATEUR************************************/
+
+drop trigger if exists utilisateur_after_update;
+delimiter // 
+create trigger utilisateur_after_update 
+after update on utilisateur
+for each row
+begin
+    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp where id_consommateur=old.id;
+end //
+delimiter ;
+
+
+/*******************************TRIGGERS SUR CONSOMMATEUR****************************************/
 drop trigger if exists consommateur_before_insert;
 delimiter // 
 create trigger consommateur_before_insert 
@@ -829,6 +833,21 @@ begin
     delete from utilisateur where id=old.id_consommateur;
 end //
 delimiter ;
+
+drop trigger if exists consommateur_after_update;
+delimiter // 
+create trigger consommateur_after_update 
+after update on consommateur
+for each row
+begin
+    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_client=old.id_consommateur;
+    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_entreprise=old.id_consommateur;
+    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_livreur=old.id_consommateur;
+    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_candidat=old.id_consommateur;
+end //
+delimiter ;
+
+/*****************************TRIGGERS SUR EMPLOYE***********************************/
 
 drop trigger if exists employe_before_insert;
 delimiter // 
@@ -857,6 +876,8 @@ begin
     delete from utilisateur where id=old.id_employe;
 end //
 delimiter ;
+
+/****************************TRIGGERS SUR CLIENT************************************/
 
 drop trigger if exists client_before_insert;
 delimiter // 
@@ -892,6 +913,8 @@ begin
 end //
 delimiter ;
 
+/****************************TRIGGERS SUR CANDIDAT************************************/
+
 drop trigger if exists candidat_before_insert;
 delimiter // 
 create trigger candidat_before_insert 
@@ -925,6 +948,32 @@ begin
     end if;
 end //
 delimiter ;
+
+drop trigger if exists client_before_delete;
+delimiter // 
+create trigger client_before_delete 
+before delete on client
+for each row
+begin
+    if old.id_client not in (select id_entreprise from entreprise) and old.id_client not in (select id_livreur from livreur) and old.id_client not in (select id_candidat from candidat)
+        then delete from consommateur where id_consommateur=old.id_client;
+    end if;
+end //
+delimiter ;
+
+drop trigger if exists candidat_before_delete;
+delimiter // 
+create trigger candidat_before_delete 
+before delete on candidat
+for each row
+begin
+    if old.id_candidat not in (select id_client from client) and old.id_candidat not in (select id_entreprise from entreprise) and old.id_candidat not in (select id_livreur from livreur)
+        then delete from consommateur where id_consommateur=old.id_candidat;
+    end if;
+end //
+delimiter ;
+
+/****************************TRIGGERS SUR ENTREPRISE************************************/
 
 drop trigger if exists entreprise_before_insert;
 delimiter // 
@@ -960,6 +1009,20 @@ begin
 end //
 delimiter ;
 
+drop trigger if exists entreprise_before_delete;
+delimiter // 
+create trigger entreprise_before_delete 
+before delete on entreprise
+for each row
+begin
+    if old.id_entreprise not in (select id_client from client) and old.id_entreprise not in (select id_livreur from livreur) and old.id_entreprise not in (select id_candidat from candidat)
+        then delete from consommateur where id_consommateur=old.id_entreprise;
+    end if;
+end //
+delimiter ;
+
+/****************************TRIGGERS SUR LIVREUR************************************/
+
 drop trigger if exists livreur_before_insert;
 delimiter // 
 create trigger livreur_before_insert 
@@ -993,6 +1056,52 @@ begin
     end if;
 end //
 delimiter ;
+
+drop trigger if exists livreur_before_delete;
+delimiter // 
+create trigger livreur_before_delete 
+before delete on livreur
+for each row
+begin
+    if old.id_livreur not in (select id_client from client) and old.id_livreur not in (select id_entreprise from entreprise) and old.id_livreur not in (select id_candidat from candidat)
+        then delete from consommateur where id_consommateur=old.id_livreur;
+    end if;
+end //
+delimiter ;
+
+/****************************TRIGGERS SUR EMPLOYE*********************************/
+
+delimiter // 
+create trigger employe_after_update 
+after update on employe
+for each row
+begin
+    update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp where id=old.id_employe;
+        update manager set 
+        id_manager=new.id_employe,
+        email=new.email,
+        mdp=new.mdp,
+        nom=new.nom,
+        prenom=new.prenom,
+        tel=new.tel,
+        rue=new.rue,
+        numrue=new.numrue,
+        ville=new.ville,
+        cp=new.cp,
+        fonction=new.fonction,
+        salaire=new.salaire,
+        niveau_diplome=new.niveau_diplome,
+        date_embauche=new.date_embauche,
+        date_depart=new.date_depart,
+        droits=new.droits,
+        id_planning=new.id_planning,
+        id_manager_sup=new.id_manager,
+        id_local=new.id_local
+    where id_manager=old.id_employe;
+end //
+delimiter ;
+
+/****************************TRIGGERS SUR MANAGER************************************/
 
 drop trigger if exists manager_before_insert;
 delimiter // 
@@ -1041,109 +1150,7 @@ begin
 end //
 delimiter ;
 
-drop trigger if exists utilisateur_after_update;
-delimiter // 
-create trigger utilisateur_after_update 
-after update on utilisateur
-for each row
-begin
-    update consommateur set id_consommateur=new.id,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp where id_consommateur=old.id;
-end //
-delimiter ;
-
-drop trigger if exists consommateur_after_update;
-delimiter // 
-create trigger consommateur_after_update 
-after update on consommateur
-for each row
-begin
-    update client set id_client=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_client=old.id_consommateur;
-    update entreprise set id_entreprise=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_entreprise=old.id_consommateur;
-    update livreur set id_livreur=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_livreur=old.id_consommateur;
-    update candidat set id_candidat=new.id_consommateur,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,noteconfemp=new.noteconfemp,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp,valide=new.valide where id_candidat=old.id_consommateur;
-end //
-delimiter ;
-
-
-delimiter // 
-create trigger employe_after_update 
-after update on employe
-for each row
-begin
-    update utilisateur set id=new.id_employe,email=new.email,mdp=new.mdp,nom=new.nom,prenom=new.prenom,tel=new.tel,rue=new.rue,numrue=new.numrue,ville=new.ville,cp=new.cp where id=old.id_employe;
-        update manager set 
-        id_manager=new.id_employe,
-        email=new.email,
-        mdp=new.mdp,
-        nom=new.nom,
-        prenom=new.prenom,
-        tel=new.tel,
-        rue=new.rue,
-        numrue=new.numrue,
-        ville=new.ville,
-        cp=new.cp,
-        fonction=new.fonction,
-        salaire=new.salaire,
-        niveau_diplome=new.niveau_diplome,
-        date_embauche=new.date_embauche,
-        date_depart=new.date_depart,
-        droits=new.droits,
-        id_planning=new.id_planning,
-        id_manager_sup=new.id_manager,
-        id_local=new.id_local
-    where id_manager=old.id_employe;
-end //
-delimiter ;
-
-
-
-drop trigger if exists client_before_delete;
-delimiter // 
-create trigger client_before_delete 
-before delete on client
-for each row
-begin
-    if old.id_client not in (select id_entreprise from entreprise) and old.id_client not in (select id_livreur from livreur) and old.id_client not in (select id_candidat from candidat)
-        then delete from consommateur where id_consommateur=old.id_client;
-    end if;
-end //
-delimiter ;
-
-drop trigger if exists entreprise_before_delete;
-delimiter // 
-create trigger entreprise_before_delete 
-before delete on entreprise
-for each row
-begin
-    if old.id_entreprise not in (select id_client from client) and old.id_entreprise not in (select id_livreur from livreur) and old.id_entreprise not in (select id_candidat from candidat)
-        then delete from consommateur where id_consommateur=old.id_entreprise;
-    end if;
-end //
-delimiter ;
-
-drop trigger if exists livreur_before_delete;
-delimiter // 
-create trigger livreur_before_delete 
-before delete on livreur
-for each row
-begin
-    if old.id_livreur not in (select id_client from client) and old.id_livreur not in (select id_entreprise from entreprise) and old.id_livreur not in (select id_candidat from candidat)
-        then delete from consommateur where id_consommateur=old.id_livreur;
-    end if;
-end //
-delimiter ;
-
-drop trigger if exists candidat_before_delete;
-delimiter // 
-create trigger candidat_before_delete 
-before delete on candidat
-for each row
-begin
-    if old.id_candidat not in (select id_client from client) and old.id_candidat not in (select id_entreprise from entreprise) and old.id_candidat not in (select id_livreur from livreur)
-        then delete from consommateur where id_consommateur=old.id_candidat;
-    end if;
-end //
-delimiter ;
+/*****************************TRIGGES SUR IMAGE************************************/
 
 drop trigger if exists image_before_insert;
 delimiter // 
@@ -1189,6 +1196,8 @@ begin
 end //
 delimiter ;
 
+/**************************TRIGGERS SUR COMMENTAIRE*******************************/
+
 drop trigger if exists commentaire_before_insert;
 delimiter // 
 create trigger commentaire_before_insert 
@@ -1227,6 +1236,8 @@ begin
 end //
 delimiter ;
 
+/*****************************TRIGGES SUR SUJET************************************/
+
 drop trigger if exists sujet_before_insert;
 delimiter // 
 create trigger sujet_before_insert 
@@ -1240,6 +1251,8 @@ begin
 end //
 delimiter ;
 
+/*****************************TRIGGES SUR AVIS************************************/
+
 drop procedure if exists insertavis;
 DELIMITER //
 CREATE PROCEDURE insertavis
@@ -1251,6 +1264,7 @@ insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
 END //
 DELIMITER ;
 
+/*****************************TRIGGES SUR BAGAGEAGE************************************/
 
 drop trigger if exists badgeage_before_insert;
 delimiter // 
@@ -1270,6 +1284,8 @@ begin
 end //
 delimiter ;
 
+/*****************************TRIGGES SUR CONTENU************************************/
+
 drop trigger if exists contenu_before_insert;
 delimiter // 
 create trigger contenu_before_insert 
@@ -1280,6 +1296,8 @@ begin
 end //
 delimiter ;
 
+/*****************************TRIGGES SUR DEMANDE_RH************************************/
+
 drop trigger if exists demande_rh_before_insert;
 delimiter // 
 create trigger demande_rh_before_insert 
@@ -1288,17 +1306,7 @@ for each row
 	begin
 		set new.date_demande = SYSDATE();
 		set new.date_resolution = null;
-	end //
-delimiter ;
-
-drop trigger if exists demande_autre_before_insert;
-delimiter // 
-create trigger demande_autre_before_insert 
-before insert on demande_autre
-for each row
-	begin
-		set new.date_demande = SYSDATE();
-		set new.date_resolution = null;
+        set new.id_manager = (select id_manager from employe where id_employe = new.id_employe);
 	end //
 delimiter ;
 
@@ -1311,10 +1319,24 @@ begin
 	if new.etat != old.etat
 	then
 		set new.date_resolution = SYSDATE();
+        set new.id_manager = (select id_manager from employe where id_employe = new.id_employe);
 	end if;
 end //
 delimiter ;
 
+/*****************************TRIGGES SUR DEMANDE_AUTRE************************************/
+
+drop trigger if exists demande_autre_before_insert;
+delimiter // 
+create trigger demande_autre_before_insert 
+before insert on demande_autre
+for each row
+	begin
+		set new.date_demande = SYSDATE();
+		set new.date_resolution = null;
+        set new.id_manager = (select id_manager from employe where id_employe = new.id_employe);
+	end //
+delimiter ;
 
 drop trigger if exists demande_autre_before_update;
 delimiter // 
@@ -1325,9 +1347,12 @@ begin
 	if new.etat != old.etat
 	then
 		set new.date_resolution = SYSDATE();
+        set new.id_manager = (select id_manager from employe where id_employe = new.id_employe);
 	end if;
 end //
 delimiter ;
+
+/*****************************INSERTS************************************/
 
 insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,null,'particulier','attente');
 insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
