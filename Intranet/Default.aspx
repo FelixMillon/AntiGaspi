@@ -89,7 +89,9 @@
         //};
         //Controleur.InsertUniversel(valeurs,"employe",true);
         //Controleur.UpdateUniversel(valeurs,"employe",where,false);
-        //Controleur.DeleteUniversel("employe",where,false);
+        //Controleur.constructeurrequete("insert|nom=toto,prenom=bidule");
+        //Controleur.constructeurrequete("update|nom=machin,prenom=truc|id_employe=2");
+        //Controleur.constructeurrequete("delete|id_employe=2");
         string chainemdp ="";
         string chaine = "";
         if (Request["page"] != null)

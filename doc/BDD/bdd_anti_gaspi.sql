@@ -674,25 +674,29 @@ create or replace view vCandidater as (
         where P.id_local = L.id_local and C.id_poste = P.id_poste  and C.id_candidat = CD.id_candidat
 );
 
-
-create or replace view VDemande_autre as (
-      select D.*, E.Nom as NomE, E.prenom as prenomE, M.nom as nomM, M.prenom as prenomM
-        from Demande_autre D, Employe E, Manager M 
-        where D.id_employe = E.id_employe and D.id_manager = M.id_manager  
-);
-
-create or replace view VDemande_rh as (
-      select D.*, E.Nom as NomE, E.prenom as prenomE, M.nom as nomM, M.prenom as prenomM
-        from Demande_rh D, Employe E, Manager M 
-        where D.id_employe = E.id_employe and D.id_manager = M.id_manager  
+create or replace view vEmployemanager as (
+      select M.*, ifnull(E.prenom,"aucun") as prenom_manager, ifnull(E.nom,"aucun") as nom_manager 
+        from  employe M
+        LEFT JOIN employe E ON M.id_manager = E.id_employe
 );
 
 create or replace view vEmploye as (
-      select E.id_employe, L.nom
-        from  locaux L,employe E
-        where E.id_local = L.id_local 
+      select E.*, ifnull(L.nom,"nomade") as nom_local
+        from  locaux L
+        RIGHT JOIN vEmployemanager E on L.id_local = E.id_local 
 );
 
+create or replace view VDemande_autre as (
+      select D.*, E.Nom as NomE, E.prenom as prenomE, E.prenom_manager, E.nom_manager
+        from Demande_autre D, vEmploye E
+        where D.id_employe = E.id_employe
+);
+
+create or replace view VDemande_rh as (
+      select D.*, E.Nom as NomE, E.prenom as prenomE, E.prenom_manager, E.nom_manager
+        from Demande_rh D, vEmploye E
+        where D.id_employe = E.id_employe
+);
 
 
 create or replace view VManager as (

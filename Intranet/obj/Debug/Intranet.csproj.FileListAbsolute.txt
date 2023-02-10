@@ -91,3 +91,9 @@ C:\xampp\htdocs\Projet_1_Enquete\AntiGaspi\Intranet\bin\².dll
 C:\xampp\htdocs\Projet_1_Enquete\AntiGaspi\Intranet\bin\².pdb
 C:\xampp\htdocs\Projet_1_Enquete\AntiGaspi\Intranet\obj\Debug\².dll
 C:\xampp\htdocs\Projet_1_Enquete\AntiGaspi\Intranet\obj\Debug\².pdb
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Newtonsoft.Json.Bson.dll
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Newtonsoft.Json.dll
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Newtonsoft.Json.pdb
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Newtonsoft.Json.xml
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Newtonsoft.Json.Bson.pdb
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Newtonsoft.Json.Bson.xml
