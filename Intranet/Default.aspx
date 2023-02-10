@@ -82,6 +82,22 @@
         Dictionary<string, string> valeurs = new Dictionary<string, string>();
         Dictionary<string, string> where = new Dictionary<string, string>();
 
+        // EXEMPLE INSERT,UPDATE 
+        //Dictionary<string, string> valeurs = new Dictionary<string, string>(){
+        //    {"email", "felix.millon@test.fr"},
+        //    {"mdp", "123"},
+        //    {"nom", "Millon"},
+        //    {"id_local", "1"}
+        //};
+        //    Dictionary<string, string> where = new Dictionary<string, string>(){
+        //    {"email", "felix.millon@test.fr"},
+        //    {"truc", "bidule"}
+        //};
+        //Controleur.InsertUniversel(valeurs,"employe",true);
+        //Controleur.UpdateUniversel(valeurs,"employe",where,false);
+        //Controleur.constructeurrequete("insert|nom=toto,prenom=bidule");
+        //Controleur.constructeurrequete("update|nom=machin,prenom=truc|id_employe=2");
+        //Controleur.constructeurrequete("delete|id_employe=2");
 
         string chainemdp ="";
         string chaine = "";

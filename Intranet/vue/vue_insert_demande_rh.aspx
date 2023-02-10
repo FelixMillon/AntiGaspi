@@ -88,7 +88,7 @@ function PlaceLesAttributs()
     document.getElementById("casegauche").innerHTML = "";
     if(choix == "update")
     {
-        chaine += '<div class="row py-2" style="overflow-y :scroll; overflow-x :hidden; height : 13vh; border : 3px #9FC490 solid">'; 
+        chaine += '<div class="row py-2" style="overflow-y :scroll; overflow-x :hidden; height : 30vh; border : 3px #9FC490 solid">'; 
         for(let i=0; i<=9; i++)
         {
             if(document.getElementById(lesattributs[i]).checked == true)
@@ -136,9 +136,17 @@ function PlaceLesAttributs()
             chaine += '</select>';
             chaine+='</div>';
             
+            
         }else{
             chaine += '<input type="hidden"  class="form-control" name="droits" value="">';
         }
+        chaine+='</div>';
+        chaine+='<div class="col-12" style="width:100%">';
+        chaine +='<select class="inscricase form-select text-center fw-bold" name="id_employe" style="border:3px solid #9FC490; margin-top : 3%">';
+            chaine+="<option value=''>Selectionner l'employé</option>";
+            chaine+="<%= chaineEmployerh %>";
+            chaine+='</select>';
+        chaine+='</div>';
         chaine += '<div>';
     }
     document.getElementById("casegauche").innerHTML = chaine;
@@ -164,7 +172,7 @@ function choixcases()
     let chaine= "";
     if(choix == "insert"){
         let lesattributs=["email","nom","prenom","tel","fonction","salaire","niveau_diplome","id_planning","id_manager","id_local"];
-        chaine += '<div class="row py-3" style="overflow-y :scroll; overflow-x :hidden; height : 25vh; border : 3px #9FC490 solid">'; 
+        chaine += '<div class="row py-3" style="overflow-y :scroll; overflow-x :hidden; height : 30vh; border : 3px #9FC490 solid">'; 
         for(let i=0; i<=9; i++)
         {
             chaine += '<div class="col-6">';
@@ -262,16 +270,8 @@ function choixcases()
         chaine += '<label class="form-check-label" for="flexSwitchCheckDefault">Local</label>';
         chaine += '</div>';
 
-
-
-        chaine+='</div>';
-        chaine+='<div class="col-12" style="width:100%">';
-        chaine +='<select class="inscricase form-select text-center fw-bold" name="id_employe" style="border:3px solid #9FC490; margin-top : 3%">';
-            chaine+="<option value=''>Selectionner l'employé</option>";
-            chaine+="<%= chaineEmployerh %>";
-            chaine+='</select>';
-        chaine+='</div>';
         document.getElementById("casedroite").innerHTML = chaine;
+
     }else if(choix=="delete" ){
         chaine+='<div class="col-12" style="width:100%">';
             chaine+='<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490"  name="id_employe">';
