@@ -101,17 +101,20 @@
         }
         switch(page)
         {
-            case 0: %> <!-- #include file="Login.aspx --> <%  break;
-        case 1: %> <!-- #include file="Employe.aspx --> <% break;
-        case 2: %> <!-- #include file="Article.aspx --> <% break;
-        case 3: %> <!-- #include file="Emploi.aspx --> <% break;
-        case 4: %> <!-- #include file="Demande_autre.aspx --> <% break;
-        case 5: %> <!-- #include file="Demande_rh.aspx --> <% break;
-        case 6: %> <!-- #include file="Moncompte.aspx --> <% break;
-        case 7: %> <!-- #include file="Ticketing.aspx --> <% break;
-        case 8: %> <!-- #include file="Modification.aspx --> <% break;
-        case 9: %> <!-- #include file="Planning.aspx --> <% break;
-        case 10: %> <!-- #include file="Dashboard.aspx --> <% break;
+            case 0: %> <!-- #include file="Login.aspx" --> <%  break;
+        case 1: %> <!-- #include file="Employe.aspx" --> <% break;
+        case 2: %> <!-- #include file="Article.aspx" --> <% break;
+        case 3: %> <!-- #include file="Emploi.aspx" --> <% break;
+        case 4: %> <!-- #include file="Demande_autre.aspx" --> <% break;
+        case 5: %> <!-- #include file="Demande_rh.aspx" --> <% break;
+        case 6: %> <!-- #include file="Moncompte.aspx" --> <% break;
+        case 7: %> <!-- #include file="Ticketing.aspx" --> <% break;
+        case 8: %> <!-- #include file="Modification.aspx" --> <% break;
+        case 9: %> <!-- #include file="Planning.aspx" --> <% break;
+        case 10: %> <!-- #include file="Dashboard.aspx" --> <% break;
+        case 11: %> <!-- #include file="Badgeage.aspx" --> <% break;
+        case 12: %> <!-- #include file="Gerer.aspx" --> <% break;
+
     }
 
     if (Request.Form["deconnexion"] != null)

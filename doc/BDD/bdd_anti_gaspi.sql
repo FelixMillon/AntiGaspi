@@ -696,15 +696,15 @@ create or replace view vEmploye as (
 
 
 create or replace view VManager as (
-    select Ma.id_manager as id_manag_sup, Ma.nom as nom_sup, Ma.prenom as prenom_sup,
-     P.*, L.*
+    select M.id_manager, M.nom, M.prenom, Ma.id_manager as id_manager_supp, Ma.nom as nom_sup, Ma.prenom as prenom_sup,
+     P.*, L.id_local, L.nom as nomLocal, L.numrue, L.rue, L.ville, L.cp
     from Manager M, Manager Ma, Locaux L, Planning P
     where M.id_manager_sup = Ma.id_manager and M.id_planning = P.id_planning and M.id_local = L.id_local
 );
 
 create or replace view VEmployeIHM as (
-    select E.id_employe, M.id_manager, M.nom as nom_manager, M.prenom as prenom_manager,
-    P.*, L.*
+    select E.id_employe,E.nom , E.prenom, M.id_manager, M.nom as nom_manager, M.prenom as prenom_manager,
+    P.*, L.id_local, L.nom as nomLocal, L.numrue, L.rue, L.ville, L.cp
     from Manager M, Employe E, Locaux L, Planning P
     where E.id_manager = M.id_manager and M.id_planning = P.id_planning and M.id_local = L.id_local
 );

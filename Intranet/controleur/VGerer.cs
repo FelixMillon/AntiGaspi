@@ -23,7 +23,7 @@ namespace Intranet
         {
             this.id_employe = 0;
             this.id_utilisateur = 0;
-            this.dateheure_action =  this.libelle_action = "";
+            this.dateheure_action = this.libelle_action = "";
             this.description_action = "";
         }
 
@@ -36,7 +36,7 @@ namespace Intranet
             this.libelle_action = libelle_action;
             this.description_action = description_action;
             this.nom_emp = nom_emp;
-            this.prenom_emp= prenom_emp;    
+            this.prenom_emp = prenom_emp;
             this.nom_user = nom_user;
             this.prenom_user = prenom_user;
         }
@@ -74,7 +74,7 @@ namespace Intranet
         {
             get => libelle_action; set => libelle_action = value;
         }
-        
+
         public string Description_action
         {
             get => description_action; set => description_action = value;
