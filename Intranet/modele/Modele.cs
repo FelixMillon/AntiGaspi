@@ -258,6 +258,8 @@ namespace Intranet
                 string[] lesattribs = subs[1].Split(',');
                 foreach(string pairattrib in lesattribs)
                 {
+                    Debug.WriteLine("attribut: "+pairattrib.Split('=')[0]);
+                    Debug.WriteLine("valeur: " + pairattrib.Split('=')[1]);
                     data.Add(pairattrib.Split('=')[0], pairattrib.Split('=')[1]);
                 }
                 InsertUniversel(data, "employe", true);
