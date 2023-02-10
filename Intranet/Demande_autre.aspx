@@ -20,7 +20,11 @@
 
     switch(action)
         {
-            case "sup" : Intranet.Controleur.DeleteDemande_autre(id_demande_autre); break;
+            case "sup" : 
+                where.Clear();
+                where.Add("id_demande_autre",Request["id_demande_autre"]);
+                Controleur.DeleteUniversel("demande_autre", where, true);
+                break;
             case "edit": laDemande_autre = Intranet.Controleur.SelectWhereDemande_autre(id_demande_autre); break;
         }
     }

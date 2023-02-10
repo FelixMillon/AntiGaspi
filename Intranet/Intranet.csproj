@@ -243,7 +243,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Modification.aspx" />
+    <Content Include="Local.aspx" />
+    <Content Include="Cat_Article.aspx" />
+    <Content Include="Gerer.aspx" />
     <Content Include="Default.aspx" />
+    <Content Include="Badgeage.aspx" />
     <Content Include="Demande_autre.aspx" />
     <Content Include="Article.aspx" />
     <Content Include="Emploi.aspx" />
@@ -251,19 +256,32 @@
     <Content Include="Login.aspx" />
     <Content Include="Ticketing.aspx" />
     <Content Include="Moncompte.aspx" />
-    <Content Include="Modification.aspx" />
-    <Content Include="Employe.aspx" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Demande_rh.aspx" />
-    <Content Include="vue\vue_insert_demande_rh.aspx" />
+    <Content Include="vue\vue_insert_local.aspx" />
+    <Content Include="vue\vue_insert_cat_article.aspx" />
+    <Content Include="vue\vue_les_locaux.aspx" />
+    <Content Include="vue\vue_les_cat_articles.aspx" />
+    <Content Include="vue\vue_les_articles.aspx" />
+    <Content Include="vue\vue_insert_article.aspx" />
+    <Content Include="vue\vue_insert_gestion.aspx" />
     <Content Include="vue\vue_insert_demande_autre.aspx" />
+    <Content Include="vue\vue_insert_demande_rh.aspx" />
+    <Content Include="vue\vue_insert_badgeage.aspx" />
+    <Content Include="vue\vue_les_gestions.aspx" />
+    <Content Include="vue\vue_les_badgeages.aspx" />
     <Content Include="vue\vue_les_demandes_rhs.aspx" />
     <Content Include="vue\vue_les_demandes_autres.aspx" />
     <Content Include="Web.config" />
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="controleur\Categorie_metier.cs" />
+    <Compile Include="controleur\Utilisateur.cs" />
+    <Compile Include="controleur\VBadgeage.cs" />
+    <Compile Include="controleur\VEmploye.cs" />
+    <Compile Include="controleur\Badgeage.cs" />
+    <Compile Include="controleur\VArticle.cs" />
+    <Compile Include="controleur\VManager.cs" />
     <Compile Include="controleur\Metier.cs" />
     <Compile Include="controleur\Local.cs" />
     <Compile Include="controleur\Categorie_article.cs" />
@@ -271,6 +289,8 @@
     <Compile Include="controleur\Article.cs" />
     <Compile Include="controleur\Manager.cs" />
     <Compile Include="controleur\Employe.cs" />
+    <Compile Include="controleur\Gerer.cs" />
+    <Compile Include="controleur\VGerer.cs" />
     <Compile Include="controleur\VDemande_rh.cs" />
     <Compile Include="controleur\VDemande_autre.cs" />
     <Compile Include="controleur\Demande_autre.cs" />
