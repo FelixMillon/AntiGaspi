@@ -70,7 +70,10 @@ namespace Intranet
         {
             return unModele.SelectAllVBadgeage();
         }
-
+        public static List<VBadgeage> SelectAllVBadgeage(int id)
+        {
+            return unModele.SelectAllVBadgeage(id);
+        }
         public static VBadgeage SelectWhereVBadgeage(int id_badgeage)
         {
             return unModele.SelectWhereVBadgeage(id_badgeage);

@@ -5,7 +5,7 @@
 
             <td>Titre</td>
             <td>Sous-titre</td>
-
+            <td>Contenu</td>
             <td>Catégorie</td>
             <td>Auteur</td>
             <td>Action</td>
@@ -19,6 +19,7 @@
          chaine += "<td>"+unArticle.Id_article+"</td>";
          chaine += "<td>"+unArticle.Titre+"</td>";
          chaine += "<td>"+unArticle.Sous_titre+"</td>";
+         chaine += "<td>"+unArticle.Contenu+"</td>";
          chaine += "<td>"+unArticle.Categorie+"</td>";
          chaine += "<td>"+unArticle.Auteur+"</td>";
 

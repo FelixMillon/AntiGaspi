@@ -621,6 +621,7 @@ create table article
     id_article int(5) not null auto_increment,
     titre varchar(100) not null,
     sous_titre varchar(100) not null,
+    contenu varchar(5000) not null,
     id_cat_art int(5) not null,
     id_auteur int(5) not null,
     primary key (id_article),
@@ -716,6 +717,12 @@ create or replace view VBadgeage as (
     select B.*, E.nom, E.prenom
     from Badgeage B, Employe E
     where B.id_employe = E.id_employe
+);
+
+create or replace view Varticle as (
+    select a.id_article, a.titre,a.contenu, a.sous_titre, a.id_cat_art, C.libelle as categorie,a.id_auteur id_employe, concat(e.prenom," ",e.nom) as auteur
+    from article a, categorie_article c, employe e
+    where a.id_auteur = e.id_employe and a.id_cat_art = c.id_cat_art
 );
 
 create or replace view vposte as (
@@ -1264,7 +1271,7 @@ insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
 END //
 DELIMITER ;
 
-/*****************************TRIGGES SUR BAGAGEAGE************************************/
+/*****************************TRIGGES SUR BADGEAGE************************************/
 
 drop trigger if exists badgeage_before_insert;
 delimiter // 
@@ -1273,6 +1280,7 @@ before insert on badgeage
 for each row
 begin
     declare lastbadge int(5);
+    set new.date_heure= sysdate();
     select id_badgeage into lastbadge 
         from badgeage 
         where id_employe = new.id_employe 
@@ -1351,6 +1359,10 @@ begin
 	end if;
 end //
 delimiter ;
+
+/****************************TRIGGERS SUR UTILISATEUR************************************/
+
+
 
 /*****************************INSERTS************************************/
 
@@ -1458,7 +1470,7 @@ insert into candidater values (5, 1, "2023-03-01", "2023-12-01", 3);
 insert into candidater values (5, 2, "2023-07-01", "2023-12-01", 3);
 insert into candidater values (5, 4, "2023-01-01", "2023-08-01", 3);
 insert into categorie_article values(null,'CE',"information concernant le comité d'entreprise");
-insert into article values(null,'waouw, 400 euros de cheque vacance !!!','mettez vous en plein les fouilles',1,8);
+insert into article values(null,'waouw, 400 euros de cheque vacance !!!','mettez vous en plein les fouilles',"aujourd'hui vous pouvez obtenir vos cheque vacance, c'est trop cool, patati patata...",1,8);
 insert into contenu values(null,1,"400 euro de cheque vacance pour s'eclater en famille !!! waouw waouw waouw !!! truc de ouf !!!",1);
 insert into badgeage values(null,sysdate(),'entree',6);
 insert into demande_rh values(null,"demande de changement d'adresse","j'ai demenage au 8 rue des champs","update employe set numrue='8' where id_employe=6;",sysdate(),null,"attente",6,null);

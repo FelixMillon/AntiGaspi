@@ -11,6 +11,7 @@ namespace Intranet
         private int id_article;
         private string titre;
         private string sous_titre;
+        private string contenu;
         private int id_cat_art;
         private int id_auteur;
 
@@ -19,23 +20,26 @@ namespace Intranet
             this.id_article = 0;
             this.titre = "";
             this.sous_titre = "";
+            this.contenu = "";
             this.id_cat_art = 0;
             this.id_auteur = 0;
         }
 
-        public Article(string titre, string sous_titre, int id_cat_art, int id_auteur)
+        public Article(string titre, string sous_titre, string contenu, int id_cat_art, int id_auteur)
         {
             this.titre = titre;
             this.sous_titre = sous_titre;
+            this.contenu = contenu;
             this.id_cat_art = id_cat_art;
             this.id_auteur = id_auteur;
         }
 
-        public Article(int id_article, string titre, string sous_titre, int id_cat_art, int id_auteur)
+        public Article(int id_article, string titre, string sous_titre, string contenu, int id_cat_art, int id_auteur)
         {
             this.id_article = id_article;
             this.titre = titre;
             this.sous_titre = sous_titre;
+            this.contenu = contenu;
             this.id_cat_art = id_cat_art;
             this.id_auteur = id_auteur;
         }
@@ -53,6 +57,11 @@ namespace Intranet
         public string Sous_titre
         {
             get => sous_titre; set => sous_titre = value;
+        }
+
+        public string Contenu
+        {
+            get => contenu; set => contenu = value;
         }
 
         public int Id_cat_art
