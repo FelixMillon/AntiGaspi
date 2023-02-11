@@ -107,7 +107,9 @@
         Debug.WriteLine(laRequete);
         message = "<br> Insertion reussie";
     }
-
+    if(Request.Form["annuler"] != null ){
+        Response.Redirect("Default.aspx?page=5");
+    }
     if(Request.Form["modifier"] != null ){
         valeurs.Clear();
         valeurs.Add("libelle",Request.Form["libelle"]);
@@ -140,7 +142,8 @@
         }
 
         message = "<br> Modification reussie";
-        //Response.Redirect("Default.aspx?page=5");
+        lesEmploye_rhs = Intranet.Controleur.SelectAllEmploye();
+        Response.Redirect("Default.aspx?page=5");
     }
 %>
 

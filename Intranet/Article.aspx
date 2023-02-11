@@ -38,8 +38,9 @@
         valeurs.Clear();
         valeurs.Add("titre",Request.Form["titre"]);
         valeurs.Add("sous_titre",Request.Form["sous_titre"]);
+        valeurs.Add("contenu",Request.Form["contenu"]);
         valeurs.Add("id_cat_art",Request.Form["id_cat_art"]);
-        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("id_auteur",Request.Form["id_employe"]);
         Controleur.InsertUniversel(valeurs,"article",true);
         message = "<br> Insertion reussie";
     }
@@ -47,8 +48,9 @@
         valeurs.Clear();
         valeurs.Add("titre",Request.Form["titre"]);
         valeurs.Add("sous_titre",Request.Form["sous_titre"]);
+        valeurs.Add("contenu",Request.Form["contenu"]);
         valeurs.Add("id_cat_art",Request.Form["id_cat_art"]);
-        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("id_auteur",Request.Form["id_employe"]);
 
         where.Clear();
         where.Add("id_article",Request["id_article"]);

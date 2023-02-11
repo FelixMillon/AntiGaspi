@@ -46,23 +46,24 @@
         </a>
         
       
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="Default.aspx?page=5" class="px-2 btn text-light ">Demande RH</a></li> 
-            <li><a href="Default.aspx?page=4" class="px-2 btn text-light ">Demande Autre</a></li> 
-            <li><a href="Default.aspx?page=11" class="px-2 btn text-light ">Badgeage </a></li> 
-            <li><a href="Default.aspx?page=12" class="px-2 btn text-light ">Gestion</a></li> 
-            <li><a href="Default.aspx?page=13" class="px-2 btn text-light ">Article</a></li> 
-            <li><a href="Default.aspx?page=14" class="px-2 btn text-light ">Cat Article</a></li> 
-            <li><a href="Default.aspx?page=15" class="px-2 btn text-light ">Local</a></li> 
-        </ul>
+
       
       
         <ul class="nav col-12 col-md-auto mb-2 justify-content-end mb-md-0" style="padding-left: 17%;">
             <%
-                string chaineConnect = "";
-                if (Session["email"] != null) {
-                    chaineConnect += "<form method='post'><li><button name='deconnexion' class='px-2 btn text-light'>Se Déconnecter</button></li></form>";                  
-                }
+                            string chaineConnect = "";
+                            if (Session["email"] != null) {
+                                chaineConnect += "<ul class='nav col-12 col-md-auto mb-2 justify-content-center mb-md-0'>";
+                                chaineConnect += "<li><a href='Default.aspx?page=5' class='px-2 btn text-light '>Demande RH</a></li>";
+                                chaineConnect += "<li><a href='Default.aspx?page=4' class='px-2 btn text-light '>Demande Autre</a></li>";
+                                chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light '>Badgeage </a></li>";
+                                chaineConnect += "<li><a href='Default.aspx?page=12' class='px-2 btn text-light '>Gestion</a></li>";
+                                chaineConnect += "<li><a href='Default.aspx?page=13' class='px-2 btn text-light '>Article</a></li>";
+                                chaineConnect += "<li><a href='Default.aspx?page=14' class='px-2 btn text-light '>Cat Article</a></li>"; 
+                                chaineConnect += "<li><a href='Default.aspx?page=15' class='px-2 btn text-light '>Local</a></li>";
+                                chaineConnect += "</ul>";
+                                 chaineConnect += "<form method='post'><li><button name='deconnexion' class='px-2 btn text-light'>Se Déconnecter</button></li></form>";
+                    }
                 else
                 {
                     chaineConnect += "<li><a href='Default.aspx?page=0' class='px-2 btn text-light'>Se Connecter</a></li>";

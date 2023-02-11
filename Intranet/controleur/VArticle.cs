@@ -9,7 +9,7 @@ namespace Intranet
     public class VArticle
     {
         private int id_article;
-        private string titre, sous_titre;
+        private string titre, sous_titre, contenu;
         private int id_cat_art;
         private string categorie;
         private int id_employe;
@@ -18,28 +18,30 @@ namespace Intranet
         public VArticle()
         {
             this.id_article = 0;
-            this.titre = this.sous_titre = "";
+            this.titre = this.sous_titre = this.contenu = "";
             this.id_cat_art = 0;
             this.categorie = "";
             this.id_employe = 0;
             this.auteur = "";
         }
 
-        public VArticle(string titre, string sous_titre, int id_cat_art, string categorie, int id_employe, string auteur)
+        public VArticle(string titre, string sous_titre,string contenu, int id_cat_art, string categorie, int id_employe, string auteur)
         {
             this.titre = titre;
             this.sous_titre = sous_titre;
+            this.contenu = contenu;
             this.id_cat_art = id_cat_art;
             this.categorie = categorie;
             this.id_employe = id_employe;
             this.auteur = auteur;
         }
 
-        public VArticle(int id_article, string titre, string sous_titre, int id_cat_art, string categorie, int id_employe, string auteur)
+        public VArticle(int id_article, string titre, string sous_titre, string contenu, int id_cat_art, string categorie, int id_employe, string auteur)
         {
             this.id_article = id_article;
             this.titre = titre;
             this.sous_titre = sous_titre;
+            this.contenu = contenu;
             this.id_cat_art = id_cat_art;
             this.categorie = categorie;
             this.id_employe = id_employe;
@@ -60,7 +62,10 @@ namespace Intranet
         {
             get => sous_titre; set => sous_titre = value;
         }
-
+        public string Contenu
+        {
+            get => contenu; set => contenu = value;
+        }
         public int Id_cat_art
         {
             get => id_cat_art; set => id_cat_art = value;

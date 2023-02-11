@@ -43,11 +43,11 @@
         valeurs.Clear();
         valeurs.Add("libelle",Request.Form["libelle"]);
         valeurs.Add("description",Request.Form["description"]);
-        valeurs.Add("date_demande",Request.Form["date_demande"]);
-        valeurs.Add("date_resolution",Request.Form["date_resolution"]);
+        valeurs.Add("date_demande","null");
+        valeurs.Add("date_resolution","null");
         valeurs.Add("etat","attente");
-        valeurs.Add("id_employe",Request.Form["id_employe"]);
-        valeurs.Add("id_manager",Request.Form["id_manager"]);
+        valeurs.Add("id_employe",Session["id"].ToString());
+        valeurs.Add("id_manager","null");
         Controleur.InsertUniversel(valeurs,"demande_autre",true);
         message = "<br> Insertion reussie";
     }
@@ -56,16 +56,13 @@
         valeurs.Clear();
         valeurs.Add("libelle",Request.Form["libelle"]);
         valeurs.Add("description",Request.Form["description"]);
-        valeurs.Add("date_demande",Request.Form["date_demande"]);
-        valeurs.Add("date_resolution",Request.Form["date_resolution"]);
-        valeurs.Add("etat","attente");
-        valeurs.Add("id_employe",Request.Form["id_employe"]);
-        valeurs.Add("id_manager",Request.Form["id_manager"]);
+        valeurs.Add("etat",Request.Form["etat"]);
+        valeurs.Add("id_employe",Session["id"].ToString());
         where.Clear();
         where.Add("id_demande_autre",Request["id_demande_autre"]);
         Controleur.UpdateUniversel(valeurs,"demande_autre",where,true);
         message = "<br> Modification reussie";
-        Response.Redirect("Default.aspx?page=5");
+        Response.Redirect("Default.aspx?page=4");
         
     }
 
