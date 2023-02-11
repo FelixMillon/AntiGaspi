@@ -1066,7 +1066,6 @@ namespace Intranet
 
         /********************* CATEGORIE D ARTICLE */
 
-
         public List<Categorie_article> SelectAllCategorie_article()
         {
             string requete = "select * from categorie_article;";
@@ -1139,6 +1138,67 @@ namespace Intranet
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
+                    if (unReader.HasRows)
+                    {
+                        while (unReader.Read())
+                        {
+                            //instanciation d'un client
+                            VBadgeage unVBageage = new VBadgeage(
+                                getIntSafe(unReader, 0),
+                                getStringSafe(unReader, 1),
+                                getStringSafe(unReader, 2),
+                                getIntSafe(unReader, 3),
+                                getStringSafe(unReader, 4),
+                                getStringSafe(unReader, 5)
+                                );
+                            //ajouter dans la liste
+                            lesVBadgeages.Add(unVBageage);
+                        }
+                    }
+                }
+                catch (Exception exp)
+                {
+                    Debug.WriteLine(uneCmde.CommandText);
+                    foreach (MySqlParameter unParam in uneCmde.Parameters)
+                    {
+                        Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                    }
+                    Debug.WriteLine("Erreur de requete :" + requete);
+                    Debug.WriteLine(exp.Message);
+                }
+                this.maConnexion.Close();
+            }
+            catch (Exception exp)
+            {
+                Debug.WriteLine(uneCmde.CommandText);
+                foreach (MySqlParameter unParam in uneCmde.Parameters)
+                {
+                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
+                }
+                Debug.WriteLine("Erreur de requete :" + requete);
+                Debug.WriteLine(exp.Message);
+            }
+            return lesVBadgeages;
+        }
+
+        public List<VBadgeage> SelectAllVBadgeage(int id)
+        {
+            string requete = "select * from VBadgeage where id_employe = @id_employe;";
+            List<VBadgeage> lesVBadgeages = new List<VBadgeage>();
+            MySqlCommand uneCmde = null;
+            try
+            {
+                this.maConnexion.Open();
+                uneCmde = this.maConnexion.CreateCommand();
+                uneCmde.CommandText = requete;
+                //les correspondances entre variables MYSQL ET C#
+                uneCmde.Parameters.AddWithValue("@id_employe", id);
+
+                //creation d'un curseur de r�sultats 
+                DbDataReader unReader = uneCmde.ExecuteReader();
+                try
+                {
+
                     if (unReader.HasRows)
                     {
                         while (unReader.Read())
@@ -1453,10 +1513,11 @@ namespace Intranet
                                 getIntSafe(unReader, 0),
                                 getStringSafe(unReader, 1),
                                 getStringSafe(unReader, 2),
-                                getIntSafe(unReader, 3),
-                                getStringSafe(unReader, 4),
-                                getIntSafe(unReader, 5),
-                                getStringSafe(unReader, 6)
+                                getStringSafe(unReader, 3),
+                                getIntSafe(unReader, 4),
+                                getStringSafe(unReader, 5),
+                                getIntSafe(unReader, 6),
+                                getStringSafe(unReader, 7)
                                 );
                             //ajouter dans la liste
                             lesVArticles.Add(uneVArticle);
@@ -1515,10 +1576,11 @@ namespace Intranet
                                 getIntSafe(unReader, 0),
                                 getStringSafe(unReader, 1),
                                 getStringSafe(unReader, 2),
-                                getIntSafe(unReader, 3),
-                                getStringSafe(unReader, 4),
-                                getIntSafe(unReader, 5),
-                                getStringSafe(unReader, 6)
+                                getStringSafe(unReader, 3),
+                                getIntSafe(unReader, 4),
+                                getStringSafe(unReader, 5),
+                                getIntSafe(unReader, 6),
+                                getStringSafe(unReader, 7)
                             );
                         }
                     }

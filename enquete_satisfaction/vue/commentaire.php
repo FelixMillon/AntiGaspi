@@ -43,7 +43,7 @@
                   <div class="box_question">
                     <div class="question">
                       <h3>Commentaire</h3></div>
-                    <div class="reponse">
+                      <div class="reponse">
                             <div class="reponse">
                                 <label> Qqch à ajouter :</label></div>
                                 
@@ -54,7 +54,7 @@
                               <button class="btn btn-secondary"> 👈🏼 </button>
                       
                               <button class="btn btn-primary"> 👉🏼 </button>
-                          </div>
+                            </div>
                         </fieldset>
                       </div>
                   </div>

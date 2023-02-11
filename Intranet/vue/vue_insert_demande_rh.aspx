@@ -64,10 +64,10 @@
 
                                       
                         <div class="col-6" > 
-                            <input class="btn btn-outline-danger btn-small w-75 fw-bold" type="reset" name="Annuler" value="Annuler">
+                            <input class="btn btn-outline-danger btn-small w-75 fw-bold" type="reset" name="Annuler" value="Annuler" onclick="clearcases()">
                         </div>
                         <div class="col-6"> 
-                            <input class="btn btn-outline-success btn-small w-75 fw-bold" type="submit"  <%= (laDemande_rh!= null) ? "name = 'modifier' value='Modifier'" : "name = 'valider' value='Valider'" %> />
+                            <input class="btn btn-outline-success btn-small w-75 fw-bold" type="submit"  <%= (laDemande_rh!= null) ? "name = 'modifier' value='Modifier'" : "name = 'valider' value='Valider' " %> />
                         </div>
                     </div>       
             </div>
@@ -162,6 +162,12 @@ let text = e.options[e.selectedIndex].text;
 alert("la value est :"+value);
 alert(text);
 
+    }
+
+function clearcases()
+{
+    document.getElementById("casedroite").innerHTML = "";
+    document.getElementById("casegauche").innerHTML = "";
 }
 
 function choixcases()

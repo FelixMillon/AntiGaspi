@@ -1,6 +1,7 @@
 
 <%@ Import Namespace="Intranet" %>
 <%@ Import Namespace="System.Collections.Generic" %>
+<%@ Import Namespace="System.Diagnostics" %>
 
 <div style="display: flex; flex-direction: column; height: 87vh;"> 
     <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" >Gestion des Badgeages </h2>
@@ -24,7 +25,6 @@
                 where.Add("id_badgeage",Request["id_badgeage"]);
                 Controleur.DeleteUniversel("badgeage", where, true);
                 break;
-            case "edit": leBadgeage = Intranet.Controleur.SelectWhereVBadgeage(id_badgeage); break;
         }
     }
 
@@ -39,37 +39,20 @@
 
     if(Request.Form["valider"] != null){
         valeurs.Clear();
-        valeurs.Add("date_heure",Request.Form["date_heure"]);
-        valeurs.Add("type",Request.Form["type"]);
-        valeurs.Add("id_employe",Request.Form["id_employe"]);
+        valeurs.Add("date_heure","null");
+        valeurs.Add("type",null);
+        valeurs.Add("id_employe",Session["id"].ToString());
         Controleur.InsertUniversel(valeurs,"badgeage",true);
         message = "<br> Insertion reussie";
     }
-
-    if(Request.Form["modifier"] != null ){
-        valeurs.Clear();
-        if(Request.Form["date_heure"] == ""){
-        valeurs.Add("date_heure", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss"));
-        }else{
-        valeurs.Add("date_heure", Request.Form["date_heure"]);
-        }
-        valeurs.Add("date_heure",Request.Form["date_heure"]);
-        valeurs.Add("type",Request.Form["type"]);
-        valeurs.Add("id_employe",Request.Form["id_employe"]);
-        where.Clear();
-        where.Add("id_badgeage",Request["id_badgeage"]);
-        Controleur.UpdateUniversel(valeurs,"badgeage",where,true);
-        message = "<br> Modification reussie";
-        Response.Redirect("Default.aspx?page=11");
-        
-    }
-
 %>
 
 <%= message %>
 
 <% 
-    List<Intranet.VBadgeage> lesBadgeages = Intranet.Controleur.SelectAllVBadgeage();
+    int leid = int.Parse(Session["id"].ToString());
+    Debug.WriteLine(leid);
+    List<Intranet.VBadgeage> lesBadgeages = Intranet.Controleur.SelectAllVBadgeage(leid);
 %>
 
  <!-- #include file="vue/vue_les_badgeages.aspx"-->
