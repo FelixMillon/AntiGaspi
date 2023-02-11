@@ -1,16 +1,9 @@
 ﻿<form method="post" action="">
-    <div class="container" >
-            <div class="col p-4 d-flex flex-column position-static">
 
-                    <div class="row g-3">
-                        <div class="col-6" style="padding-top: 6%"> 
-                            <input class="btn btn-outline-success btn-small w-75 fw-bold" type="submit"  name = "valider" value="Badger"/>
-
-                        </div>
-                    </div>       
-            </div>
+    <div class="d-flex justify-content-center" style="padding-top : 2%;">
+            <input class="btn btn-small fw-bold" style="color: white;background: #9FC490; width:15%; border-color: #9FC490;" type="submit"  name = "valider" value="Badger"/>
+    
     </div>
+
 </form>
 
-</div>
-<div class="col-6" style="padding-left:3%"> 

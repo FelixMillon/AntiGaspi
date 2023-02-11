@@ -1145,7 +1145,7 @@ namespace Intranet
                             //instanciation d'un client
                             VBadgeage unVBageage = new VBadgeage(
                                 getIntSafe(unReader, 0),
-                                getStringSafe(unReader, 1),
+                                getDateTimeSafe(unReader, 1),
                                 getStringSafe(unReader, 2),
                                 getIntSafe(unReader, 3),
                                 getStringSafe(unReader, 4),
@@ -1206,7 +1206,7 @@ namespace Intranet
                             //instanciation d'un client
                             VBadgeage unVBageage = new VBadgeage(
                                 getIntSafe(unReader, 0),
-                                getStringSafe(unReader, 1),
+                                getDateTimeSafe(unReader, 1),
                                 getStringSafe(unReader, 2),
                                 getIntSafe(unReader, 3),
                                 getStringSafe(unReader, 4),
@@ -1394,7 +1394,7 @@ namespace Intranet
 
                             unVBadgeage = new VBadgeage(
                                 getIntSafe(unReader, 0),
-                                getStringSafe(unReader, 1),
+                                getDateTimeSafe(unReader, 1),
                                 getStringSafe(unReader, 2),
                                 getIntSafe(unReader, 3),
                                 getStringSafe(unReader, 4),
