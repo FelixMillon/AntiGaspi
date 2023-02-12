@@ -804,7 +804,92 @@ from avis_enquete a
 group by a.tranche_age, a.id_enquete
 order by a.id_enquete);
 
-/***********************************************VUES********************************************************/
+/*****************************PROCEDURES********************************/
+
+drop procedure if exists insertavis;
+DELIMITER //
+CREATE PROCEDURE insertavis
+(IN unenote decimal(5,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
+BEGIN
+DECLARE unid_sujet int(5);
+set unid_sujet = (select id_sujet from sujet where id_enquete = unid_enquete and numquestion = unnumquestion);
+insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
+END //
+DELIMITER ;
+
+drop procedure if exists recursemanager;
+DELIMITER // 
+create procedure recursemanager(
+    in le_id_user int(5)
+)
+BEGIN
+WITH RECURSIVE manager_tree AS (
+    SELECT * FROM vemploye WHERE id_employe = le_id_user
+    UNION ALL
+    SELECT e.*
+    FROM vemploye e, manager_tree WHERE e.id_manager = manager_tree.id_employe
+)
+SELECT * FROM manager_tree;
+
+END //
+DELIMITER ;
+
+drop procedure if exists recursedemande_rh;
+DELIMITER // 
+create procedure recursedemande_rh(
+    in le_id_user int(5)
+)
+BEGIN
+
+select * from vdemande_rh where id_employe in (
+WITH RECURSIVE manager_tree AS (
+    SELECT id_employe FROM employe WHERE id_employe = le_id_user
+    UNION ALL
+    SELECT e.id_employe
+    FROM employe e, manager_tree WHERE e.id_manager = manager_tree.id_employe
+)
+SELECT * FROM manager_tree);
+
+END //
+DELIMITER ;
+
+drop procedure if exists recursedemande_autre;
+DELIMITER // 
+create procedure recursedemande_autre(
+    in le_id_user int(5)
+)
+BEGIN
+
+select * from vdemande_autre where id_employe in (
+WITH RECURSIVE manager_tree AS (
+    SELECT id_employe FROM employe WHERE id_employe = le_id_user
+    UNION ALL
+    SELECT e.id_employe
+    FROM employe e, manager_tree WHERE e.id_manager = manager_tree.id_employe
+)
+SELECT * FROM manager_tree);
+
+END //
+DELIMITER ;
+
+drop procedure if exists recursebadgeage;
+DELIMITER // 
+create procedure recursebadgeage(
+    in le_id_user int(5)
+)
+BEGIN
+
+select * from vbadgeage where id_employe in (
+WITH RECURSIVE manager_tree AS (
+    SELECT id_employe FROM employe WHERE id_employe = le_id_user
+    UNION ALL
+    SELECT e.id_employe
+    FROM employe e, manager_tree WHERE e.id_manager = manager_tree.id_employe
+)
+SELECT * FROM manager_tree);
+
+END //
+DELIMITER ;
 
 /****************************TRIGGERS SUR UTILISATEUR************************************/
 
@@ -1257,19 +1342,6 @@ begin
     end if;
 end //
 delimiter ;
-
-/*****************************TRIGGES SUR AVIS************************************/
-
-drop procedure if exists insertavis;
-DELIMITER //
-CREATE PROCEDURE insertavis
-(IN unenote decimal(5,2), unnumquestion int, IN unid_enquete int, IN id_consommateur int)
-BEGIN
-DECLARE unid_sujet int(5);
-set unid_sujet = (select id_sujet from sujet where id_enquete = unid_enquete and numquestion = unnumquestion);
-insert into avis_sujet values(null,unenote,unid_sujet,id_consommateur);
-END //
-DELIMITER ;
 
 /*****************************TRIGGES SUR BADGEAGE************************************/
 
