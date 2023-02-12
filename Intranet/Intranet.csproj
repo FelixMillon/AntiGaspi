@@ -276,6 +276,7 @@
     <Content Include="Global.asax" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="controleur\Planning.cs" />
     <Compile Include="controleur\Utilisateur.cs" />
     <Compile Include="controleur\VBadgeage.cs" />
     <Compile Include="controleur\VEmploye.cs" />
