@@ -1,5 +1,7 @@
 ﻿<%@ Page Language="C#" %>
 <%@ Import Namespace="Intranet" %>
+<%@ Import Namespace="System.Diagnostics" %>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
 
 <!DOCTYPE html>
 <html>
@@ -107,7 +109,7 @@
         string message = "";
         Dictionary<string, string> valeurs = new Dictionary<string, string>();
         Dictionary<string, string> where = new Dictionary<string, string>();
-
+        //Debug.WriteLine(Regex.Replace("J'ai,mis.des,Partout", ",", "."));
         // EXEMPLE INSERT,UPDATE 
         //Dictionary<string, string> valeurs = new Dictionary<string, string>(){
         //    {"email", "felix.millon@test.fr"},

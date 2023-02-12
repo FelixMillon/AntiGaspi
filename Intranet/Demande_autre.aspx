@@ -73,7 +73,11 @@
 <%= message %>
 
 <% 
-    List<Intranet.VDemande_autre> lesDemande_autres = Intranet.Controleur.SelectAllVDemande_autre();
+List<Intranet.VDemande_autre> lesDemande_autres = Intranet.Controleur.SelectAllVDemande_autre(Session["id"].ToString());
+    if(Session["droits"].ToString() == "administrateur_rh")
+    {
+        lesDemande_autres = Intranet.Controleur.SelectAllVDemande_autre();
+    }
 %>
 
  <!-- #include file="vue/vue_les_demandes_autres.aspx"-->
