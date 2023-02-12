@@ -243,6 +243,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="home.aspx" />
     <Content Include="Modification.aspx" />
     <Content Include="Local.aspx" />
     <Content Include="Cat_Article.aspx" />
@@ -260,6 +261,7 @@
     <Content Include="Demande_rh.aspx" />
     <Content Include="vue\vue_insert_local.aspx" />
     <Content Include="vue\vue_insert_cat_article.aspx" />
+    <Content Include="vue\vue_les_badgeages_temps.aspx" />
     <Content Include="vue\vue_les_locaux.aspx" />
     <Content Include="vue\vue_les_cat_articles.aspx" />
     <Content Include="vue\vue_les_articles.aspx" />
