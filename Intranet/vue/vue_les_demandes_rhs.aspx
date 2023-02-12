@@ -15,7 +15,6 @@
         
         <%
             string le_id_de_la_requete = "";
-            string le_id_de_la_requete = "";
     foreach(VDemande_rh uneDemande_rh in lesDemande_rhs)
     {   
         if (uneDemande_rh.Requete_sql.Split('|')[0] =="update")
