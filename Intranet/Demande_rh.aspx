@@ -1,5 +1,4 @@
-﻿
-<%@ Import Namespace="Intranet" %>
+﻿<%@ Import Namespace="Intranet" %>
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Diagnostics" %>
 <%@ Import Namespace="System.Text.RegularExpressions" %>
@@ -234,7 +233,7 @@
         {
             valeurs.Add("requete_sql",laRequete);
         }
-        
+
         valeurs.Add("etat",Request.Form["etat"]);
         valeurs.Add("id_employe",Session["id"].ToString());
 
@@ -251,7 +250,7 @@
             {
                 Controleur.constructeurrequete(laRequete);
             }
-            
+    
         }
 
         message = "<br> Modification reussie";

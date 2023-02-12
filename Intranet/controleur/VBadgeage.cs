@@ -9,19 +9,21 @@ namespace Intranet
     public class VBadgeage
     {
         private int id_badgeage;
-        private string date_heure, type;
+        private DateTime date_heure;
+        private string type;
         private int id_employe;
         private string nom, prenom;
 
         public VBadgeage()
         {
             this.id_badgeage = 0;
-            this.date_heure = this.type = "";
+            this.date_heure = new DateTime(0000, 00, 00, 00, 00, 00);
+            this.type = "";
             this.id_employe = 0;
             this.nom = this.prenom = "";
         }
 
-        public VBadgeage(int id_badgeage, string date_heure, string type, int id_employe, string nom, string prenom)
+        public VBadgeage(int id_badgeage, DateTime date_heure, string type, int id_employe, string nom, string prenom)
         {
             this.id_badgeage = id_badgeage;
             this.date_heure = date_heure;
@@ -31,7 +33,7 @@ namespace Intranet
             this.prenom = prenom;
         }
 
-        public VBadgeage(string date_heure, string type, int id_employe, string nom, string prenom)
+        public VBadgeage(DateTime date_heure, string type, int id_employe, string nom, string prenom)
         {
             this.date_heure = date_heure;
             this.type = type;
@@ -46,7 +48,7 @@ namespace Intranet
             get => id_badgeage; set => id_badgeage = value;
         }
 
-        public string Date_heure
+        public DateTime Date_heure
         {
             get => date_heure; set => date_heure = value;
         }

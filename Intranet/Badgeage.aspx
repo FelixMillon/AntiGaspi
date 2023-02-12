@@ -4,10 +4,13 @@
 <%@ Import Namespace="System.Diagnostics" %>
 
 <div style="display: flex; flex-direction: column; height: 87vh;"> 
-    <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" >Gestion des Badgeages </h2>
+    <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" > Badgeages </h2>
+
+            <!-- #include file="vue/vue_insert_badgeage.aspx"-->
+
 <div class="d-flex justifiy-content-center" style="padding-top:8%">
-    <div class="col-1"></div>
-    <div class="col-4" style="padding-right:3%;"> 
+    <div class="col-1"> </div>
+    <div class="col-5" style="padding-right:3%;"> 
 
 
 <%
@@ -29,11 +32,14 @@
     }
 
     List<Intranet.Employe> lesEmploye_badgeages = Intranet.Controleur.SelectAllEmploye();
+    int leid = int.Parse(Session["id"].ToString());
+    Debug.WriteLine(leid);
+    List<Intranet.VBadgeage> lesBadgeagesCal = Intranet.Controleur.SelectAllVBadgeage(leid);
 %>
 
-<h4>Insertion d'un Badgeage</h4>
-<!-- #include file="vue/vue_insert_badgeage.aspx"-->
-
+ <!-- #include file="vue/vue_les_badgeages_temps.aspx"-->
+</div>
+<div class="col-5" style="padding-left:3%">
 
 <%
 
@@ -50,9 +56,10 @@
 <%= message %>
 
 <% 
-    int leid = int.Parse(Session["id"].ToString());
-    Debug.WriteLine(leid);
     List<Intranet.VBadgeage> lesBadgeages = Intranet.Controleur.SelectAllVBadgeage(leid);
 %>
 
  <!-- #include file="vue/vue_les_badgeages.aspx"-->
+<div class="col-1"> </div>
+
+</div>

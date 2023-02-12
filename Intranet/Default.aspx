@@ -18,61 +18,85 @@
 </head>
 
     <%
-    if (Request.Form["seConnecter"] != null)
-    {
-        Intranet.Employe unEmploye = null;
-        string email = Request.Form["email"];
-        string mdp = Request.Form["mdp"];
-        unEmploye = Controleur.SelectWhereEmploye(email,mdp);
-              
-        string chaineconnect = "";
-        if(unEmploye == null)
+        if (Request.Form["seConnecter"] != null)
         {
-            chaineconnect += "veuillez verifier vos identifiants";
-        }else{
-            Session["id"] = unEmploye.Id_employe;
-            Session["prenom"] = unEmploye.Prenom;
-            Session["nom"] = unEmploye.Nom;
-            Session["email"] = unEmploye.Email;
-            Session["droits"] = unEmploye.Droits;
-            chaineconnect += " Bienvenue " + Session["prenom"]+" "+ Session["nom"];
+            Intranet.Employe unEmploye = null;
+            Intranet.Local unLocal = null;
+            string email = Request.Form["email"];
+            string mdp = Request.Form["mdp"];
+            unEmploye = Controleur.SelectWhereEmploye(email,mdp);
+
+            string chaineconnect = "";
+            if(unEmploye == null)
+            {
+                chaineconnect += "veuillez verifier vos identifiants";
+            }else{
+                Session["id"] = unEmploye.Id_employe;
+                Session["prenom"] = unEmploye.Prenom;
+                Session["nom"] = unEmploye.Nom;
+                Session["email"] = unEmploye.Email;
+                Session["tel"] = unEmploye.Tel;
+                Session["numrue"] = unEmploye.Numrue;
+                Session["rue"] = unEmploye.Rue;
+                Session["ville"] = unEmploye.Ville;
+                Session["fonction"] = unEmploye.Fonction;
+                Session["droits"] = unEmploye.Droits;
+                Session["cp"] = unEmploye.Cp;
+                int id_local = unEmploye.Id_local;
+                unLocal = Controleur.SelectWhereLocal(id_local);
+                if(unLocal != null)
+                    {
+                    Session["nom_local"] = unLocal.Nom;
+                    }
+                    else
+                    {
+                    Session["nom_local"] = "Nomade";
+                    }
+                
+
+                Response.Redirect("Default.aspx?page=6");
+                chaineconnect += " Bienvenue " + Session["prenom"]+" "+ Session["nom"];
+            }
+            Response.Write(chaineconnect);
         }
-        Response.Write(chaineconnect);
-    }
     %>
 
 <body class="">
 
     <header class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-2 " style="background: #9FC490;">
-        <a href="Default.aspx?page=0" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" >
+        <a href="Default.aspx?page=1" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" >
           <img src="images/logo1.png" class="bi me-2 img" style="width: 10vw;" role="img" alt="">
         </a>
         
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
       
-
-      
-      
-        <ul class="nav col-12 col-md-auto mb-2 justify-content-end mb-md-0" style="padding-left: 17%;">
-            <%
-                            string chaineConnect = "";
-                            if (Session["email"] != null) {
-                                chaineConnect += "<ul class='nav col-12 col-md-auto mb-2 justify-content-center mb-md-0'>";
-                                chaineConnect += "<li><a href='Default.aspx?page=5' class='px-2 btn text-light '>Demande RH</a></li>";
-                                chaineConnect += "<li><a href='Default.aspx?page=4' class='px-2 btn text-light '>Demande Autre</a></li>";
-                                chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light '>Badgeage </a></li>";
-                                chaineConnect += "<li><a href='Default.aspx?page=12' class='px-2 btn text-light '>Gestion</a></li>";
-                                chaineConnect += "<li><a href='Default.aspx?page=13' class='px-2 btn text-light '>Article</a></li>";
-                                chaineConnect += "<li><a href='Default.aspx?page=14' class='px-2 btn text-light '>Cat Article</a></li>"; 
-                                chaineConnect += "<li><a href='Default.aspx?page=15' class='px-2 btn text-light '>Local</a></li>";
-                                chaineConnect += "</ul>";
-                                 chaineConnect += "<form method='post'><li><button name='deconnexion' class='px-2 btn text-light'>Se Déconnecter</button></li></form>";
-                    }
-                else
-                {
-                    chaineConnect += "<li><a href='Default.aspx?page=0' class='px-2 btn text-light'>Se Connecter</a></li>";
-                }
-            %>
-            <%= chaineConnect %>
+                   
+                    <%
+                        string chaineConnect = "";
+                        string chaineDeco = "";
+                        if (Session["email"] != null) {
+                            chaineConnect += "";
+                            chaineConnect += "<li><a href='Default.aspx?page=6' class='px-2 btn text-light '>Mon Compte</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=5' class='px-2 btn text-light '>Demande RH</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=4' class='px-2 btn text-light '>Demande Autre</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light '>Badgeage </a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=12' class='px-2 btn text-light '>Gestion</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=13' class='px-2 btn text-light '>Article</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=14' class='px-2 btn text-light '>Cat Article</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=15' class='px-2 btn text-light '>Local</a></li>";
+                        }  %>
+                        <%= chaineConnect %>
+        </ul>
+        <ul class='nav col-12 col-md-auto mb-2 justify-content-end mb-md-0' style='padding-left: 17%;'>
+                   <% if(Session["email"] != null) {
+                      chaineDeco += "<form method='post'><li><button name='deconnexion' class='px-2 btn text-light'>Se Déconnecter</button></li></form>";
+                      }
+                      else
+                      {
+                        chaineDeco += "<li><a href='Default.aspx?page=0' class='px-2 btn text-light'>Se Connecter</a></li>";
+                      }
+                    %>
+                    <%= chaineDeco %>
                       
         </ul>
         
@@ -115,6 +139,7 @@
         switch(page)
         {
         case 0: %> <!-- #include file="Login.aspx" --> <%  break;
+        case 1: %> <!-- #include file="home.aspx" --> <%  break;
         case 4: %> <!-- #include file="Demande_autre.aspx" --> <% break;
         case 5: %> <!-- #include file="Demande_rh.aspx" --> <% break;
         case 6: %> <!-- #include file="Moncompte.aspx" --> <% break;
