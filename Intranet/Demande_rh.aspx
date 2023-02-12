@@ -2,6 +2,7 @@
 <%@ Import Namespace="Intranet" %>
 <%@ Import Namespace="System.Collections.Generic" %>
 <%@ Import Namespace="System.Diagnostics" %>
+<%@ Import Namespace="System.Text.RegularExpressions" %>
 
 
 <div style="display: flex; flex-direction: column; height: 87vh;"> 
@@ -13,13 +14,30 @@
 
 
 <%
-    Demande_rh laDemande_rh = null; 
+    Demande_rh laDemande_rh = null;
+    Employe leEmploye_rhs = null;
+    string leEmploye_rhs_email = "";
+    string leEmploye_rhs_nom = "";
+    string leEmploye_rhs_prenom = "";
+    string leEmploye_rhs_tel = "";
+    string leEmploye_rhs_numrue = "";
+    string leEmploye_rhs_rue = "";
+    string leEmploye_rhs_ville = "";
+    string leEmploye_rhs_cp = "";
+    string leEmploye_rhs_fonction = "";
+    string leEmploye_rhs_salaire = "";
+    string leEmploye_rhs_droits = "";
+    string leEmploye_rhs_id_planning = "";
+    string leEmploye_rhs_niveau_diplome = "";
+    string leEmploye_rhs_id_manager = "";
+    string leEmploye_rhs_id_local = "";
+    
+
 
     if (Request["page"] != null && Request["action"] != null && Request["id_demande_rh"] != null)
     {
     string action = Request["action"];
     int id_demande_rh = int.Parse(Request["id_demande_rh"]);
-
     switch(action)
         {
             case "sup" :
@@ -27,12 +45,24 @@
                 where.Add("id_demande_rh",Request["id_demande_rh"]);
                 Controleur.DeleteUniversel("demande_rh", where, true);
                 break;
-            case "edit" : laDemande_rh = Intranet.Controleur.SelectWhereDemande_rh(id_demande_rh); break;
+            case "edit" : 
+                laDemande_rh = Intranet.Controleur.SelectWhereDemande_rh(id_demande_rh);
+                if(Request["id_employe"]!=null)
+                {
+                    int le_id_employe_rhs = int.Parse(Request["id_employe"]);
+                    leEmploye_rhs = Intranet.Controleur.SelectWhereEmploye(le_id_employe_rhs);
+                }
+                break;
         }
     }
-
-    List<Intranet.Employe> lesEmploye_rhs = Intranet.Controleur.SelectAllEmploye();
+    List<Intranet.Employe> lesEmploye_rhs = Intranet.Controleur.SelectWhereEmployeEtSesTroufions(Session["id"].ToString());
+    if(Session["droits"].ToString() == "administrateur_rh")
+    {
+        lesEmploye_rhs = Intranet.Controleur.SelectAllEmploye();
+    }
     List<Intranet.Manager> lesManager_rhs = Intranet.Controleur.SelectAllManager();
+    List<Intranet.Planning> lesPlanning_rhs = Intranet.Controleur.SelectAllPlanning();
+    List<Intranet.Local> lesLocal_rhs = Intranet.Controleur.SelectAllLocal();
 %>
 
 <h4>Insertion d'une demande rh</h4>
@@ -41,28 +71,102 @@
 
 <%
     string laRequete="";
+    string LeNettoyeur= "";
     if(Request.Form["valider"] != null || Request.Form["modifier"] != null)
     {
+        Debug.WriteLine(Request.Form["salaire"]);
         if(Request.Form["type_operation"] != null)
         {
             laRequete = Request.Form["type_operation"]+"|";
             if(Request.Form["type_operation"]=="insert")
             {
                 laRequete+= "email=" + "null," ;
-                laRequete+= "mdp="+Request.Form["prenom"]+Request.Form["nom"]+",";
-                laRequete+= "nom="+Request.Form["nom"]+",";
-                laRequete+= "prenom=" + Request.Form["prenom"] + ",";
-                laRequete+= "tel="+Request.Form["tel"]+",";
-                laRequete+= "rue="+Request.Form["rue"]+",";
-                laRequete+= "numrue="+Request.Form["numrue"]+",";
-                laRequete+= "ville="+Request.Form["ville"]+",";
-                laRequete+= "cp="+Request.Form["cp"]+",";
-                laRequete+= "fonction="+Request.Form["fonction"]+",";
-                laRequete+= "salaire="+Request.Form["salaire"]+",";
-                laRequete+= "niveau_diplome="+Request.Form["niveau_diplome"]+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["prenom"]+Request.Form["nom"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "mdp="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["nom"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "nom="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["prenom"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "prenom=" + LeNettoyeur + ",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["tel"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "tel="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["rue"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "rue="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["numrue"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "numrue="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["ville"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "ville="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["cp"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "cp="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["fonction"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "fonction="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["salaire"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "salaire="+LeNettoyeur+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["niveau_diplome"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "niveau_diplome="+LeNettoyeur+",";
                 laRequete+= "date_embauche=sysdate,";
                 laRequete+= "date_depart=null,";
-                laRequete+= "droits="+Request.Form["droits"]+",";
+                LeNettoyeur= "";
+                LeNettoyeur= Request.Form["droits"];
+                LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+
+                laRequete+= "droits="+LeNettoyeur+",";
                 laRequete+= "id_planning=1,";
                 laRequete+= "id_manager=null,";
                 laRequete+= "id_local=null";
@@ -73,13 +177,22 @@
             }
             if(Request.Form["type_operation"]=="update")
             {
-                string[] lesattributsupdate = {"email", "nom", "prenom", "tel","rue", "numrue", "ville", "cp","fonction","niveau_diplome","droits"};
+                string[] lesattributsupdate = {"email", "nom", "prenom", "tel","rue", "numrue", "ville", "cp","fonction","salaire","niveau_diplome","droits"};
                 List<string> attributs = new List<string>();
                 foreach(string unattribut in lesattributsupdate)
                 {
                     if(Request.Form[unattribut] != "")
                     {
-                        attributs.Add(unattribut+'='+Request.Form[unattribut]);
+                        LeNettoyeur= "";
+                        LeNettoyeur= Request.Form[unattribut];
+                        if(Request.Form[unattribut] !=null)
+                        {
+                            LeNettoyeur= Regex.Replace(LeNettoyeur, ",", ".");
+                            LeNettoyeur= Regex.Replace(LeNettoyeur, "\\|", "");
+                            LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
+                        }
+                        Debug.WriteLine(LeNettoyeur);
+                        attributs.Add(unattribut+'='+LeNettoyeur);
                     }
                 }
                 laRequete+=String.Join(",", attributs)+'|';
@@ -150,7 +263,11 @@
 <%= message %>
 
 <% 
-    List<Intranet.VDemande_rh> lesDemande_rhs = Intranet.Controleur.SelectAllVDemande_rh();
+    List<Intranet.VDemande_rh> lesDemande_rhs = Intranet.Controleur.SelectAllVDemande_rh(Session["id"].ToString());
+    if(Session["droits"].ToString() == "administrateur_rh")
+    {
+        lesDemande_rhs = Intranet.Controleur.SelectAllVDemande_rh();
+    }
 %>
 
  <!-- #include file="vue/vue_les_demandes_rhs.aspx"-->
