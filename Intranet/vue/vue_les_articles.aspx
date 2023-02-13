@@ -9,17 +9,17 @@
             <td>Catégorie</td>
             <td>Auteur</td>
             <td>Action</td>
-        </tr>
-        
-        <%
+        </tr>        
 
-    foreach(VArticle unArticle in lesArticles)
+
+        <%
+            foreach(VArticle unArticle in lesArticles)
     {   
          chaine += "<tr class='text-center' >";
-         chaine += "<td>"+unArticle.Id_article+"</td>";
-         chaine += "<td>"+unArticle.Titre+"</td>";
-         chaine += "<td>"+unArticle.Sous_titre+"</td>";
-         chaine += "<td>"+unArticle.Contenu+"</td>";
+         chaine += "<td>" + unArticle.Id_article + "</td>";
+         chaine += "<td class='text-truncate' style='max-width: 150px;' >" + unArticle.Titre + "</td>";
+         chaine += "<td class='text-truncate' style='max-width: 150px;'>" + unArticle.Sous_titre + "</td>";
+         chaine += "<td class='text-truncate' style='max-width: 150px;'>" + unArticle.Contenu + "</td>";
          chaine += "<td>"+unArticle.Categorie+"</td>";
          chaine += "<td>"+unArticle.Auteur+"</td>";
 
@@ -41,6 +41,6 @@
     
 </div>
 
-<div class="col-2"></div>
+<div class="col-1"></div>
 
 </div>
