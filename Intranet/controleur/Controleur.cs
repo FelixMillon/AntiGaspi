@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using MySql.Data.MySqlClient;
 using System.Data.Common;
+using System.Web;
 
 namespace Intranet
 {
@@ -39,7 +40,10 @@ namespace Intranet
         {
             return unModele.SelectWhereEmploye(email, mdp);
         }
-
+        public static Employe SelectWhereEmploye(int id_employe)
+        {
+            return unModele.SelectWhereEmploye(id_employe);
+        }
 
         public static Demande_rh SelectWhereDemande_rh(int id_demande_rh)
         {
@@ -49,6 +53,11 @@ namespace Intranet
         public static List<VDemande_autre> SelectAllVDemande_autre()
         {
             return unModele.SelectAllVDemande_autre();
+        }
+
+                public static List<VDemande_autre> SelectAllVDemande_autre(string id_employe)
+        {
+            return unModele.SelectAllVDemande_autre(id_employe);
         }
 
         public static List<VDemande_rh> SelectAllVDemande_rh()
@@ -103,7 +112,10 @@ namespace Intranet
         {
             return unModele.SelectAllVArticle();
         }
-
+        public static List<Employe> SelectWhereEmployeEtSesTroufions(string id_employe)
+        {
+            return unModele.SelectWhereEmployeEtSesTroufions(id_employe);
+        }
         public static Categorie_article SelectWhereCategorie_article(int id_cat_art)
         {
             return unModele.SelectWhereCategorie_article(id_cat_art);
@@ -113,6 +125,15 @@ namespace Intranet
         {
             return unModele.SelectAllCategorie_article();
         }
+        public static List<VDemande_rh> SelectAllVDemande_rh( string id_employe)
+        {
+            return unModele.SelectAllVDemande_rh(id_employe);
+        }
+        public static List<Planning> SelectAllPlanning()
+        {
+            return unModele.SelectAllPlanning();
+        }
+
         public static Local SelectWhereLocal(int id_local)
         {
             return unModele.SelectWhereLocal(id_local);
@@ -122,7 +143,5 @@ namespace Intranet
         {
             return unModele.SelectAllLocal();
         }
-
-
     }
 }

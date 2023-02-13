@@ -14,9 +14,17 @@
         </tr>
         
         <%
-
+            string le_id_de_la_requete = "";
     foreach(VDemande_rh uneDemande_rh in lesDemande_rhs)
     {   
+        if (uneDemande_rh.Requete_sql.Split('|')[0] =="update")
+        {
+            le_id_de_la_requete = "&id_employe=" + uneDemande_rh.Requete_sql.Split('|')[2];
+        }
+        if (uneDemande_rh.Requete_sql.Split('|')[0] =="delete")
+        {
+            le_id_de_la_requete = "&id_employe=" + uneDemande_rh.Requete_sql.Split('|')[1];
+        }
          chaine += "<tr class='text-center' >";
          chaine += "<td>" + uneDemande_rh.Id_demande_rh + "</td>";
          chaine += "<td>" + uneDemande_rh.Libelle + "</td>";
@@ -30,9 +38,8 @@
 
          chaine += "<td>";
          chaine += "<a href='Default.aspx?page=5&action=sup&id_demande_rh=" + uneDemande_rh.Id_demande_rh + "'><img src='images/sup.png' height='35' width='35'></a>";
-         chaine += "<a href='Default.aspx?page=5&action=edit&id_demande_rh=" + uneDemande_rh.Id_demande_rh + "'><img src='images/edit.png' height='35' width='35'></a>";
+         chaine += "<a href='Default.aspx?page=5&action=edit&id_demande_rh=" + uneDemande_rh.Id_demande_rh + le_id_de_la_requete + "'><img src='images/edit.png' height='35' width='35'></a>";
          chaine += "</td>";
-
          chaine += "</tr>";
     }
     chaine += "</table>"; 
