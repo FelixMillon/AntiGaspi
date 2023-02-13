@@ -34,10 +34,8 @@ footer{
         {
             Intranet.Employe unEmploye = null;
             Intranet.Local unLocal = null;
-            // string email = Request.Form["email"];
-            // string mdp = Request.Form["mdp"];
-            string email = "dtom00.42@firecrest.com";
-            string mdp = "123";
+            string email = Request.Form["email"];
+            string mdp = Request.Form["mdp"];
             unEmploye = Controleur.SelectWhereEmploye(email,mdp);
 
             string chaineconnect = "";
