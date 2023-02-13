@@ -5,10 +5,11 @@ background-color: #4274BD ;
 body{
 
 
-    height: 100%; 
+    min-height: 100vh;
 
     font-family: Arial, Helvetica, sans-serif;
     margin: 0; 
+
 }
 
 html, body {
@@ -18,8 +19,8 @@ html, body {
 
 
 
-#footer {
-         
+.footer {
+    margin-top: auto;       
   }
 
 

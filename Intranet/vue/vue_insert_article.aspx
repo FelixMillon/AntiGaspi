@@ -12,7 +12,7 @@
                             <input type="text" name="sous_titre" placeholder="Sous-titre" class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490" value="<%=(lArticle!= null) ? lArticle.Sous_titre : "" %>" > 
                         </div>	
                         <div class="col-12">
-                            <textarea type="text" name="contenu" maxlength="5000" cols="40" rows="5" style="height: 200px;" placeholder="<%=(lArticle!= null) ? lArticle.Sous_titre : "" %>" value="<%=(lArticle!= null) ? lArticle.Sous_titre : "" %>"></textarea>
+                            <textarea type="text" name="contenu"  placeholder="Contenu . . . "  class="inscricase form-control fw-bold" style="border:3px solid #9FC490" maxlength="5000" cols="40" rows="5" style="height: 200px;" placeholder="<%=(lArticle!= null) ? lArticle.Contenu : "" %>" value="<%=(lArticle!= null) ? lArticle.Contenu : "" %>"></textarea>
                         </div>
                         <div class="col-6">
                             <select class="inscricase form-select text-center fw-bold" name="id_cat_art" style="border:3px solid #9FC490"> 
@@ -60,4 +60,4 @@
 </form>
 
 </div>
-<div class="col-6" style="padding-left:3%"> 
+<div class="col-6" style="padding-left:3%; padding-top:4%;"> 

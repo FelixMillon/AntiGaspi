@@ -720,7 +720,7 @@ create or replace view VBadgeage as (
 );
 
 create or replace view Varticle as (
-    select a.id_article, a.titre,a.contenu, a.sous_titre, a.id_cat_art, C.libelle as categorie,a.id_auteur id_employe, concat(e.prenom," ",e.nom) as auteur
+    select a.id_article, a.titre, a.sous_titre, a.contenu, a.id_cat_art, C.libelle as categorie,a.id_auteur id_employe, concat(e.prenom," ",e.nom) as auteur
     from article a, categorie_article c, employe e
     where a.id_auteur = e.id_employe and a.id_cat_art = c.id_cat_art
 );

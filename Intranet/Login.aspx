@@ -7,10 +7,6 @@ input::placeholder {
     opacity: .5;
     color: #ffffff;
 }
-body{
-  justify-content: unset;
-}
-
 
 </style>
 
@@ -54,6 +50,6 @@ body{
 	</form>
   </div>
   <div class="col-2" style="background : #9FC490; opacity : 0.57;">  </div>
-  <div class="col-2"> </div>
+  <div class="col-1"> </div>
 </div>
 </div>
