@@ -16,6 +16,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title> FireCrest - Intranet</title>
 </head>
+    <style>
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+footer{
+    margin-top: auto;
+}
+
+    </style>
 
     <%
         if (Request.Form["seConnecter"] != null)
@@ -45,14 +57,14 @@
                 int id_local = unEmploye.Id_local;
                 unLocal = Controleur.SelectWhereLocal(id_local);
                 if(unLocal != null)
-                    {
+                {
                     Session["nom_local"] = unLocal.Nom;
-                    }
-                    else
-                    {
+                }
+                else
+                {
                     Session["nom_local"] = "Nomade";
-                    }
-                
+                }
+
 
                 Response.Redirect("Default.aspx?page=6");
                 chaineconnect += " Bienvenue " + Session["prenom"]+" "+ Session["nom"];
@@ -64,30 +76,30 @@
 <body class="">
 
     <header class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-2 " style="background: #9FC490;">
-        <a href="Default.aspx?page=1" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none" >
+
+        <a href="Default.aspx?page=1" class="col-6 d-flex align-items-center col-md-1 mb-2 mb-md-0 text-dark text-decoration-none" >
           <img src="images/logo1.png" class="bi me-2 img" style="width: 10vw;" role="img" alt="">
         </a>
         
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      
+      <li><a href='Default.aspx?page=2' class='px-2 btn text-light '>Les articles</a></li>
                    
                     <%
                         string chaineConnect = "";
                         string chaineDeco = "";
                         if (Session["email"] != null) {
-                            chaineConnect += "";
                             chaineConnect += "<li><a href='Default.aspx?page=6' class='px-2 btn text-light '>Mon Compte</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=5' class='px-2 btn text-light '>Demande RH</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=5' class='px-2 btn text-light '>Demande R.H.</a></li>";
                             chaineConnect += "<li><a href='Default.aspx?page=4' class='px-2 btn text-light '>Demande Autre</a></li>";
                             chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light '>Badgeage </a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=12' class='px-2 btn text-light '>Gestion</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=12' class='px-2 btn text-light '>Gestion U.A.</a></li>";
                             chaineConnect += "<li><a href='Default.aspx?page=13' class='px-2 btn text-light '>Article</a></li>";
                             chaineConnect += "<li><a href='Default.aspx?page=14' class='px-2 btn text-light '>Cat Article</a></li>";
                             chaineConnect += "<li><a href='Default.aspx?page=15' class='px-2 btn text-light '>Local</a></li>";
                         }  %>
                         <%= chaineConnect %>
         </ul>
-        <ul class='nav col-12 col-md-auto mb-2 justify-content-end mb-md-0' style='padding-left: 17%;'>
+        <ul class='nav col-12 col-md-auto mb-2 justify-content-end mb-md-0' >
                    <% if(Session["email"] != null) {
                       chaineDeco += "<form method='post'><li><button name='deconnexion' class='px-2 btn text-light'>Se Déconnecter</button></li></form>";
                       }
@@ -129,17 +141,20 @@
 
         string chainemdp ="";
         string chaine = "";
+        string chaineList = "";
         if (Request["page"] != null)
         {
             page = int.Parse(Request["page"]);
         } else
         {
-            page = 0;
+            page = 1;
         }
         switch(page)
         {
         case 0: %> <!-- #include file="Login.aspx" --> <%  break;
         case 1: %> <!-- #include file="home.aspx" --> <%  break;
+        case 2: %> <!-- #include file="List_article.aspx" --> <%  break;
+        case 3: %> <!-- #include file="Un_article.aspx" --> <%  break;
         case 4: %> <!-- #include file="Demande_autre.aspx" --> <% break;
         case 5: %> <!-- #include file="Demande_rh.aspx" --> <% break;
         case 6: %> <!-- #include file="Moncompte.aspx" --> <% break;
@@ -166,7 +181,7 @@
 
 
 
-    <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-4" style="background : #9FC490;" id="footer" >
+    <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-4" style="background : #9FC490; " id="footer" >
         <p class="col-md-4 mb-0 text-light" style="padding-left: 6%; white-space: nowrap;" >©Copyright 2022 FireCrest</p>
     
         <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">

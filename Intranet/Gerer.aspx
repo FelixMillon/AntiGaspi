@@ -3,8 +3,8 @@
 <%@ Import Namespace="System.Collections.Generic" %>
 
 <div style="display: flex; flex-direction: column; height: 87vh;"> 
-    <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" >Gestion</h2>
-<div class="d-flex justifiy-content-center" style="padding-top:8%">
+    <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" >Gestion activité utilisateur</h2>
+<div class="d-flex justifiy-content-center" style="padding-top:4%">
     <div class="col-1"></div>
     <div class="col-4" style="padding-right:3%;"> 
 
