@@ -15,12 +15,14 @@
 
 
 <div class="container">
-    <div class='row mb-2' style="padding-bottom: 8%; padding-top : 8%;">
+    <div class='row mb-2' style="padding-bottom: 8%; padding-top : 3%;">
 
  <%
     foreach(VArticle unArticle in lesArticles3)
-    {   
+    {
+
     chaineList+="<div class='col-6' style='padding-top: 3%;'>";
+    chaineList+="<a class='btn' href='Default.aspx?page=3&id_article="+unArticle.Id_article+"'>";
     chaineList+="<div class='card'>";
     chaineList+="<div class='row g-0'>";
     chaineList+="<div class='col-md-4'>";
@@ -35,7 +37,7 @@
     chaineList+="</div>";
     chaineList+="</div>";
     chaineList+="</div>";
-    chaineList+="</div>";
+    chaineList+="</div></a>";
     chaineList+="</div>";
 
 

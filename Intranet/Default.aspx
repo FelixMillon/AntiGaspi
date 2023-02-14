@@ -82,20 +82,19 @@ footer{
         </a>
         
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-      <li><a href='Default.aspx?page=2' class='px-2 btn text-light '>Les articles</a></li>
-                   
+          
                     <%
                         string chaineConnect = "";
                         string chaineDeco = "";
                         if (Session["email"] != null) {
-                            chaineConnect += "<li><a href='Default.aspx?page=6' class='px-2 btn text-light '>Mon Compte</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=5' class='px-2 btn text-light '>Demande R.H.</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=4' class='px-2 btn text-light '>Demande Autre</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light '>Badgeage </a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=12' class='px-2 btn text-light '>Gestion U.A.</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=13' class='px-2 btn text-light '>Article</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=14' class='px-2 btn text-light '>Cat Article</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=15' class='px-2 btn text-light '>Local</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=6' class='px-2 btn text-light'>Mon Compte</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=5' class='px-2 btn text-light'>Demande R.H.</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=4' class='px-2 btn text-light'>Demande Autre</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light'>Badgeage </a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=2' class='px-2 btn text-light'>Les articles</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=13' class='px-2 btn text-light'>Article</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=14' class='px-2 btn text-light'>Cat Article</a></li>";
+                            chaineConnect += "<li><a href='Default.aspx?page=15' class='px-2 btn text-light'>Local</a></li>";
                         }  %>
                         <%= chaineConnect %>
         </ul>
@@ -109,7 +108,7 @@ footer{
                       }
                     %>
                     <%= chaineDeco %>
-                      
+
         </ul>
         
     </header>
@@ -147,7 +146,7 @@ footer{
             page = int.Parse(Request["page"]);
         } else
         {
-            page = 1;
+            page = 0;
         }
         switch(page)
         {
@@ -181,7 +180,7 @@ footer{
 
 
 
-    <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-4" style="background : #9FC490; " id="footer" >
+    <footer class="d-flex flex-wrap align-items-center justify-content-around justify-content-md-around py-2" style="background : #9FC490; " id="footer" >
         <p class="col-md-4 mb-0 text-light" style="padding-left: 6%; white-space: nowrap;" >©Copyright 2022 FireCrest</p>
     
         <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
@@ -189,8 +188,8 @@ footer{
         </a>
     
         <ul class="nav col-md-4 justify-content-end" style="padding-right: 6%; white-space: nowrap;">
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Mentions légales</a></li>
-        <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Conditions générle d'uilisation</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Mentions légales</a></li>
+            <li class="nav-item"><a href="#" class="nav-link px-2 text-light">Conditions générle d'uilisation</a></li>
         </ul>
 
     </footer>
