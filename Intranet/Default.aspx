@@ -54,6 +54,7 @@ footer{
                 Session["fonction"] = unEmploye.Fonction;
                 Session["droits"] = unEmploye.Droits;
                 Session["cp"] = unEmploye.Cp;
+                Session["lastbadgeage"] ="";
                 int id_local = unEmploye.Id_local;
                 unLocal = Controleur.SelectWhereLocal(id_local);
                 if(unLocal != null)
@@ -120,6 +121,7 @@ footer{
         string message = "";
         Dictionary<string, string> valeurs = new Dictionary<string, string>();
         Dictionary<string, string> where = new Dictionary<string, string>();
+        Dictionary<int, int>correspondance_id_list = new Dictionary<int, int>();
         //Debug.WriteLine(Regex.Replace("J'ai,mis.des,Partout", ",", "."));
         // EXEMPLE INSERT,UPDATE 
         //Dictionary<string, string> valeurs = new Dictionary<string, string>(){
@@ -137,7 +139,6 @@ footer{
         //Controleur.constructeurrequete("insert|nom=toto,prenom=bidule");
         //Controleur.constructeurrequete("update|nom=machin,prenom=truc|id_employe=2");
         //Controleur.constructeurrequete("delete|id_employe=2");
-
         string chainemdp ="";
         string chaine = "";
         string chaineList = "";
