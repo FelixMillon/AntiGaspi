@@ -3,16 +3,14 @@
 <%@ Import Namespace="System.Diagnostics" %>
 <%@ Import Namespace="System.Text.RegularExpressions" %>
 
-
 <div style="display: flex; flex-direction: column; height: 87vh;"> 
     <h2 class="d-flex align-items-center text-light fw-bold text-start" style="padding-left : 10%;background: #C6ECB7; height:7vh" >Gestion Demande rh </h2>
 <div class="d-flex justifiy-content-center">
     <div class="col-1"></div>
-    <div class="col-4" style="padding-right:3%;"> 
-
-
+    <div class="col-4" style="padding-right:3%;">
 
 <%
+    string jsonemp = Controleur.SelectAllEmployeJson();
     Demande_rh laDemande_rh = null;
     Employe leEmploye_rhs = null;
     string leEmploye_rhs_email = "";
@@ -55,6 +53,7 @@
         }
     }
     List<Intranet.Employe> lesEmploye_rhs = Intranet.Controleur.SelectWhereEmployeEtSesTroufions(Session["id"].ToString());
+    
     if(Session["droits"].ToString() == "administrateur_rh")
     {
         lesEmploye_rhs = Intranet.Controleur.SelectAllEmploye();
@@ -69,6 +68,7 @@
 
 
 <%
+    string nouvelobjet="";
     string laRequete="";
     string LeNettoyeur= "";
     if(Request.Form["valider"] != null || Request.Form["modifier"] != null)
@@ -166,9 +166,9 @@
                 LeNettoyeur= Regex.Replace(LeNettoyeur, "=", "");
 
                 laRequete+= "droits="+LeNettoyeur+",";
-                laRequete+= "id_planning=1,";
-                laRequete+= "id_manager=null,";
-                laRequete+= "id_local=null";
+                laRequete+= "id_planning="+Request.Form["id_planning"]+",";
+                laRequete+= "id_manager="+Request.Form["id_manager"]+",";
+                laRequete+= "id_local="+Request.Form["id_local"];
             }
             if(Request.Form["type_operation"]=="delete")
             {
@@ -176,7 +176,7 @@
             }
             if(Request.Form["type_operation"]=="update")
             {
-                string[] lesattributsupdate = {"email", "nom", "prenom", "tel","rue", "numrue", "ville", "cp","fonction","salaire","niveau_diplome","droits"};
+                string[] lesattributsupdate = {"email", "nom", "prenom", "tel","rue", "numrue", "ville", "cp","fonction","salaire","niveau_diplome","droits","id_manager","id_planning","id_local"};
                 List<string> attributs = new List<string>();
                 foreach(string unattribut in lesattributsupdate)
                 {
@@ -197,7 +197,7 @@
                 laRequete+=String.Join(",", attributs)+'|';
                 laRequete+=Request.Form["id_employe"];
             }
-            Debug.WriteLine(laRequete);
+            nouvelobjet = Controleur.constructeurObjet(laRequete);
         }
     }
 
@@ -207,7 +207,7 @@
     if(Request.Form["valider"] != null){
         valeurs.Clear();
         valeurs.Add("libelle",Request.Form["libelle"]);
-        valeurs.Add("objet",Request.Form["objet"]);
+        valeurs.Add("objet",nouvelobjet);
         valeurs.Add("requete_sql",laRequete);
         valeurs.Add("date_demande","sysdate");
         valeurs.Add("date_resolution","null");
@@ -225,7 +225,7 @@
     if(Request.Form["modifier"] != null ){
         valeurs.Clear();
         valeurs.Add("libelle",Request.Form["libelle"]);
-        valeurs.Add("objet",Request.Form["objet"]);
+        valeurs.Add("objet",nouvelobjet);
         if(laRequete == "")
         {
             valeurs.Add("requete_sql",laDemande_rh.Requete_sql);
@@ -251,6 +251,12 @@
                 Controleur.constructeurrequete(laRequete);
             }
     
+        }
+        if(Request.Form["etat"] == "accepte" || Request.Form["etat"] == "refuse")
+        {
+            where.Clear();
+            where.Add("id_demande_rh",Request["id_demande_rh"]);
+            Controleur.DeleteUniversel("demande_rh", where, true);
         }
 
         message = "<br> Modification reussie";

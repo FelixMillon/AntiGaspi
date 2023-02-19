@@ -4,12 +4,8 @@
 
                     <div class="row g-3">
                     
-                        <div class="col-6">
+                        <div class="col-12">
                             <input type="text" name="libelle" placeholder="Libelle" class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490" value="<%= (laDemande_rh != null) ? laDemande_rh.Libelle : "" %>" > 
-                        </div>	
-
-                        <div class="col-6">
-                            <input type="text" name="objet" placeholder="Objet" class="inscricase form-control text-center fw-bold" style="border:3px solid #9FC490" value="<%= (laDemande_rh != null) ? laDemande_rh.Objet : "" %>" > 
                         </div>	
                         
                         <div class="col-12">
@@ -142,7 +138,7 @@ function PlaceLesAttributs()
             if(document.getElementById("email").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="email" ';
+                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="email" name="email" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_email %>"+'">';
@@ -157,7 +153,7 @@ function PlaceLesAttributs()
             if(document.getElementById("nom").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="nom" ';
+                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="nom" name="nom" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_nom %>"+'">';
@@ -172,7 +168,7 @@ function PlaceLesAttributs()
             if(document.getElementById("prenom").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="prenom" ';
+                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="prenom" name="prenom" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_prenom %>"+'">';
@@ -187,7 +183,7 @@ function PlaceLesAttributs()
             if(document.getElementById("tel").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="tel" ';
+                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="tel" name="tel" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_tel %>"+'">';
@@ -202,7 +198,7 @@ function PlaceLesAttributs()
             if(document.getElementById("fonction").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="fonction" ';
+                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="fonction" name="fonction" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_fonction %>"+'">';
@@ -217,7 +213,7 @@ function PlaceLesAttributs()
             if(document.getElementById("salaire").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="salaire" ';
+                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="salaire" name="salaire" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_salaire %>"+'">';
@@ -232,7 +228,7 @@ function PlaceLesAttributs()
             if(document.getElementById("niveau_diplome").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="niveau_diplome" ';
+                chaine+='<input type="text" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="niveau_diplome" name="niveau_diplome" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_niveau_diplome %>"+'">';
@@ -247,7 +243,7 @@ function PlaceLesAttributs()
             if(document.getElementById("id_planning").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine +='<select class="inscricase form-select text-center fw-bold" name="id_planning" style="border:3px solid #9FC490; margin-top : 3%">';
+                chaine +='<select class="inscricase form-select text-center fw-bold" id="id_planning" name="id_planning" style="border:3px solid #9FC490; margin-top : 3%">';
                 chaine+="<option value='";
                 if(url.indexOf('&id_employe=') != -1)
                 {
@@ -265,7 +261,7 @@ function PlaceLesAttributs()
             {
 
                 chaine+='<div class="col-6">';
-                chaine +='<select class="inscricase form-select text-center fw-bold" name="id_manager" style="border:3px solid #9FC490; margin-top : 3%">';
+                chaine +='<select class="inscricase form-select text-center fw-bold" id="id_manager" name="id_manager" style="border:3px solid #9FC490; margin-top : 3%">';
                 chaine+="<option value='";
                 if(url.indexOf('&id_employe=') != -1)
                 {
@@ -282,7 +278,7 @@ function PlaceLesAttributs()
             if(document.getElementById("id_local").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine +='<select class="inscricase form-select text-center fw-bold" name="id_local" style="border:3px solid #9FC490; margin-top : 3%">';
+                chaine +='<select class="inscricase form-select text-center fw-bold" id="id_local" name="id_local" style="border:3px solid #9FC490; margin-top : 3%">';
                 chaine+="<option value='";
                 if(url.indexOf('&id_employe=') != -1)
                 {
@@ -299,7 +295,7 @@ function PlaceLesAttributs()
             if(document.getElementById("adresse").checked == true)
             {
                 chaine+='<div class="col-6">';
-                chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="rue" ';
+                chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="rue" name="rue" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_rue %>"+'">';
@@ -308,7 +304,7 @@ function PlaceLesAttributs()
                 }
                 chaine+='</div>';
                 chaine+='<div class="col-6">';
-                chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="numrue" ';
+                chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="numrue" name="numrue" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_numrue %>"+'">';
@@ -317,7 +313,7 @@ function PlaceLesAttributs()
                 }
                 chaine+='</div>';
                 chaine+='<div class="col-6">';
-                chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="ville" ';
+                chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="ville" name="ville" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_ville %>"+'">';
@@ -326,7 +322,7 @@ function PlaceLesAttributs()
                 }
                 chaine+='</div>';
                 chaine+='<div class="col-6">';
-                chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="cp" ';
+                chaine += '<input type="text"  class="form-control" style="border:3px solid #9FC490; margin-top: 3%" id="cp" name="cp" ';
                 if(url.indexOf('&id_employe=') != -1)
                 {
                     chaine+='value="'+"<%= leEmploye_rhs_cp %>"+'">';
@@ -343,7 +339,7 @@ function PlaceLesAttributs()
             if(document.getElementById("droits").checked == true)
             {
                 chaine +='<div class="col-12" style="width:100%">';
-                chaine += '<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490; margin-top: 3%"   name="droits" >';
+                chaine += '<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490; margin-top: 3%" id="droits" name="droits" >';
                     if(url.indexOf('&id_employe=') != -1)
                     {
                         chaine += '<option value="'+"<%= leEmploye_rhs_droits %>"+'" selected disabled hidden>Droits:'+"<%= leEmploye_rhs_droits %>"+'</option>';
@@ -372,7 +368,7 @@ function PlaceLesAttributs()
                 chaine += '<input type="hidden" class="form-control" style="border:3px solid #9FC490; margin-top: 3%" name="id_employe" value="'+"<%= idsession %>"+'">';
             }else{
                 chaine+='<div class="col-12" style="width:100%">';
-                    chaine+='<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490"  name="id_employe">';
+                    chaine+='<select class="inscricase form-Select text-center fw-bold w-100" style="border:3px solid #9FC490"  name="id_employe" onchange="remplirleschamps(value)">';
                     chaine+="<option value=''>Selectionner l'employé</option>";
                     chaine+="<%= chaineEmployerh %>";
                     chaine+='</select>';
@@ -385,16 +381,70 @@ function PlaceLesAttributs()
 }
 //Code Javascript
 
-function jetestemestrucs(){
-
-let e = document.getElementById("mon-select");
-let value = e.value;
-let text = e.options[e.selectedIndex].text;
-
-alert("la value est :"+value);
-alert(text);
-
+function remplirleschamps(value){
+    let lejson = "<%= jsonemp %>";
+    let lesemps = JSON.parse(lejson);
+    try{
+        document.getElementById('email').value=lesemps[value]["email"];  
     }
+    catch(e){}
+    try{
+        document.getElementById('nom').value=lesemps[value]["nom"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('prenom').value=lesemps[value]["prenom"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('tel').value=lesemps[value]["tel"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('rue').value=lesemps[value]["rue"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('numrue').value=lesemps[value]["numrue"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('ville').value=lesemps[value]["ville"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('cp').value=lesemps[value]["cp"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('fonction').value=lesemps[value]["fonction"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('salaire').value=lesemps[value]["salaire"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('niveau_diplome').value=lesemps[value]["niveau_diplome"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('droits').value=lesemps[value]["droits"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('id_planning').value=lesemps[value]["id_planning"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('id_manager').value=lesemps[value]["id_manager"];
+    }
+    catch(e){}
+    try{
+        document.getElementById('id_local').value=lesemps[value]["id_local"];
+    }
+    catch(e){}
+}
 
 function clearcases()
 {

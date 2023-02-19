@@ -33,23 +33,25 @@
 
     List<Intranet.Employe> lesEmploye_badgeages = Intranet.Controleur.SelectAllEmploye();
     int leid = int.Parse(Session["id"].ToString());
-    Debug.WriteLine(leid);
-
-
 %>
 
 
 <%
-
-    if(Request.Form["valider"] != null){
+    DateTime badg = DateTime.Now;
+    badg = new DateTime(badg.Year, badg.Month, badg.Day, badg.Hour, badg.Minute, 0);
+    string lastbadg = badg.ToString("dd/MM/yyyy HH:mm:ss");
+    if(Request.Form["valider"] != null && Session["lastbadgeage"].ToString() != lastbadg){
         valeurs.Clear();
         valeurs.Add("date_heure","null");
         valeurs.Add("type",null);
         valeurs.Add("id_employe",Session["id"].ToString());
         Controleur.InsertUniversel(valeurs,"badgeage",true);
-        message = "<br> Insertion reussie";
+        Session["lastbadgeage"] = lastbadg;
+        message = "";
+        Debug.WriteLine(Session["lastbadgeage"]);
+    }else{
+        message = "Vous ne pouvez badgez qu'une seule fois par minute";
     }
-
     List<Intranet.VBadgeage> lesBadgeages = Intranet.Controleur.SelectAllVBadgeage(leid);
 %>
 
