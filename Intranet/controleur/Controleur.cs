@@ -64,7 +64,14 @@ namespace Intranet
         {
             return unModele.SelectAllVDemande_rh();
         }
-
+        public static string SelectAllEmployeJson()
+        {
+            return unModele.SelectAllEmployeJson();
+        }
+        public static string constructeurObjet(string donnees)
+        {
+            return unModele.constructeurObjet(donnees);
+        }
         public static List<Manager> SelectAllManager()
         {
             return unModele.SelectAllManager();

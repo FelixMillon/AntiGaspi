@@ -263,8 +263,6 @@ namespace Intranet
                 string[] lesattribs = subs[1].Split(',');
                 foreach(string pairattrib in lesattribs)
                 {
-                    Debug.WriteLine("attribut: "+pairattrib.Split('=')[0]);
-                    Debug.WriteLine("valeur: " + pairattrib.Split('=')[1]);
                     data.Add(pairattrib.Split('=')[0], pairattrib.Split('=')[1]);
                 }
                 InsertUniversel(data, "employe", true);
@@ -275,8 +273,6 @@ namespace Intranet
                 string[] lesattribs = subs[1].Split(',');
                 foreach (string pairattrib in lesattribs)
                 {
-                    Debug.WriteLine(pairattrib.Split('=')[0]);
-                    Debug.WriteLine(pairattrib.Split('=')[1]);
                     data.Add(pairattrib.Split('=')[0], pairattrib.Split('=')[1]);
                 }
                 where.Add("id_employe", subs[2]);
@@ -291,6 +287,30 @@ namespace Intranet
             }
         }
 
+        public string constructeurObjet(string donnees)
+       {
+            string[] subs = donnees.Split('|');
+            string operation = subs[0];
+            string objet = "";
+            if(operation=="insert")
+            {
+                string[] lesattribs = subs[1].Split(',');
+                objet+="Creation de l\'employe "+lesattribs[3].Split('=')[1]+" "+lesattribs[2].Split('=')[1]+" avec les droits "+lesattribs[14].Split('=')[1]+".";
+            }
+            if(operation=="delete")
+            {
+                Employe leEmploye = SelectWhereEmploye(int.Parse(subs[1]));
+                objet+="Suppression de l\'employe "+leEmploye.Prenom+" "+leEmploye.Nom+".";
+            }
+            if (operation == "update")
+            {
+                Employe leEmploye = SelectWhereEmploye(int.Parse(subs[2]));
+                objet+="Modification de l\'employe "+leEmploye.Prenom + " "+leEmploye.Nom+". ";
+                objet+="Nouvelles informations: "+subs[1];
+            }
+            return objet;
+        }
+
         public Employe SelectWhereEmploye(string email, string mdp)
         {
             string requete = "select * from employe where email = @email and mdp = @mdp;";
@@ -303,11 +323,6 @@ namespace Intranet
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@email", email);
                 uneCmde.Parameters.AddWithValue("@mdp", Sha256(mdp));
-                Debug.WriteLine(uneCmde.CommandText);
-                foreach (MySqlParameter unParam in uneCmde.Parameters)
-                {
-                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
-                }
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -375,11 +390,6 @@ namespace Intranet
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
                 uneCmde.Parameters.AddWithValue("@id_employe", id_employe);
-                Debug.WriteLine(uneCmde.CommandText);
-                foreach (MySqlParameter unParam in uneCmde.Parameters)
-                {
-                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
-                }
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
                 {
@@ -832,14 +842,6 @@ namespace Intranet
                 this.maConnexion.Open();
                 uneCmde = this.maConnexion.CreateCommand();
                 uneCmde.CommandText = requete;
-
-                Debug.WriteLine(uneCmde.CommandText);
-                foreach (MySqlParameter unParam in uneCmde.Parameters)
-                {
-                    Debug.WriteLine(unParam.ParameterName + ": " + unParam.Value);
-                }
-
-
                 //creation d'un curseur de r�sultats 
                 DbDataReader unReader = uneCmde.ExecuteReader();
                 try
@@ -898,6 +900,38 @@ namespace Intranet
                 Debug.WriteLine(exp.Message);
             }
             return lesEmployes;
+        }
+
+        public string SelectAllEmployeJson()
+        {
+            List<string> lesempjson = new List<string>();
+            string json = "{";
+            string unempjson="";
+            List<Employe> lesEmployes = new List<Employe>();
+            lesEmployes = SelectAllEmploye();
+            foreach(Employe unEmploye in lesEmployes)
+            {
+                unempjson=" \\\""+unEmploye.Id_employe.ToString()+"\\\": {";
+                unempjson+=" \\\"email\\\": \\\""+unEmploye.Email+"\\\",";
+                unempjson+=" \\\"nom\\\": \\\""+unEmploye.Nom+"\\\",";
+                unempjson+=" \\\"prenom\\\": \\\""+unEmploye.Prenom+"\\\",";
+                unempjson+=" \\\"tel\\\": \\\""+unEmploye.Tel+"\\\",";
+                unempjson+=" \\\"rue\\\": \\\""+unEmploye.Rue+"\\\",";
+                unempjson+=" \\\"numrue\\\": \\\""+unEmploye.Numrue+"\\\",";
+                unempjson+=" \\\"ville\\\": \\\""+unEmploye.Ville+"\\\",";
+                unempjson+=" \\\"cp\\\": \\\""+unEmploye.Cp+"\\\",";
+                unempjson+=" \\\"fonction\\\": \\\""+unEmploye.Fonction+"\\\",";
+                unempjson+=" \\\"salaire\\\": \\\""+unEmploye.Salaire+"\\\",";
+                unempjson+=" \\\"niveau_diplome\\\": \\\""+unEmploye.Niveau_diplome+"\\\",";
+                unempjson+=" \\\"droits\\\": \\\""+unEmploye.Droits+"\\\",";
+                unempjson+=" \\\"id_planning\\\": \\\""+unEmploye.Id_planning+"\\\",";
+                unempjson+=" \\\"id_manager\\\": \\\""+unEmploye.Id_manager+"\\\",";
+                unempjson+=" \\\"id_local\\\": \\\""+unEmploye.Id_local+"\\\"}";
+                lesempjson.Add(unempjson);
+            }
+            json+= String.Join(",", lesempjson)+"}";
+            Debug.WriteLine(json);
+            return json;
         }
 
         public List<Manager> SelectAllManager()

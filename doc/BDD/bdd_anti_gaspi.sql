@@ -573,7 +573,7 @@ create table demande_rh
 (
     id_demande_rh int(5) not null auto_increment,
     libelle varchar(100) not null,
-    objet varchar(255) not null,
+    objet varchar(2000) not null,
     requete_sql varchar(2000),
     date_demande datetime not null,
     date_resolution datetime,
@@ -587,6 +587,20 @@ create table demande_rh
     foreign key(id_manager) references manager(id_manager)
     on update cascade
     on delete cascade
+)engine=innodb;
+
+create table archi_demande_rh
+(
+    id_demande_rh int(5) not null auto_increment,
+    libelle varchar(100) not null,
+    objet varchar(2000) not null,
+    requete_sql varchar(2000),
+    date_demande datetime not null,
+    date_resolution datetime,
+    etat enum("attente","refuse","accepte"),
+    id_employe int(5) not null,
+    id_manager int(5),
+    primary key (id_demande_rh)
 )engine=innodb;
 
 create table demande_autre
@@ -1242,7 +1256,7 @@ begin
 end //
 delimiter ;
 
-/*****************************TRIGGES SUR IMAGE************************************/
+/*****************************TRIGGERS SUR IMAGE************************************/
 
 drop trigger if exists image_before_insert;
 delimiter // 
@@ -1328,7 +1342,7 @@ begin
 end //
 delimiter ;
 
-/*****************************TRIGGES SUR SUJET************************************/
+/*****************************TRIGGERS SUR SUJET************************************/
 
 drop trigger if exists sujet_before_insert;
 delimiter // 
@@ -1343,7 +1357,7 @@ begin
 end //
 delimiter ;
 
-/*****************************TRIGGES SUR BADGEAGE************************************/
+/*****************************TRIGGERS SUR BADGEAGE************************************/
 
 drop trigger if exists badgeage_before_insert;
 delimiter // 
@@ -1364,7 +1378,7 @@ begin
 end //
 delimiter ;
 
-/*****************************TRIGGES SUR CONTENU************************************/
+/*****************************TRIGGERS SUR CONTENU************************************/
 
 drop trigger if exists contenu_before_insert;
 delimiter // 
@@ -1376,7 +1390,7 @@ begin
 end //
 delimiter ;
 
-/*****************************TRIGGES SUR DEMANDE_RH************************************/
+/*****************************TRIGGERS SUR DEMANDE_RH************************************/
 
 drop trigger if exists demande_rh_before_insert;
 delimiter // 
@@ -1404,7 +1418,21 @@ begin
 end //
 delimiter ;
 
-/*****************************TRIGGES SUR DEMANDE_AUTRE************************************/
+drop trigger if exists demande_rh_after_update;
+delimiter // 
+create trigger demande_rh_after_update 
+after update on demande_rh
+for each row
+begin
+    if(new.etat = "accepte" or new.etat = "refuse")
+    then
+        insert into archi_demande_rh values(new.id_demande_rh, new.libelle, new.objet, new.requete_sql, new.date_demande, new.date_resolution, new.etat, new.id_employe, new.id_manager);
+        delete from demande_rh where id_demande_rh = new.id_demande_rh;
+    end if;
+end //
+delimiter ;
+
+/*****************************TRIGGERS SUR DEMANDE_AUTRE************************************/
 
 drop trigger if exists demande_autre_before_insert;
 delimiter // 
