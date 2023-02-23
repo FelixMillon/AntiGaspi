@@ -51,7 +51,10 @@
     List<Intranet.VArticle> lesArticles4 = Intranet.Controleur.SelectAllVArticle();
 %>
 
-
+<form method="post" enctype="multipart/form-data">
+        <input type="file" name="fileUpload" /><br />
+        <input type="submit" value="Uploader le fichier" /><br />
+    </form>
 
  
 
