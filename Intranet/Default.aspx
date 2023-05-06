@@ -93,9 +93,13 @@ footer{
                             chaineConnect += "<li><a href='Default.aspx?page=4' class='px-2 btn text-light'>Demande Autre</a></li>";
                             chaineConnect += "<li><a href='Default.aspx?page=11' class='px-2 btn text-light'>Badgeage </a></li>";
                             chaineConnect += "<li><a href='Default.aspx?page=2' class='px-2 btn text-light'>Les articles</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=13' class='px-2 btn text-light'>Article</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=14' class='px-2 btn text-light'>Cat Article</a></li>";
-                            chaineConnect += "<li><a href='Default.aspx?page=15' class='px-2 btn text-light'>Local</a></li>";
+                            if(Session["droits"].ToString() == "administrateur_rh" || Session["droits"].ToString() == "administrateur")
+                            {
+                                chaineConnect += "<li><a href='Default.aspx?page=13' class='px-2 btn text-light'>Article</a></li>";
+                                chaineConnect += "<li><a href='Default.aspx?page=14' class='px-2 btn text-light'>Cat Article</a></li>";
+                                chaineConnect += "<li><a href='Default.aspx?page=15' class='px-2 btn text-light'>Local</a></li>";
+                            }
+                            chaineConnect += "<li><a href='Default.aspx?page=10' class='px-2 btn text-light'>Dashboard</a></li>";
                         }  %>
                         <%= chaineConnect %>
         </ul>
@@ -123,7 +127,7 @@ footer{
         Dictionary<string, string> where = new Dictionary<string, string>();
         Dictionary<int, int>correspondance_id_list = new Dictionary<int, int>();
         //Debug.WriteLine(Regex.Replace("J'ai,mis.des,Partout", ",", "."));
-        // EXEMPLE INSERT,UPDATE 
+        // EXEMPLE INSERT,UPDATE
         //Dictionary<string, string> valeurs = new Dictionary<string, string>(){
         //    {"email", "felix.millon@test.fr"},
         //    {"mdp", "123"},
@@ -139,6 +143,8 @@ footer{
         //Controleur.constructeurrequete("insert|nom=toto,prenom=bidule");
         //Controleur.constructeurrequete("update|nom=machin,prenom=truc|id_employe=2");
         //Controleur.constructeurrequete("delete|id_employe=2");
+        string datadash = Controleur.DashboardDataAll();
+        string dataperso = "{}";
         string chainemdp ="";
         string chaine = "";
         string chaineList = "";
@@ -151,24 +157,23 @@ footer{
         }
         switch(page)
         {
-        case 0: %> <!-- #include file="Login.aspx" --> <%  break;
-        case 1: %> <!-- #include file="home.aspx" --> <%  break;
-        case 2: %> <!-- #include file="List_article.aspx" --> <%  break;
-        case 3: %> <!-- #include file="Un_article.aspx" --> <%  break;
-        case 4: %> <!-- #include file="Demande_autre.aspx" --> <% break;
-        case 5: %> <!-- #include file="Demande_rh.aspx" --> <% break;
-        case 6: %> <!-- #include file="Moncompte.aspx" --> <% break;
-        case 7: %> <!-- #include file="Ticketing.aspx" --> <% break;
-        case 8: %> <!-- #include file="Modification.aspx" --> <% break;
-        case 9: %> <!-- #include file="Planning.aspx" --> <% break;
-        case 10: %> <!-- #include file="Dashboard.aspx" --> <% break;
-        case 11: %> <!-- #include file="Badgeage.aspx" --> <% break;
-        case 12: %> <!-- #include file="Gerer.aspx" --> <% break;
-        case 13: %> <!-- #include file="Article.aspx" --> <% break;
-        case 14: %> <!-- #include file="Cat_Article.aspx" --> <% break;
-        case 15: %> <!-- #include file="Local.aspx" --> <% break;
-
-    }
+            case 0: %> <!-- #include file="Login.aspx" --> <%  break;
+            case 1: %> <!-- #include file="home.aspx" --> <%  break;
+            case 2: %> <!-- #include file="List_article.aspx" --> <%  break;
+            case 3: %> <!-- #include file="Un_article.aspx" --> <%  break;
+            case 4: %> <!-- #include file="Demande_autre.aspx" --> <% break;
+            case 5: %> <!-- #include file="Demande_rh.aspx" --> <% break;
+            case 6: %> <!-- #include file="Moncompte.aspx" --> <% break;
+            case 7: %> <!-- #include file="Ticketing.aspx" --> <% break;
+            case 8: %> <!-- #include file="Modification.aspx" --> <% break;
+            case 9: %> <!-- #include file="Planning.aspx" --> <% break;
+            case 10: %> <!-- #include file="Dashboard.aspx" --> <% break;
+            case 11: %> <!-- #include file="Badgeage.aspx" --> <% break;
+            case 12: %> <!-- #include file="Gerer.aspx" --> <% break;
+            case 13: %> <!-- #include file="Article.aspx" --> <% break;
+            case 14: %> <!-- #include file="Cat_Article.aspx" --> <% break;
+            case 15: %> <!-- #include file="Local.aspx" --> <% break;
+        }
 
     if (Request.Form["deconnexion"] != null)
     {

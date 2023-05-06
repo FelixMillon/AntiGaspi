@@ -273,6 +273,17 @@ create table commande
     on delete cascade
 )engine=innodb;
 
+create table commenter  
+(
+    id_commande int(5) not null,
+    id_livreur int(5) not null,
+    note int(1) not null,
+    commentaire varchar(255) not null,
+    primary key(id_commande,id_livreur),
+    foreign key(id_livreur) references livreur(id_livreur),
+    foreign key(id_commande) references commande(id_commande)
+)engine=innodb;
+
 create table ligne_commande  
 (
     id_ligne_commande int(5) auto_increment not null,
@@ -817,6 +828,80 @@ select count(a.id_avis_enquete) as nb, a.tranche_age, a.id_enquete, (select libe
 from avis_enquete a
 group by a.tranche_age, a.id_enquete
 order by a.id_enquete);
+
+create or replace view viewarticlecountparcat as(
+    select c.libelle, count(a.id_article) as nb
+    from categorie_article c
+    left join article a on a.id_cat_art = c.id_cat_art
+    group by c.id_cat_art
+);
+
+
+create or replace view demande_autre_resolu_par_mois
+as(
+    select 
+    year(date_resolution) as Annee,
+    sum(case when month(date_resolution) = 1 then 1 else 0 end) as Janvier,
+    sum(case when month(date_resolution) = 2 then 1 else 0 end) as Fevrier,
+    sum(case when month(date_resolution) = 3 then 1 else 0 end) as Mars,
+    sum(case when month(date_resolution) = 4 then 1 else 0 end) as Avril,
+    sum(case when month(date_resolution) = 5 then 1 else 0 end) as Mai,
+    sum(case when month(date_resolution) = 6 then 1 else 0 end) as Juin,
+    sum(case when month(date_resolution) = 7 then 1 else 0 end) as Juillet,
+    sum(case when month(date_resolution) = 8 then 1 else 0 end) as Aout,
+    sum(case when month(date_resolution) = 9 then 1 else 0 end) as Septembre,
+    sum(case when month(date_resolution) = 10 then 1 else 0 end) as Octobre,
+    sum(case when month(date_resolution) = 11 then 1 else 0 end) as Novembre,
+    sum(case when month(date_resolution) = 12 then 1 else 0 end) as Decembre,
+    count(*) as Total
+    from demande_autre
+    where date_resolution is not null
+    group by year(date_resolution)
+);
+
+/*reate or replace view demande_autre_resolu_par_mois
+as(
+    select 
+    year(date_resolution) as Annee,
+    sum(case when month(date_resolution) = 1 then 1 else 0 end) as Janvier,
+    sum(case when month(date_resolution) = 2 then 1 else 0 end) as Fevrier,
+    sum(case when month(date_resolution) = 3 then 1 else 0 end) as Mars,
+    sum(case when month(date_resolution) = 4 then 1 else 0 end) as Avril,
+    sum(case when month(date_resolution) = 5 then 1 else 0 end) as Mai,
+    sum(case when month(date_resolution) = 6 then 1 else 0 end) as Juin,
+    sum(case when month(date_resolution) = 7 then 1 else 0 end) as Juillet,
+    sum(case when month(date_resolution) = 8 then 1 else 0 end) as Aout,
+    sum(case when month(date_resolution) = 9 then 1 else 0 end) as Septembre,
+    sum(case when month(date_resolution) = 10 then 1 else 0 end) as Octobre,
+    sum(case when month(date_resolution) = 11 then 1 else 0 end) as Novembre,
+    sum(case when month(date_resolution) = 12 then 1 else 0 end) as Decembre,
+    count(*) as Total
+    from demande_autre
+    where date_resolution is not null
+    group by year(date_resolution)
+    with rollup 
+);*/
+
+create or replace view demande_RH_resolu_par_mois
+as(
+    select 
+    year(date_resolution) as Annee,
+    sum(case when month(date_resolution) = 1 then 1 else 0 end) as Janvier,
+    sum(case when month(date_resolution) = 2 then 1 else 0 end) as Fevrier,
+    sum(case when month(date_resolution) = 3 then 1 else 0 end) as Mars,
+    sum(case when month(date_resolution) = 4 then 1 else 0 end) as Avril,
+    sum(case when month(date_resolution) = 5 then 1 else 0 end) as Mai,
+    sum(case when month(date_resolution) = 6 then 1 else 0 end) as Juin,
+    sum(case when month(date_resolution) = 7 then 1 else 0 end) as Juillet,
+    sum(case when month(date_resolution) = 8 then 1 else 0 end) as Aout,
+    sum(case when month(date_resolution) = 9 then 1 else 0 end) as Septembre,
+    sum(case when month(date_resolution) = 10 then 1 else 0 end) as Octobre,
+    sum(case when month(date_resolution) = 11 then 1 else 0 end) as Novembre,
+    sum(case when month(date_resolution) = 12 then 1 else 0 end) as Decembre,
+    count(*) as Total
+    from archi_demande_rh
+    group by year(date_resolution)
+);
 
 /*****************************PROCEDURES********************************/
 
@@ -1427,7 +1512,6 @@ begin
     if(new.etat = "accepte" or new.etat = "refuse")
     then
         insert into archi_demande_rh values(new.id_demande_rh, new.libelle, new.objet, new.requete_sql, new.date_demande, new.date_resolution, new.etat, new.id_employe, new.id_manager);
-        delete from demande_rh where id_demande_rh = new.id_demande_rh;
     end if;
 end //
 delimiter ;

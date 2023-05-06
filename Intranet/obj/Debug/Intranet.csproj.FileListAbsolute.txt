@@ -49,9 +49,6 @@ C:\xampp\htdocs\Projet_1_Enquete\AntiGaspi\Intranet\obj\Debug\Intranet.csproj.Co
 C:\xampp\htdocs\Projet_1_Enquete\AntiGaspi\Intranet\obj\Debug\Intranet.csproj.CopyComplete
 C:\xampp\htdocs\Projet_1_Enquete\AntiGaspi\Intranet\obj\Debug\².dll
 C:\xampp\htdocs\Projet_1_Enquete\AntiGaspi\Intranet\obj\Debug\².pdb
-C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Microsoft.EntityFrameworkCore.xml
-C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\obj\Debug\Intranet.csproj.AssemblyReference.cache
-C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\obj\Debug\Intranet.csproj.CoreCompileInputs.cache
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\².dll.config
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\².dll
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\².pdb
@@ -72,6 +69,7 @@ C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\System.Collections.Immuta
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\System.Diagnostics.DiagnosticSource.dll
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\System.Interactive.Async.dll
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\System.Runtime.CompilerServices.Unsafe.dll
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Microsoft.EntityFrameworkCore.xml
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Microsoft.EntityFrameworkCore.Relational.xml
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Microsoft.Extensions.Caching.Abstractions.xml
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\Microsoft.Extensions.Caching.Memory.xml
@@ -88,6 +86,8 @@ C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\System.Collections.Immuta
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\System.Diagnostics.DiagnosticSource.xml
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\System.Interactive.Async.xml
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\bin\System.Runtime.CompilerServices.Unsafe.xml
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\obj\Debug\Intranet.csproj.AssemblyReference.cache
+C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\obj\Debug\Intranet.csproj.CoreCompileInputs.cache
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\obj\Debug\Intranet.csproj.CopyComplete
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\obj\Debug\².dll
 C:\xampp\htdocs\bachelor\projet\AntiGaspi\Intranet\obj\Debug\².pdb
