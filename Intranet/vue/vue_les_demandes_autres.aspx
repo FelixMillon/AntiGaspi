@@ -16,22 +16,26 @@
 
     foreach(VDemande_autre uneDemande_autre in lesDemande_autres)
     {   
-         chaine += "<tr class='text-center' >";
-         chaine += "<td>"+uneDemande_autre.Id_demande_autre+"</td>";
-         chaine += "<td>"+uneDemande_autre.Libelle+"</td>";
-         chaine += "<td>"+uneDemande_autre.Description+"</td>";
-         chaine += "<td>"+uneDemande_autre.Date_demande+"</td>";
-         chaine += "<td>"+uneDemande_autre.Date_resolution+"</td>";
-         chaine += "<td>"+uneDemande_autre.Etat+"</td>";
-         chaine += "<td>"+uneDemande_autre.NomE+" "+uneDemande_autre.PrenomE+"</td>";
-         chaine += "<td>"+uneDemande_autre.NomM+" "+uneDemande_autre.PrenomM+"</td>";
-
-         chaine += "<td>";
-         chaine += "<a href='Default.aspx?page=4&action=sup&id_demande_autre=" + uneDemande_autre.Id_demande_autre + "'><img src='images/sup.png' height='35' width='35'></br>";
-         chaine += "<a href='Default.aspx?page=4&action=edit&id_demande_autre=" + uneDemande_autre.Id_demande_autre + "'><img src='images/edit.png' height='35' width='35'></a>";
-         chaine += "</td>";
-
-         chaine += "</tr>";
+        if(uneDemande_autre.Etat == "attente")
+        {
+            chaine += "<tr class='text-center' >";
+                chaine += "<td>"+uneDemande_autre.Id_demande_autre+"</td>";
+                chaine += "<td>"+uneDemande_autre.Libelle+"</td>";
+                chaine += "<td>"+uneDemande_autre.Description+"</td>";
+                chaine += "<td>"+uneDemande_autre.Date_demande+"</td>";
+                chaine += "<td>"+uneDemande_autre.Date_resolution+"</td>";
+                chaine += "<td>"+uneDemande_autre.Etat+"</td>";
+                chaine += "<td>"+uneDemande_autre.NomE+" "+uneDemande_autre.PrenomE+"</td>";
+                chaine += "<td>"+uneDemande_autre.NomM+" "+uneDemande_autre.PrenomM+"</td>";
+       
+                chaine += "<td>";
+                chaine += "<a href='Default.aspx?page=4&action=sup&id_demande_autre=" + uneDemande_autre.Id_demande_autre + "'><img src='images/sup.png' height='35' width='35'></br>";
+                chaine += "<a href='Default.aspx?page=4&action=edit&id_demande_autre=" + uneDemande_autre.Id_demande_autre + "'><img src='images/edit.png' height='35' width='35'></a>";
+                chaine += "</td>";
+       
+                chaine += "</tr>";
+        }
+         
     }
     chaine += "</table>"; 
 %>

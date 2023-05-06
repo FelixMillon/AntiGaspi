@@ -31,7 +31,6 @@ namespace Intranet
         {
             unModele.DeleteUniversel(table, where, is_and);
         }
-
         public static Demande_autre SelectWhereDemande_autre(int id_demande_autre)
         {
             return unModele.SelectWhereDemande_autre(id_demande_autre);
@@ -76,7 +75,14 @@ namespace Intranet
         {
             return unModele.SelectAllManager();
         }
-
+        public static string DashboardDataAll()
+        {
+            return unModele.DashboardDataAll();
+        }
+        public static string DashboardDataPerso(int id_employe)
+        {
+            return unModele.DashboardDataPerso(id_employe);
+        }
         public static List<Employe> SelectAllEmploye()
         {
             return unModele.SelectAllEmploye();
@@ -150,5 +156,6 @@ namespace Intranet
         {
             return unModele.SelectAllLocal();
         }
+
     }
 }
