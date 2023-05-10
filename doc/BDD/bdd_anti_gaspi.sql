@@ -272,7 +272,7 @@ create table commande
     on update cascade
     on delete cascade
 )engine=innodb;
-
+c
 create table ligne_commande  
 (
     id_ligne_commande int(5) auto_increment not null,
