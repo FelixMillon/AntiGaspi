@@ -233,6 +233,7 @@ create table produit
     reduction decimal(4, 2),
     poids_unite decimal(8, 2),
     note decimal(5, 2),
+    quantite int(4),
     id_categorie int(5) not null,
     id_entreprise int(5) not null,
     primary key(id_produit),
@@ -264,6 +265,7 @@ create table commande
 (
     id_commande int(5) auto_increment not null,
     id_livreur int(5),
+    id_client int(5) not null,
 	dateheure_debut datetime not null,
 	dateheure_fin_reel datetime,
     dateheure_fin_estimee datetime,
@@ -1566,7 +1568,7 @@ insert into employe values(null,'Tombruaired@gmail.com','a665a45920422f9d417e486
 insert into employe values(null,'AmbrineNicolas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Ambrine','Nicolas','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur_rh ','1',null,null);
 insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lea','Remy','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'developpeur','1',null,null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
-insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,1,3);
+insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,100,1,3);
 
 insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
 insert into sujet values(null,1,'Question 1','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
