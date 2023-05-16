@@ -91,3 +91,19 @@ insert into archi_demande_rh values(null,'demande_43','demande test_43','','2022
 insert into archi_demande_rh values(null,'demande_44','demande test_44','','2022-11-12 12:10:12','2022-11-13 12:10:12','accepte',12,null);
 insert into archi_demande_rh values(null,'demande_45','demande test_45','','2022-11-12 12:10:12','2022-11-13 12:10:12','refuse',12,null);
 insert into archi_demande_rh values(null,'demande_46','demande test_46','','2022-11-12 12:10:12','2022-11-13 12:10:12','accepte',11,null);
+
+insert into produit values (null, 'Jus de Pomme', '100 % Pur pomme', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
+
+insert into produit values (null, 'Orange de Sicile', 'Fruits sans pesticides', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
+
+insert into produit values (null, 'Pomme de petit producteur', 'Melange de pomme : reine de reinette, rubinette, boskoop et patte de loup', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
+
+insert into produit values (null, 'Tablette de chocolat au lait lindt', '33% de cacao', 'vegetarien', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
+
+insert into produit values (null, 'Lait', 'Provenance de bretagne', 'vegetarien', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
+
+insert into produit values (null, 'Nuka cola', 'Petit gout fruite, une explosion en bouche', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
+
+insert into produit values (null, 'Bomb Sucree ', 'Pour le petit dejeuner ', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
+
+insert into produit values (null, 'Twinky', 'Toujours consomable meme apres 10 ans ', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '120', '5','100','1','2');
