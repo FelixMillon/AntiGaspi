@@ -5,8 +5,8 @@
 
 	if (isset($_REQUEST['email']) && isset($_REQUEST['mdp']))
 	{
-		$emailLivreur = $_REQUEST['email']; 
-		$mdpLivreur = hash('sha256',$_REQUEST['mdp']); 
+		$emailLivreur = $_REQUEST['email'];
+		$mdpLivreur = $_REQUEST['mdp'];
 
 		Controleur::connexion($host, $bdd, $user, $mdp);
 		print(Controleur::verifConnexion ($emailLivreur, $mdpLivreur));

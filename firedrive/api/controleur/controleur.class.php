@@ -22,6 +22,31 @@
 				"mdp"=>$unLivreur['mdp'],
 				"nom"=>$unLivreur['nom'],
 				"prenom"=>$unLivreur['prenom'],
+				"tel"=>$unLivreur['tel'],
+				"date_inscription"=>$unLivreur['date_inscription'],
+				"noteconfemp"=>$unLivreur['noteconfemp'],
+				"rue"=>$unLivreur['rue'],
+				"numrue"=>$unLivreur['numrue'],
+				"ville"=>$unLivreur['ville'],
+				"id_vehicule"=>$unLivreur['id_vehicule'],
+				"notepublic"=>$unLivreur['notepublic'],
+				"valide"=>$unLivreur['valide']
+				);
+			return "[".json_encode($tab)."]";
+		}
+
+		public static function get_livreur ($id_livreur)
+		{
+			
+			$unLivreur = Controleur::$unModele->get_livreur ($id_livreur) ;
+			//on va le parser JSon
+			$tab=array(
+				"id_livreur"=>$unLivreur['id_livreur'], 
+				"email"=>$unLivreur['email'],
+				"mdp"=>$unLivreur['mdp'],
+				"nom"=>$unLivreur['nom'],
+				"prenom"=>$unLivreur['prenom'],
+				"tel"=>$unLivreur['tel'],
 				"date_inscription"=>$unLivreur['date_inscription'],
 				"noteconfemp"=>$unLivreur['noteconfemp'],
 				"rue"=>$unLivreur['rue'],
@@ -130,9 +155,19 @@
 					$ligne = array(
 						"id_commande"=>$unVehicule['id_commande'],
 						"id_livreur"=>$unVehicule['id_livreur'],
+						"id_client"=>$unVehicule['id_client'],
 						"dateheure_debut"=>$unVehicule['dateheure_debut'],
 						"dateheure_fin_reel"=>$unVehicule['dateheure_fin_reel'],
-						"dateheure_fin_estimee"=>$unVehicule['dateheure_fin_estimee']
+						"dateheure_fin_estimee"=>$unVehicule['dateheure_fin_estimee'],
+						"numrue_depot"=>$unVehicule['numrue_depot'],
+						"rue_depot"=>$unVehicule['rue_depot'],
+						"ville_depot"=>$unVehicule['ville_depot'],
+						"cp_depot"=>$unVehicule['cp_depot'],
+						"poids_total"=>$unVehicule['total'],
+						"numrue_dest"=>$unVehicule['numrue_dest'],
+						"rue_dest"=>$unVehicule['rue_dest'],
+						"ville_dest"=>$unVehicule['ville_dest'],
+						"cp_dest"=>$unVehicule['cp_dest']
 					);
 				$tab[] = $ligne ;
 			}
@@ -148,9 +183,19 @@
 					$ligne = array(
 						"id_commande"=>$unVehicule['id_commande'],
 						"id_livreur"=>$unVehicule['id_livreur'],
+						"id_client"=>$unVehicule['id_client'],
 						"dateheure_debut"=>$unVehicule['dateheure_debut'],
 						"dateheure_fin_reel"=>$unVehicule['dateheure_fin_reel'],
-						"dateheure_fin_estimee"=>$unVehicule['dateheure_fin_estimee']
+						"dateheure_fin_estimee"=>$unVehicule['dateheure_fin_estimee'],
+						"numrue_depot"=>$unVehicule['numrue_depot'],
+						"rue_depot"=>$unVehicule['rue_depot'],
+						"ville_depot"=>$unVehicule['ville_depot'],
+						"cp_depot"=>$unVehicule['cp_depot'],
+						"poids_total"=>$unVehicule['total'],
+						"numrue_dest"=>$unVehicule['numrue_dest'],
+						"rue_dest"=>$unVehicule['rue_dest'],
+						"ville_dest"=>$unVehicule['ville_dest'],
+						"cp_dest"=>$unVehicule['cp_dest']
 					);
 				$tab[] = $ligne ;
 			}
@@ -178,7 +223,6 @@
 		public static function inscription ($tab)
 		{
 			Controleur::$unModele->inscription($tab); 
-			return '["ok":"1"]';
 		}
 
 		public static function insert_vehicule ($tab)
@@ -195,8 +239,13 @@
 
 		public static function update_livreur ($tab, $where)
 		{
+			foreach ($tab as $key => $value) {
+				if ($value === 'null') {
+					unset($tab[$key]);
+				}
+			}
+			
 			Controleur::$unModele->update_livreur($tab, $where); 
-			return '["ok":"1"]';
 		}
 
 		public static function update_vehicule ($tab, $where)
