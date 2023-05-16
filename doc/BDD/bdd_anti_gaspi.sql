@@ -275,14 +275,13 @@ create table commande
     on delete cascade
 )engine=innodb;
 
-create table commenter  
+create or replace table commenter  
 (
     id_commande int(5) not null,
-    id_livreur int(5) not null,
-    note int(1) not null,
-    commentaire varchar(255) not null,
-    primary key(id_commande,id_livreur),
-    foreign key(id_livreur) references livreur(id_livreur),
+    date_heure datetime default sysdate(),
+    note int(1),
+    commentaire varchar(255),
+    primary key(id_commande),
     foreign key(id_commande) references commande(id_commande)
 )engine=innodb;
 
@@ -991,6 +990,9 @@ SELECT * FROM manager_tree);
 
 END //
 DELIMITER ;
+
+
+
 
 /****************************TRIGGERS SUR UTILISATEUR************************************/
 
