@@ -270,7 +270,8 @@ create table commande
 	dateheure_fin_reel datetime,
     dateheure_fin_estimee datetime,
     primary key(id_commande,dateheure_debut),
-    foreign key(id_livreur) references livreur(id_livreur)
+    foreign key(id_livreur) references livreur(id_livreur),
+    foreign key(id_client) references client(id_client)
     on update cascade
     on delete cascade
 )engine=innodb;
@@ -860,28 +861,21 @@ as(
     group by year(date_resolution)
 );
 
-/*reate or replace view demande_autre_resolu_par_mois
-as(
-    select 
-    year(date_resolution) as Annee,
-    sum(case when month(date_resolution) = 1 then 1 else 0 end) as Janvier,
-    sum(case when month(date_resolution) = 2 then 1 else 0 end) as Fevrier,
-    sum(case when month(date_resolution) = 3 then 1 else 0 end) as Mars,
-    sum(case when month(date_resolution) = 4 then 1 else 0 end) as Avril,
-    sum(case when month(date_resolution) = 5 then 1 else 0 end) as Mai,
-    sum(case when month(date_resolution) = 6 then 1 else 0 end) as Juin,
-    sum(case when month(date_resolution) = 7 then 1 else 0 end) as Juillet,
-    sum(case when month(date_resolution) = 8 then 1 else 0 end) as Aout,
-    sum(case when month(date_resolution) = 9 then 1 else 0 end) as Septembre,
-    sum(case when month(date_resolution) = 10 then 1 else 0 end) as Octobre,
-    sum(case when month(date_resolution) = 11 then 1 else 0 end) as Novembre,
-    sum(case when month(date_resolution) = 12 then 1 else 0 end) as Decembre,
-    count(*) as Total
-    from demande_autre
-    where date_resolution is not null
-    group by year(date_resolution)
-    with rollup 
-);*/
+CREATE OR REPLACE VIEW quantite_commande AS
+SELECT C.*, totals.numrue_depot, totals.rue_depot, totals.ville_depot, totals.cp_depot, totals.total
+FROM commande C
+LEFT JOIN (
+    SELECT LC.id_commande, P.numrue_depot, P.rue_depot, P.ville_depot, P.cp_depot, SUM(LC.quantite * P.poids_unite) AS total
+    FROM ligne_commande LC
+    INNER JOIN produit P ON LC.id_produit = P.id_produit
+    GROUP BY LC.id_commande, P.numrue_depot, P.rue_depot, P.ville_depot, P.cp_depot
+) AS totals ON C.id_commande = totals.id_commande;
+
+create or replace view commande_complete as(
+    select Q.*,C.numrue numrue_dest, C.rue rue_dest, C.ville ville_dest, C.cp cp_dest
+    from quantite_commande Q, client C
+    where C.id_client = Q.id_client
+);
 
 create or replace view demande_RH_resolu_par_mois
 as(
@@ -1554,7 +1548,7 @@ delimiter ;
 
 /*****************************INSERTS************************************/
 
-insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,null,'particulier','attente');
+insert into client values(null,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789',"rue de l eglise",'15','Paris','75020',null,null,null,'particulier','attente');
 insert into client values(null,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,2.5,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas','ambassadeur association','association','attente');
 insert into entreprise values(null,'aubonpainbiendecheznous@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Subra de Bieusse','Jean-Michel',null,2.5,'0623476481','rue des grands moulins','15 bis','Paris','75013','bauefygziygu56498zeuzg','Au bon pain bien de chez nous',null,'proprietaire','boulangerie','attente');
 insert into livreur values(null,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,2.5,'0621248481','rue des champs','15','Paris','75020',null,null,'attente');
@@ -1570,7 +1564,9 @@ insert into employe values(null,'Tombruaired@gmail.com','a665a45920422f9d417e486
 insert into employe values(null,'AmbrineNicolas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Ambrine','Nicolas','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur_rh ','1',null,null);
 insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lea','Remy','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'developpeur','1',null,null);
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
-insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.1,30,null,100,1,3);
+insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,1,3);
+insert into produit values(null,'yaourt aux légumes','yaourt aux courgettes',null,'15 bis','rue des grands moulins','Paris','75013',0.3,0.5,30,null,100,1,3);
+insert into produit values(null,'yaourt aux steaks','yaourt au boeuf',null,'15 bis','rue des grands moulins','Paris','75013',15,0.1,500,null,1000,1,3);
 
 insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
 insert into sujet values(null,1,'Question 1','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
@@ -1663,4 +1659,15 @@ insert into contenu values(null,1,"400 euro de cheque vacance pour s'eclater en 
 insert into badgeage values(null,sysdate(),'entree',6);
 insert into demande_rh values(null,"demande de changement d'adresse","j'ai demenage au 8 rue des champs","update employe set numrue='8' where id_employe=6;",sysdate(),null,"attente",6,null);
 insert into consommateur values(null,'anonyme','123@456@789','anonyme','anonyme',sysdate(),0,'aucun','','','','','invalide');
+insert into commande values(null,null,1,sysdate(),null,(DATE_ADD(sysdate(), INTERVAL 1 HOUR)));
+insert into commande values(null,null,4,sysdate(),null,(DATE_ADD(sysdate(), INTERVAL 1 HOUR)));
+insert into commande values(null,null,2,sysdate(),null,(DATE_ADD(sysdate(), INTERVAL 1 HOUR)));
+insert into ligne_commande values(null,1,1,1,10);
+insert into ligne_commande values(null,1,2,1,20);
+insert into ligne_commande values(null,1,3,1,1);
+insert into ligne_commande values(null,4,1,2,30);
+insert into ligne_commande values(null,2,1,3,10);
+insert into ligne_commande values(null,2,2,3,20);
+insert into ligne_commande values(null,2,3,3,1);
+
 update utilisateur set id=0 where email='anonyme';
