@@ -985,6 +985,9 @@ SELECT * FROM manager_tree);
 END //
 DELIMITER ;
 
+
+
+
 /****************************TRIGGERS SUR UTILISATEUR************************************/
 
 drop trigger if exists utilisateur_after_update;
