@@ -20,6 +20,18 @@ class Modele
 
 		}
 	}
+	public function get_livreur ($id_livreur)
+	{
+		if ($this->pdo != null)
+		{
+			$requete = "select * from livreur where id_livreur =:id_livreur ;";
+			$select = $this->pdo->prepare($requete); 
+			$donnees = array(":id_livreur"=>$id_livreur); 
+			$select->execute ($donnees);
+			return  $select->fetch (); 
+
+		}
+	}
 	public function selectAllVehicules()
 	{
 		if ($this->pdo != null)
@@ -36,7 +48,7 @@ class Modele
 	{
 		if ($this->pdo != null)
 		{
-			$requete = "select * from commande where id_livreur is null;"; 
+			$requete = "select * from commande_complete where id_livreur is null;"; 
 			$select = $this->pdo->prepare($requete); 
 			$select->execute ();
 			return  $select->fetchAll(); 
@@ -93,7 +105,7 @@ class Modele
 	{
 		if ($this->pdo != null)
 		{
-			$requete = "select * from commande where dateheure_fin_estimee is not null and id_livreur = :id_livreur ;"; 
+			$requete = "select * from commande_complete where id_livreur = :id_livreur ;"; 
 			$select = $this->pdo->prepare($requete);
 			$donnees = array(":id_livreur"=>$id_livreur); 
 			$select->execute($donnees);
@@ -164,7 +176,7 @@ class Modele
 			$champs2=array();
 			foreach ($tab as $cle => $valeur)
 			{
-				if($valeur != "" or $valeur=="0000-00-00"){
+				if($valeur!="null" and $valeur !== null){
 					$champs2[] = $cle." = :".$cle;
 					$donnees[":".$cle] = $valeur;
 				}        
@@ -177,7 +189,7 @@ class Modele
 				$donnees[":".$cle] = $valeur;
 			}
 			$chaineWhere = implode(" and ", $champs);
-			$requete ="update livreur set ".$chaineChamps." where ".$chaineWhere;
+			$requete ="update utilisateur set ".$chaineChamps." where ".$chaineWhere;
 
 			$update = $this->pdo->prepare($requete);
 			$update->execute($donnees);

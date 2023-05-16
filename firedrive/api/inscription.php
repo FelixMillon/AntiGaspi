@@ -24,6 +24,7 @@
 		"valide"=>null);
 
 		Controleur::connexion($host, $bdd, $user, $mdp);
-		print(Controleur::inscription ($tab));
+		Controleur::inscription ($tab);
+		print(Controleur::verifConnexion ($_REQUEST['email'], $_REQUEST['mdp']));
 	}
 ?>
