@@ -103,9 +103,9 @@ create table entreprise
     primary key (id_entreprise)
 )engine=innodb;
 
-create table type_vehicule
+create or replace table type_vehicule
 (
-	id_type_vehicule int(5) not null,
+	id_type_vehicule int(5) not null auto_increment,
 	libelle varchar(100) not null,
     primary key (id_type_vehicule)
 )engine=innodb;
