@@ -1,0 +1,28 @@
+
+
+  <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+      <a routerLink="" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+        <img src="assets/img/logo.png"  class="bi me-2 img " style="width: 10vw;" role="img" alt="">
+      </a>
+
+      <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+        <li><a routerLink="" class="nav-link px-2 link-secondary">Accueil</a></li>
+        <li><a routerLink="/commercant" class="nav-link px-2 link-dark">Les commercants</a></li>
+        <li><a routerLink="/nos_valeurs" class="nav-link px-2 link-dark">Nos valeurs</a></li>
+        <li><a routerLink="/avis" class="nav-link px-2 link-dark">Avis</a></li>
+      </ul>
+
+      <div *ngIf="!SessionConnect" class="col-md-3 text-end">
+        <button routerLink="/auth/login" type="button" class="btn btn-outline-primary me-2">Se connecter</button>
+        <button type="button" class="btn btn-primary">S'inscrire</button>
+        <button routerLink="/panier" class="btn">
+          <i style="font-size: 30px;" class="fas fa-cart-plus"> </i>
+          <div style="font-size: 10px;" class="badge bg-danger">{{totalItem}}</div>
+        </button>
+      </div>
+
+
+
+    </header>
+  </div>

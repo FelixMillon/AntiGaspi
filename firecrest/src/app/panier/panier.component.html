@@ -1,0 +1,56 @@
+<ng-container *ngIf="produit.length != 0">
+    <div class="card-table">
+        <div class="cart-product">
+            <table class="container table table-responsive">
+                <thead>
+                    <tr>
+                        <th> Numéro de produit </th>
+                        <th> Libelle </th>
+                        <th> Note </th>
+                        <th> Prix </th>
+                        <th> Prix réduit </th>
+                        <th> Quantité </th>
+                        <th> Action </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let res of produit">
+                        <td>{{res.id_produit}}</td>
+                        <td>{{res.libelle}}</td>
+                        <td>{{res.note}}</td>
+                        <td>{{res.prix_base}}</td>
+                        <td>{{res.reduction}}</td>
+                        <td>{{res.quantite_uni}}</td>
+                        <td>
+                            <button (click)="removeItem(res)" class="btn btn-danger"> 
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center" style="margin-bottom: 2%;">
+                <h3> Total réduit : {{grandTotal}} € </h3>
+                <h5> Total de base : {{grandTotalBase}} € </h5>
+                <button (click)="emptycart()"  class="btn btn-danger">Vider le panier</button>
+                <button (click)="CommandeEnvoyer()" class="btn btn-primary">Envoyer</button>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="produit.length == 0">
+    <div class="container">
+        <div class="card">
+            <h5 class="card-title">Mon panier</h5>
+        </div>
+        <div class="center">
+            <img src="assets/img/panier-vide.png" alt="">
+            <h4>Ton panier est vide !</h4>
+            <h6>Ajoute un produit</h6>
+            <button routerLink="/" class="btn btn-primary">Accueil</button>
+            
+    
+        </div>
+    </div>
+</ng-container>

@@ -92,6 +92,13 @@ insert into archi_demande_rh values(null,'demande_44','demande test_44','','2022
 insert into archi_demande_rh values(null,'demande_45','demande test_45','','2022-11-12 12:10:12','2022-11-13 12:10:12','refuse',12,null);
 insert into archi_demande_rh values(null,'demande_46','demande test_46','','2022-11-12 12:10:12','2022-11-13 12:10:12','accepte',11,null);
 
+
+insert into categorie_produit values (null, "Jus", "jus de fruits");
+
+insert into categorie_produit values (null, "Petit dejeuner", "Pour tous les matins");
+
+insert into categorie_produit values (null, "Fruits et legumes ", "le plein de vitamine");
+
 insert into produit values (null, 'Jus de Pomme', '100 % Pur pomme', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
 
 insert into produit values (null, 'Orange de Sicile', 'Fruits sans pesticides', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','1','2');
