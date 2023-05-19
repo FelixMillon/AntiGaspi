@@ -1,0 +1,36 @@
+
+
+
+    <div id="enveloppe-contenu" class="container">
+
+      <div class="container">
+        <div class="row row-cols-3">
+        
+          <div *ngFor="let res of AllEntreprise" class="col py-3">
+            <a routerLink="pageproduit/{{res.id_entreprise}}">
+              <div class="card">
+                <h5 class="card-header">{{res.libelle}}</h5>
+                <div class="card-body">
+                  <h5 class="card-title text-capitalize">{{res.type_ent}}</h5>
+                  <p class="card-text text-capitalize"> {{res.numrue}} {{res.rue}}, {{res.ville}} {{res.cp}} </p>
+                  
+                </div>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+
+    </div>
+
+
+
+
+
+
+
+
+
+

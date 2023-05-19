@@ -1,0 +1,28 @@
+
+
+
+<div id="conteneur-page">
+    <div id="enveloppe-contenu" class="container">
+        <h2 style="padding-top: 2%;padding-bottom: 2%;"> Donnez votre avis</h2>
+        <table class="table text-center">
+            <thead>
+              <tr>
+                <th scope="col"># Numéro commande  </th>
+                <th scope="col">Livreur</th>
+                <th scope="col">Date et heure de la commande</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let res of LesAvis">
+                <th scope="row">{{res.id_commande}}</th>
+                <td>{{res.nom}} {{res.prenom}}</td>
+                <td>{{res.dateheure_debut}}</td>               
+                <td>
+                    <button routerLink="unAvis/{{res.id_commande}}" type="button" class="btn btn-primary">Mettre un avis</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>     
+    </div>
+</div>

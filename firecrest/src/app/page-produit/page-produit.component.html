@@ -1,0 +1,47 @@
+
+
+
+      <div id="enveloppe-contenu" class="container">
+          <h2> La page produit</h2>
+
+          <div class="container">
+            <div class="row row-cols-3 " *ngFor="let item of CatProd | keyvalue" >
+              
+              <h3 id="{{item.key}}" class="text-center"> {{item.key}} : {{item.value}}</h3>
+
+              {{Produit}}
+              
+                <div *ngFor="let res of Produit" class="col py-3  border">
+                    <div  class="card" style="height: 200px;">
+                      <h5 class="card-header text-truncate">{{res.libelle}}</h5>
+                      <div class="card-body">
+                          
+                        <h6 class="card-title text-truncate">{{res.description}}</h6>
+                        <p class="card-text"> {{res.poids_unite}} grammes</p>
+                        <button type="button" class="btn btn-primary btn-small" (click)=addtocart(res)>Ajouter au panier</button>
+                      </div>
+                    </div>                   
+                </div>
+
+
+
+                
+            </div>
+          </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
