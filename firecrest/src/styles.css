@@ -1,0 +1,17 @@
+#conteneur-page {
+  position: relative;
+  min-height: 90vh;
+}
+
+#enveloppe-contenu {
+  padding-bottom: 2.5rem;    /* Hauteur du pied-de-page */
+}
+
+#pied-de-page {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 75px;         /* Hauteur du pied-de-page */
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
