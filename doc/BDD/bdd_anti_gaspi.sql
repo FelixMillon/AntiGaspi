@@ -996,7 +996,13 @@ BEGIN
 END //
 DELIMITER ;
 
+/**************************** EVENT ON SCHEDULE ************************************/
 
+CREATE EVENT verifcation_peremption
+ON SCHEDULE EVERY 1 DAY
+STARTS '2023-05-20 00:00:00'
+DO
+    CALL supprimer_produits_perimes();
 
 /****************************TRIGGERS SUR UTILISATEUR************************************/
 
@@ -1579,7 +1585,7 @@ insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efd
 
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 
-insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,'2023-05-20',1,3);
+insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,'2023-05-19',1,3);
 insert into produit values(null,'yaourt aux légumes','yaourt aux courgettes',null,'15 bis','rue des grands moulins','Paris','75013',0.3,0.5,30,null,100,'2023-07-20',1,3);
 insert into produit values(null,'yaourt aux steaks','yaourt au boeuf',null,'15 bis','rue des grands moulins','Paris','75013',15,0.1,500,null,1000,'2023-06-05',1,3);
 
