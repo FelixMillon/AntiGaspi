@@ -234,6 +234,7 @@ create table produit
     poids_unite decimal(8, 2),
     note decimal(5, 2),
     quantite int(4),
+    date_peremption date, 
     id_categorie int(5) not null,
     id_entreprise int(5) not null,
     primary key(id_produit),
@@ -985,6 +986,15 @@ SELECT * FROM manager_tree);
 END //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE supprimer_produits_perimes()
+BEGIN
+    DECLARE currentDate DATE;
+    SET currentDate = CURDATE();
+
+    DELETE FROM produit WHERE date_peremption < currentDate;
+END //
+DELIMITER ;
 
 
 
