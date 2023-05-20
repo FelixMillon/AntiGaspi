@@ -234,6 +234,7 @@ create table produit
     poids_unite decimal(8, 2),
     note decimal(5, 2),
     quantite int(4),
+    date_peremption date, 
     id_categorie int(5) not null,
     id_entreprise int(5) not null,
     primary key(id_produit),
@@ -985,8 +986,23 @@ SELECT * FROM manager_tree);
 END //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE supprimer_produits_perimes()
+BEGIN
+    DECLARE currentDate DATE;
+    SET currentDate = CURDATE();
 
+    DELETE FROM produit WHERE date_peremption < currentDate;
+END //
+DELIMITER ;
 
+/**************************** EVENT ON SCHEDULE ************************************/
+
+CREATE EVENT verifcation_peremption
+ON SCHEDULE EVERY 1 DAY
+STARTS '2023-05-20 00:00:00'
+DO
+    CALL supprimer_produits_perimes();
 
 /****************************TRIGGERS SUR UTILISATEUR************************************/
 
@@ -1555,18 +1571,23 @@ insert into livreur values(null,'martinmatin@gmail.com','a665a45920422f9d417e486
 insert into client values(4,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,null,'0621248481','place des roses','18','Paris','75010',null,null,null,'particulier',null);
 insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,null,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
 insert into livreur values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,'attente');
+
 insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,null,'0123456789','rue des champs','15','Paris','75020','5','developpeur',null);
 insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','rue des champs','15','Paris','75020','7','reseau',null);
+
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
+
 insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into employe values(null,'','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Chan','Billal','0123456789','rue des paniers','15','Nantes','24562','Developpeur',2522,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into employe values(null,'Tombruaired@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tom','Buraire','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'rh','1',null,null);
 insert into employe values(null,'AmbrineNicolas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Ambrine','Nicolas','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur_rh ','1',null,null);
 insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lea','Remy','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'developpeur','1',null,null);
+
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
-insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,1,3);
-insert into produit values(null,'yaourt aux légumes','yaourt aux courgettes',null,'15 bis','rue des grands moulins','Paris','75013',0.3,0.5,30,null,100,1,3);
-insert into produit values(null,'yaourt aux steaks','yaourt au boeuf',null,'15 bis','rue des grands moulins','Paris','75013',15,0.1,500,null,1000,1,3);
+
+insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,'2023-05-19',1,3);
+insert into produit values(null,'yaourt aux légumes','yaourt aux courgettes',null,'15 bis','rue des grands moulins','Paris','75013',0.3,0.5,30,null,100,'2023-07-20',1,3);
+insert into produit values(null,'yaourt aux steaks','yaourt au boeuf',null,'15 bis','rue des grands moulins','Paris','75013',15,0.1,500,null,1000,'2023-06-05',1,3);
 
 insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
 insert into sujet values(null,1,'Question 1','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
