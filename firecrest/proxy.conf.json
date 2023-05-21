@@ -3,5 +3,9 @@
   "/Commercial_Api": {
     "target": "http://localhost:80/",
     "secure": false
+  },
+  "/Heberged_Api": {
+    "target": "http://192.168.23.130:80/",
+    "secure": false
   }
 }
