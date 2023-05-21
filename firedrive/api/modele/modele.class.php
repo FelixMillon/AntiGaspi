@@ -295,7 +295,7 @@ class Modele
 				$donnees[":".$cle] = $valeur;
 			}
 			$chaineWhere = implode(" and ", $champs);
-			$requete ="update commande set  dateheure_fin_estimee = sysdate() where ".$chaineWhere;
+			$requete ="update commande set  dateheure_fin_reel = sysdate() where ".$chaineWhere;
 
 			$update = $this->pdo->prepare($requete);
 			$update->execute($donnees);

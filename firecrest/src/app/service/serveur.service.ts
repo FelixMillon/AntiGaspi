@@ -10,7 +10,7 @@ export class ServeurService {
     this.server;
   }
 
-  public server: string = `http://localhost:80/Commercial_Api`;
+  public server: string = `http://192.168.23.130:80`;
   
 
 

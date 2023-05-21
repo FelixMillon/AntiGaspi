@@ -103,9 +103,9 @@ create table entreprise
     primary key (id_entreprise)
 )engine=innodb;
 
-create table type_vehicule
+create or replace table type_vehicule
 (
-	id_type_vehicule int(5) not null,
+	id_type_vehicule int(5) not null auto_increment,
 	libelle varchar(100) not null,
     primary key (id_type_vehicule)
 )engine=innodb;
@@ -234,6 +234,7 @@ create table produit
     poids_unite decimal(8, 2),
     note decimal(5, 2),
     quantite int(4),
+    date_peremption date, 
     id_categorie int(5) not null,
     id_entreprise int(5) not null,
     primary key(id_produit),
@@ -713,13 +714,13 @@ create or replace view vEmploye as (
 
 create or replace view VDemande_autre as (
       select D.*, E.Nom as NomE, E.prenom as prenomE, E.prenom_manager, E.nom_manager
-        from Demande_autre D, vEmploye E
+        from demande_autre D, vEmploye E
         where D.id_employe = E.id_employe
 );
 
 create or replace view VDemande_rh as (
       select D.*, E.Nom as NomE, E.prenom as prenomE, E.prenom_manager, E.nom_manager
-        from Demande_rh D, vEmploye E
+        from demande_rh D, vEmploye E
         where D.id_employe = E.id_employe
 );
 
@@ -730,24 +731,24 @@ create or replace view Vmanager as(
     m.date_embauche, m.date_depart, m.droits,
     m.id_planning,m.id_manager_sup,e.prenom_manager as prenom_m_sup,
     e.nom_manager as nom_m_sup, m.id_local, e.nom_local
-    from manager m, vemploye e
+    from manager m, vEmploye e
     where m.id_manager = e.id_employe
 );
 
 create or replace view VGerer as (
     select G.*, E.nom as nom_emp, E.prenom as prenom_emp, U.nom as nom_user, U.prenom as prenom_user
-    from Gerer G, Employe E, Utilisateur U
+    from gerer G, employe E, utilisateur U
     where G.id_utilisateur = U.id and G.id_employe = E.id_Employe
 );
 
 create or replace view VBadgeage as (
     select B.*, E.nom, E.prenom
-    from Badgeage B, Employe E
+    from badgeage B, employe E
     where B.id_employe = E.id_employe
 );
 
 create or replace view Varticle as (
-    select a.id_article, a.titre, a.sous_titre, a.contenu, a.id_cat_art, C.libelle as categorie,a.id_auteur id_employe, concat(e.prenom," ",e.nom) as auteur
+    select a.id_article, a.titre, a.sous_titre, a.contenu, a.id_cat_art, c.libelle as categorie,a.id_auteur id_employe, concat(e.prenom," ",e.nom) as auteur
     from article a, categorie_article c, employe e
     where a.id_auteur = e.id_employe and a.id_cat_art = c.id_cat_art
 );
@@ -985,8 +986,23 @@ SELECT * FROM manager_tree);
 END //
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE supprimer_produits_perimes()
+BEGIN
+    DECLARE currentDate DATE;
+    SET currentDate = CURDATE();
 
+    DELETE FROM produit WHERE date_peremption < currentDate;
+END //
+DELIMITER ;
 
+/**************************** EVENT ON SCHEDULE ************************************/
+
+CREATE EVENT verifcation_peremption
+ON SCHEDULE EVERY 1 DAY
+STARTS '2023-05-20 00:00:00'
+DO
+    CALL supprimer_produits_perimes();
 
 /****************************TRIGGERS SUR UTILISATEUR************************************/
 
@@ -1480,11 +1496,11 @@ delimiter //
 create trigger demande_rh_before_insert 
 before insert on demande_rh
 for each row
-	begin
-		set new.date_demande = SYSDATE();
-		set new.date_resolution = null;
-        set new.id_manager = (select id_manager from employe where id_employe = new.id_employe);
-	end //
+begin
+set new.date_demande = SYSDATE();
+set new.date_resolution = null;
+set new.id_manager = (select id_manager from employe where id_employe = new.id_employe);
+end //
 delimiter ;
 
 drop trigger if exists demande_rh_before_update;
@@ -1555,18 +1571,23 @@ insert into livreur values(null,'martinmatin@gmail.com','a665a45920422f9d417e486
 insert into client values(4,'martinmatin@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matin','Martin',null,null,'0621248481','place des roses','18','Paris','75010',null,null,null,'particulier',null);
 insert into entreprise values(2,'les_restos_du_pancreas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Matho','Momo',null,null,'0123456788','avenue saint honore','24','Paris','75008','izgefibdkcsnjis165161','les restos du pancreas',null,'ambassadeur association','association',null);
 insert into livreur values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,2.5,'0123456789','rue des champs','15','Paris','75020',null,null,'attente');
+
 insert into candidat values(1,'jean_dupont@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','dupont','jean',null,null,'0123456789','rue des champs','15','Paris','75020','5','developpeur',null);
 insert into candidat values(null,'eric_tang@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tang','Eric',null,null,'0178956789','rue des champs','15','Paris','75020','7','reseau',null);
+
 insert into planning values(null,'equipe developpement','https://equiplaning.com');
+
 insert into employe values(null,'selimaouad@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Aouad','Selim','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into employe values(null,'','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Chan','Billal','0123456789','rue des paniers','15','Nantes','24562','Developpeur',2522,'5','2022-05-25',null,'administrateur','1',null,null);
 insert into employe values(null,'Tombruaired@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Tom','Buraire','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'rh','1',null,null);
 insert into employe values(null,'AmbrineNicolas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Ambrine','Nicolas','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur_rh ','1',null,null);
 insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lea','Remy','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'developpeur','1',null,null);
+
 insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
-insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,1,3);
-insert into produit values(null,'yaourt aux légumes','yaourt aux courgettes',null,'15 bis','rue des grands moulins','Paris','75013',0.3,0.5,30,null,100,1,3);
-insert into produit values(null,'yaourt aux steaks','yaourt au boeuf',null,'15 bis','rue des grands moulins','Paris','75013',15,0.1,500,null,1000,1,3);
+
+insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,'2023-05-19',1,3);
+insert into produit values(null,'yaourt aux légumes','yaourt aux courgettes',null,'15 bis','rue des grands moulins','Paris','75013',0.3,0.5,30,null,100,'2023-07-20',1,3);
+insert into produit values(null,'yaourt aux steaks','yaourt au boeuf',null,'15 bis','rue des grands moulins','Paris','75013',15,0.1,500,null,1000,'2023-06-05',1,3);
 
 insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
 insert into sujet values(null,1,'Question 1','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
@@ -1643,7 +1664,7 @@ insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cher
 insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Millon','Felix','0618488719','rue Firmin Gillot','14','Paris','75015','Grand Manitou',50000,'7',curdate(),null,'administrateur','1',1,null,1);
 insert into manager values(null,'ambrine','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Nicolas','Ambrine','0760400688','rue Pierre Broussolette','3 bis','Persan','95340','Terreur',10000,'7',curdate(),null,'administrateur','1',1,11,1);
 insert into manager values(null,'mohamed','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Kerraz','Mohamed','0666620535','rue de la Roseraie','1','Meudon la foret','92360','Petit Manitou',10000,'7',curdate(),null,'administrateur','1',1,11,1);
-insert into employe values(null,'truc','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','De Gaulle','Charles','0100000001','Rue du faubourg Saint Honoré','55','Paris','75008','President','1','general','1942-14-07',null,'invite',1,11,1);
+insert into employe values(null,'truc','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','De Gaulle','Charles','0100000001','Rue du faubourg Saint Honoré','55','Paris','75008','President','1','general','1942-12-07',null,'invite',1,11,1);
 insert into employe values(null,'toto','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','tomtom','dugland','0123456789','rue des champs','15','Paris','75020','RH',2500,'5','2022-04-25',null,'administrateur_rh','1',null,null);
 insert into candidater values (1, 1, "2023-01-01", "2023-12-01", 3);
 insert into candidater values (1, 2, "2023-06-01", "2023-12-01", 3);

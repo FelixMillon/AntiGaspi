@@ -228,13 +228,13 @@
 		public static function insert_vehicule ($tab)
 		{
 			Controleur::$unModele->insert_vehicule($tab); 
-			return '["ok":"1"]';
+			return '[{"ok":"1"}]';
 		}
 
 		public static function AvisLivreur ($tab)
 		{
 			Controleur::$unModele->AvisLivreur($tab); 
-			return '["ok":"1"]';
+			return '[{"ok":"1"}]';
 		}
 
 		public static function update_livreur ($tab, $where)
@@ -251,37 +251,37 @@
 		public static function update_vehicule ($tab, $where)
 		{
 			Controleur::$unModele->update_vehicule($tab, $where); 
-			return '["ok":"1"]';
+			return '[{"ok":"1"}]';
 		}
 		
 		public static function Affectation_livraison ($tab, $where)
 		{
 			Controleur::$unModele->Affectation_livraison($tab, $where); 
-			return '["ok":"1"]';
+			return '[{"ok":"1"}]';
 		}
 
 		public static function Abandonner_livraison ($where)
 		{
 			Controleur::$unModele->Abandonner_livraison($where); 
-			return '["ok":"1"]';
+			return '[{"ok":"1"}]';
 		}
 
 		public static function Terminer_livraison ($where)
 		{
 			Controleur::$unModele->Terminer_livraison($where); 
-			return '["ok":"1"]';
+			return '[{"ok":"1"}]';
 		}
 
 		public static function delete_livreur ( $where)
 		{
 			Controleur::$unModele->delete_livreur($where); 
-			return '["ok":"1"]';
+			return '[{"ok":"1"}]';
 		}
 
 		public static function delete_vehicule ( $where)
 		{
 			Controleur::$unModele->delete_vehicule($where); 
-			return '["ok":"1"]';
+			return '[{"ok":"1"}]';
 		}
 
 	}
