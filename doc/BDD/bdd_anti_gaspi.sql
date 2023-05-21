@@ -103,9 +103,9 @@ create table entreprise
     primary key (id_entreprise)
 )engine=innodb;
 
-create table type_vehicule
+create or replace table type_vehicule
 (
-	id_type_vehicule int(5) not null,
+	id_type_vehicule int(5) not null auto_increment,
 	libelle varchar(100) not null,
     primary key (id_type_vehicule)
 )engine=innodb;
@@ -714,13 +714,13 @@ create or replace view vEmploye as (
 
 create or replace view VDemande_autre as (
       select D.*, E.Nom as NomE, E.prenom as prenomE, E.prenom_manager, E.nom_manager
-        from Demande_autre D, vEmploye E
+        from demande_autre D, vEmploye E
         where D.id_employe = E.id_employe
 );
 
 create or replace view VDemande_rh as (
       select D.*, E.Nom as NomE, E.prenom as prenomE, E.prenom_manager, E.nom_manager
-        from Demande_rh D, vEmploye E
+        from demande_rh D, vEmploye E
         where D.id_employe = E.id_employe
 );
 
@@ -731,24 +731,24 @@ create or replace view Vmanager as(
     m.date_embauche, m.date_depart, m.droits,
     m.id_planning,m.id_manager_sup,e.prenom_manager as prenom_m_sup,
     e.nom_manager as nom_m_sup, m.id_local, e.nom_local
-    from manager m, vemploye e
+    from manager m, vEmploye e
     where m.id_manager = e.id_employe
 );
 
 create or replace view VGerer as (
     select G.*, E.nom as nom_emp, E.prenom as prenom_emp, U.nom as nom_user, U.prenom as prenom_user
-    from Gerer G, Employe E, Utilisateur U
+    from gerer G, employe E, utilisateur U
     where G.id_utilisateur = U.id and G.id_employe = E.id_Employe
 );
 
 create or replace view VBadgeage as (
     select B.*, E.nom, E.prenom
-    from Badgeage B, Employe E
+    from badgeage B, employe E
     where B.id_employe = E.id_employe
 );
 
 create or replace view Varticle as (
-    select a.id_article, a.titre, a.sous_titre, a.contenu, a.id_cat_art, C.libelle as categorie,a.id_auteur id_employe, concat(e.prenom," ",e.nom) as auteur
+    select a.id_article, a.titre, a.sous_titre, a.contenu, a.id_cat_art, c.libelle as categorie,a.id_auteur id_employe, concat(e.prenom," ",e.nom) as auteur
     from article a, categorie_article c, employe e
     where a.id_auteur = e.id_employe and a.id_cat_art = c.id_cat_art
 );
@@ -1496,11 +1496,11 @@ delimiter //
 create trigger demande_rh_before_insert 
 before insert on demande_rh
 for each row
-	begin
-		set new.date_demande = SYSDATE();
-		set new.date_resolution = null;
-        set new.id_manager = (select id_manager from employe where id_employe = new.id_employe);
-	end //
+begin
+set new.date_demande = SYSDATE();
+set new.date_resolution = null;
+set new.id_manager = (select id_manager from employe where id_employe = new.id_employe);
+end //
 delimiter ;
 
 drop trigger if exists demande_rh_before_update;
@@ -1664,7 +1664,7 @@ insert into poste values(null,"consultant livraison",sysdate(),null,"0.99","cher
 insert into manager values(null,'felix.millon@firecrest.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Millon','Felix','0618488719','rue Firmin Gillot','14','Paris','75015','Grand Manitou',50000,'7',curdate(),null,'administrateur','1',1,null,1);
 insert into manager values(null,'ambrine','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Nicolas','Ambrine','0760400688','rue Pierre Broussolette','3 bis','Persan','95340','Terreur',10000,'7',curdate(),null,'administrateur','1',1,11,1);
 insert into manager values(null,'mohamed','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Kerraz','Mohamed','0666620535','rue de la Roseraie','1','Meudon la foret','92360','Petit Manitou',10000,'7',curdate(),null,'administrateur','1',1,11,1);
-insert into employe values(null,'truc','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','De Gaulle','Charles','0100000001','Rue du faubourg Saint Honoré','55','Paris','75008','President','1','general','1942-14-07',null,'invite',1,11,1);
+insert into employe values(null,'truc','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','De Gaulle','Charles','0100000001','Rue du faubourg Saint Honoré','55','Paris','75008','President','1','general','1942-12-07',null,'invite',1,11,1);
 insert into employe values(null,'toto','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','tomtom','dugland','0123456789','rue des champs','15','Paris','75020','RH',2500,'5','2022-04-25',null,'administrateur_rh','1',null,null);
 insert into candidater values (1, 1, "2023-01-01", "2023-12-01", 3);
 insert into candidater values (1, 2, "2023-06-01", "2023-12-01", 3);
