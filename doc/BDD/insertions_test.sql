@@ -91,7 +91,7 @@ insert into archi_demande_rh values(null,'demande_43','demande test_43','','2022
 insert into archi_demande_rh values(null,'demande_44','demande test_44','','2022-11-12 12:10:12','2022-11-13 12:10:12','accepte',12,null);
 insert into archi_demande_rh values(null,'demande_45','demande test_45','','2022-11-12 12:10:12','2022-11-13 12:10:12','refuse',12,null);
 insert into archi_demande_rh values(null,'demande_46','demande test_46','','2022-11-12 12:10:12','2022-11-13 12:10:12','accepte',11,null);
-
+update archi_demande_rh set id_demande_rh = id_demande_rh + 500;
 
 insert into categorie_produit values (null, "Jus", "jus de fruits");
 
