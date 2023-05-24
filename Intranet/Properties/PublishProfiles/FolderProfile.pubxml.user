@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121.
+-->
+<Project>
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\sites</_PublishTargetUrl>
+    <History>True|2023-05-23T18:28:01.2514365Z;</History>
+    <LastFailureDetails />
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="Article.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="Badgeage.aspx">
+      <publishTime>02/19/2023 17:48:37</publishTime>
+    </File>
+    <File Include="bin/Microsoft.EntityFrameworkCore.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.EntityFrameworkCore.Relational.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Caching.Abstractions.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Caching.Memory.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.DependencyInjection.Abstractions.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.DependencyInjection.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Logging.Abstractions.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Logging.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Options.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Extensions.Primitives.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/MySql.Data.EntityFrameworkCore.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/Remotion.Linq.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/System.Collections.Immutable.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/System.Diagnostics.DiagnosticSource.dll">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="bin/System.Interactive.Async.dll">
+      <publishTime>02/08/2023 21:36:10</publishTime>
+    </File>
+    <File Include="bin/System.Runtime.CompilerServices.Unsafe.dll">
+      <publishTime>02/08/2023 21:36:10</publishTime>
+    </File>
+    <File Include="bin/².dll">
+      <publishTime>05/23/2023 20:28:00</publishTime>
+    </File>
+    <File Include="Cat_Article.aspx">
+      <publishTime>02/27/2023 22:19:22</publishTime>
+    </File>
+    <File Include="Dashboard.aspx">
+      <publishTime>02/25/2023 20:40:06</publishTime>
+    </File>
+    <File Include="Default.aspx">
+      <publishTime>05/23/2023 19:59:32</publishTime>
+    </File>
+    <File Include="Demande_autre.aspx">
+      <publishTime>02/12/2023 21:13:46</publishTime>
+    </File>
+    <File Include="Demande_rh.aspx">
+      <publishTime>02/19/2023 16:13:10</publishTime>
+    </File>
+    <File Include="Emploi.aspx">
+      <publishTime>02/14/2023 23:49:37</publishTime>
+    </File>
+    <File Include="Gerer.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="home.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="List_article.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="Local.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="Login.aspx">
+      <publishTime>02/18/2023 15:16:12</publishTime>
+    </File>
+    <File Include="Modification.aspx">
+      <publishTime>02/10/2023 23:44:58</publishTime>
+    </File>
+    <File Include="Moncompte.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="Planning.aspx">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="Ticketing.aspx">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+    <File Include="Un_article.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="vue/vue_insert_article.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="vue/vue_insert_badgeage.aspx">
+      <publishTime>02/19/2023 16:55:06</publishTime>
+    </File>
+    <File Include="vue/vue_insert_cat_article.aspx">
+      <publishTime>02/10/2023 23:44:58</publishTime>
+    </File>
+    <File Include="vue/vue_insert_demande_autre.aspx">
+      <publishTime>02/11/2023 00:38:07</publishTime>
+    </File>
+    <File Include="vue/vue_insert_demande_rh.aspx">
+      <publishTime>02/19/2023 17:45:05</publishTime>
+    </File>
+    <File Include="vue/vue_insert_gestion.aspx">
+      <publishTime>02/10/2023 23:44:58</publishTime>
+    </File>
+    <File Include="vue/vue_insert_local.aspx">
+      <publishTime>02/10/2023 23:44:58</publishTime>
+    </File>
+    <File Include="vue/vue_les_articles.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="vue/vue_les_badgeages.aspx">
+      <publishTime>02/12/2023 20:55:04</publishTime>
+    </File>
+    <File Include="vue/vue_les_cat_articles.aspx">
+      <publishTime>02/27/2023 22:17:01</publishTime>
+    </File>
+    <File Include="vue/vue_les_demandes_autres.aspx">
+      <publishTime>02/25/2023 20:06:18</publishTime>
+    </File>
+    <File Include="vue/vue_les_demandes_rhs.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="vue/vue_les_gestions.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="vue/vue_les_locaux.aspx">
+      <publishTime>02/14/2023 23:14:23</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>02/08/2023 21:36:09</publishTime>
+    </File>
+  </ItemGroup>
+</Project>
