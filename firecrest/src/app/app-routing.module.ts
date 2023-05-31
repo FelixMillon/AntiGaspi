@@ -9,6 +9,9 @@ import { InscriptionComponent } from './inscription/inscription.component';
 import { AuthGuard } from './guards/auth.guard';
 import { AvisComponent } from './avis/avis.component';
 import { UnavisComponent } from './avis/unavis/unavis.component';
+import { CompteComponent } from './compte/compte.component';
+import { AjoutProduitComponent } from './ajout-produit/ajout-produit.component';
+import { ModifProfilComponent } from './modif-profil/modif-profil.component';
 
 const routes: Routes = [
   { path : '', redirectTo: 'accueil', pathMatch: 'full'},
@@ -21,9 +24,12 @@ const routes: Routes = [
       { path : 'pageproduit/:id', component : PageProduitComponent},
       { path : 'panier', component : PanierComponent, canActivate: [AuthGuard]},
       { path : 'inscription', component : InscriptionComponent},
+      { path : 'moncompte', component : CompteComponent, canActivate: [AuthGuard]},
+      { path : 'modif', component : ModifProfilComponent, canActivate: [AuthGuard]},
+      { path : 'ajout_produit', component : AjoutProduitComponent, canActivate: [AuthGuard]},
       { path : 'avis',
       children: [
-        { path:'', component: AvisComponent},
+        { path:'', component: AvisComponent, canActivate: [AuthGuard]},
         { path:'unAvis/:id', component: UnavisComponent}
       ]},
     ]

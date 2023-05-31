@@ -1,8 +1,8 @@
 
 <div id="enveloppe-contenu" class="container" style="padding-top: 5%;">
   <div class="d-flex justify-content-center" style="padding-bottom: 5%;">
-    <button class="btn btn-primary" style="margin-right: 5%;" >En tant que client</button>
-    <button class="btn btn-outline-primary" style="margin-left: 5%;">En tant qu'entreprise</button>
+    <button class="btn" [ngClass]="type_co == 'client' ? 'btn-primary' : 'btn-outline-primary'" (click)="Client()"  style="margin-right: 5%;" >En tant que client</button>
+    <button class="btn" [ngClass]="type_co == 'entreprise' ? 'btn-primary' : 'btn-outline-primary'" (click)="Entreprise()"  style="margin-left: 5%;">En tant qu'entreprise</button>
   </div>
   <div class="tab-content">
     <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="tab-login">
@@ -34,7 +34,7 @@
         </div>
 
         <div class="text-center">
-          <p>Pas de compte ? <a href="#!">S'inscrire</a></p>
+          <p>Pas de compte ? <a  routerLink="/inscription" >S'inscrire</a></p>
         </div>
       
   </div>

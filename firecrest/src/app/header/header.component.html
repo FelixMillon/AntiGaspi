@@ -10,19 +10,24 @@
         <li><a routerLink="" class="nav-link px-2 link-secondary">Accueil</a></li>
         <li><a routerLink="/commercant" class="nav-link px-2 link-dark">Les commercants</a></li>
         <li><a routerLink="/nos_valeurs" class="nav-link px-2 link-dark">Nos valeurs</a></li>
-        <li><a routerLink="/avis" class="nav-link px-2 link-dark">Avis</a></li>
+        <li><a *ngIf="User.role == 'client' " routerLink="/avis" class="nav-link px-2 link-dark">Avis </a></li>
+        <li><a *ngIf="User.role == 'entreprise' " routerLink="/ajout_produit" class="nav-link px-2 link-dark">Gestion des produits </a></li>
+        <li><a *ngIf="User.role == 'admin' " routerLink="/avis" class="nav-link px-2 link-dark">Modération avis </a></li>
       </ul>
 
-      <div *ngIf="!SessionConnect" class="col-md-3 text-end">
-        <button routerLink="/auth/login" type="button" class="btn btn-outline-primary me-2">Se connecter</button>
-        <button type="button" class="btn btn-primary">S'inscrire</button>
+      <div class="col-md-3 text-end">
+
+        <button *ngIf="User.email == undefined" routerLink="/auth/login" type="button" class="btn btn-outline-primary me-2 btn-sm">Se connecter</button>
+        <button *ngIf="User.email == undefined" routerLink="inscription"  type="button" class="btn btn-primary btn-sm">S'inscrire</button>
+  
+        <button *ngIf="User.email != undefined" routerLink="/moncompte" type="button" class="btn btn-outline-primary me-2 btn-sm">Mon compte</button>
+        <a href="/" *ngIf="User.email != undefined" type="button" class="btn btn-danger btn-sm">Se déconneter</a>
+ 
+
         <button routerLink="/panier" class="btn">
           <i style="font-size: 30px;" class="fas fa-cart-plus"> </i>
           <div style="font-size: 10px;" class="badge bg-danger">{{totalItem}}</div>
         </button>
       </div>
-
-
-
     </header>
   </div>
