@@ -11,11 +11,10 @@ export class AccueilComponent {
 
   public AllEntreprise : AllEntreprise[] | undefined;
 
-  constructor(private fdrService : HomeService){}
+  constructor(private Home : HomeService){}
 
   ngOnInit(){
-    this.fdrService.AllEntreprise().subscribe((res) => {
-      console.log(res);
+    this.Home.AllEntreprise().subscribe((res) => {
       this.AllEntreprise = res;
     });
     

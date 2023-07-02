@@ -1,0 +1,63 @@
+<div id="enveloppe-contenu" class="container" style="padding-top: 5%;">
+    <!-- 2 column grid layout with text inputs for the first and last names -->
+    <div class="row mb-4">
+      <div class="col-6" style="padding-top: 2%;">
+        <div class="form-outline">
+            <label class="form-label" for="form6Example1">Nom</label>
+          <input type="text" id="form6Example1" class="form-control" placeholder="{{User.nom}}" [(ngModel)]="nom" [ngModelOptions]="{standalone: true}"/>
+        </div>
+      </div>
+      <div class="col-6" style="padding-top: 2%;">
+        <div class="form-outline">
+            <label class="form-label" for="form6Example2">Prénom</label>
+          <input type="text" id="form6Example2" class="form-control" placeholder="{{User.prenom}}" [(ngModel)]="prenom" [ngModelOptions]="{standalone: true}"/>
+        </div>
+      </div>
+
+
+      <div class="col-12" style="padding-top: 2%;">
+        <div class="form-outline">
+            <label class="form-label" for="form6Example2">Numéro de télephone</label>
+          <input type="text" id="form6Example2" class="form-control" placeholder="{{User.tel}}" [(ngModel)]="tel" [ngModelOptions]="{standalone: true}"/>
+        </div>
+      </div>
+
+
+      <div class="col-2" style="padding-top: 2%;">
+        <div class="form-outline">
+            <label class="form-label" for="form6Example2">Numéro de rue</label>
+          <input type="text" id="form6Example2" class="form-control" placeholder="{{User.numrue}}" [(ngModel)]="numrue" [ngModelOptions]="{standalone: true}"/>
+        </div>
+      </div>
+
+
+      <div class="col-6" style="padding-top: 2%;">
+        <div class="form-outline">
+            <label class="form-label" for="form6Example2">Adresse</label>
+          <input type="text" id="form6Example2" class="form-control" placeholder="{{User.rue}}" [(ngModel)]="rue" [ngModelOptions]="{standalone: true}"/>
+        </div>
+      </div>
+
+      <div class="col-2" style="padding-top: 2%;">
+        <div class="form-outline">
+            <label class="form-label" for="form6Example2">Ville</label>
+          <input type="text" id="form6Example2" class="form-control" placeholder="{{User.ville}}" [(ngModel)]="ville" [ngModelOptions]="{standalone: true}"/>
+        </div>
+      </div>
+
+      <div class="col-2" style="padding-top: 2%;">
+        <div class="form-outline">
+            <label class="form-label" for="form6Example2">Code postal</label>
+          <input type="text" id="form6Example2" class="form-control" placeholder="{{User.cp}}" [(ngModel)]="cp"  [ngModelOptions]="{standalone: true}" />
+        </div>
+      </div>
+
+
+    </div>
+    
+    <div class="d-flex justify-content-around" style="padding-top: 8%;">
+        <button class="btn btn-danger btn-block mb-4 w-25"> Annuler</button>
+        <button (click)="Modifprofil()" class="btn btn-primary btn-block mb-4 w-25">Confirmer</button>
+    </div>
+   
+</div>

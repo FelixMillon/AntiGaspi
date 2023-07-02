@@ -15,7 +15,7 @@ import { enableProdMode } from '@angular/core';
 export class PageProduitComponent {
 
   public Produit : ProduitWhere[] = [];
-  public CatProd : [string, any][] = [];
+  public CatProd : any[] =  [];
   public Produitorg : ProduitWhere[] = [];
 
   id: any;
@@ -30,13 +30,7 @@ export class PageProduitComponent {
       this.HomeService.SelectProduitWhere(this.id).subscribe((res) => {
         this.Produit = res;
         this.CatProd = this.groupByType(this.Produit);
-        this.Produit.forEach(unProduit => {
-          if(unProduit.lib){
-            
-          }
-        });
         console.log(this.CatProd)
-        console.log(res)
       });
 
   

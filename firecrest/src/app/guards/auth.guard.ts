@@ -7,13 +7,17 @@ import { AuthService } from "../service/auth.service";
 })
 
 export class AuthGuard implements CanActivate {
+    public autorisation : string  ="";
 
     constructor(private auth: AuthService, private router : Router){
 
     }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean  {
-        if(this.auth.getToken()){
+
+        console.log(this.auth.getToken());
+
+        if(this.auth.getToken() == "ok"){
             return true;
         }else{
             this.router.navigateByUrl('/auth/login');

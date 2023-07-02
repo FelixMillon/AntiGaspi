@@ -216,7 +216,9 @@ create table categorie_produit
 	id_categorie int(5) not null auto_increment,
 	libelle varchar(100) not null,
 	description varchar(255) not null,
-    primary key(id_categorie)
+    id_entreprise int(5),
+    primary key(id_categorie),
+    foreign key(id_entreprise) references entreprise(id_entreprise)
 )engine=innodb;
 
 create table produit
@@ -1586,11 +1588,35 @@ insert into employe values(null,'Tombruaired@gmail.com','a665a45920422f9d417e486
 insert into employe values(null,'AmbrineNicolas@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Ambrine','Nicolas','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'administrateur_rh ','1',null,null);
 insert into employe values(null,'LeaRemy@gmail.com','a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3','Lea','Remy','0123456789','rue des champs','15','Paris','75020','Developpeur',2500,'5','2022-05-25',null,'developpeur','1',null,null);
 
-insert into categorie_produit values(null,'produit laitier','tout produit issu du lait');
 
-insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,'2023-05-19',1,3);
-insert into produit values(null,'yaourt aux légumes','yaourt aux courgettes',null,'15 bis','rue des grands moulins','Paris','75013',0.3,0.5,30,null,100,'2023-07-20',1,3);
-insert into produit values(null,'yaourt aux steaks','yaourt au boeuf',null,'15 bis','rue des grands moulins','Paris','75013',15,0.1,500,null,1000,'2023-06-05',1,3);
+
+insert into categorie_produit values (null, "Jus", "jus de fruits", 2);
+
+insert into categorie_produit values (null, "Petit dejeuner", "Pour tous les matins", 2);
+
+insert into categorie_produit values (null, "Fruits et legumes ", "le plein de vitamine", 2);
+
+insert into categorie_produit values(null,'produit laitier','tout produit issu du lait', 2);
+
+insert into produit values (null, 'Jus de Pomme', '100 % Pur pomme', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','2023-07-25','1','2');
+
+insert into produit values (null, 'Orange de Sicile', 'Fruits sans pesticides', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','2023-07-25','1','2');
+
+insert into produit values (null, 'Pomme de petit producteur', 'Melange de pomme : reine de reinette, rubinette, boskoop et patte de loup', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','2023-07-25','3','2');
+
+insert into produit values (null, 'Tablette de chocolat au lait lindt', '33% de cacao', 'vegetarien', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','2023-07-25','2','2');
+
+insert into produit values (null, 'Lait', 'Provenance de bretagne', 'vegetarien', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','2023-07-25','4','2');
+
+insert into produit values (null, 'Nuka cola', 'Petit gout fruite, une explosion en bouche', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','2023-07-25','2','2');
+
+insert into produit values (null, 'Bomb Sucree ', 'Pour le petit dejeuner ', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '1200', '5','100','2023-07-25','2','2');
+
+insert into produit values (null, 'Twinky', 'Toujours consomable meme apres 10 ans ', 'vegan', '5', 'rue des rosier', 'Boulogne', '92140', '2.99', '1.19', '120', '5','100','2023-07-25','2','2');
+
+insert into produit values(null,'yaourt aux fruits','yaourt aux fraises',null,'15 bis','rue des grands moulins','Paris','75013',0.5,0.2,30,null,100,'2023-05-19',4,3);
+insert into produit values(null,'yaourt aux légumes','yaourt aux courgettes',null,'15 bis','rue des grands moulins','Paris','75013',0.3,0.5,30,null,100,'2023-07-20',4,3);
+insert into produit values(null,'yaourt aux steaks','yaourt au boeuf',null,'15 bis','rue des grands moulins','Paris','75013',15,0.1,500,null,1000,'2023-06-05',4,3);
 
 insert into enquete values(null,'Gaspillage alimentaire','Enquete sur le gaspillage alimentaire');
 insert into sujet values(null,1,'Question 1','A quelle frequence faites-vous vos courses ?','qcu',"Quotidien|Hebdomadaire|Bimensuel|Mensuel",1);
