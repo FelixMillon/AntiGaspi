@@ -4,8 +4,8 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 -->
 <Project>
   <PropertyGroup>
-    <_PublishTargetUrl>C:\sites</_PublishTargetUrl>
-    <History>True|2023-05-31T08:32:52.9288885Z;True|2023-05-23T20:28:01.2514365+02:00;</History>
+    <_PublishTargetUrl>C:\sites2</_PublishTargetUrl>
+    <History>True|2023-05-31T08:48:08.0122545Z;True|2023-05-31T10:34:34.8507108+02:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
   <ItemGroup>
@@ -67,7 +67,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>02/08/2023 21:36:10</publishTime>
     </File>
     <File Include="bin/².dll">
-      <publishTime>05/31/2023 10:32:52</publishTime>
+      <publishTime>05/31/2023 10:34:34</publishTime>
     </File>
     <File Include="Cat_Article.aspx">
       <publishTime>02/27/2023 22:19:22</publishTime>

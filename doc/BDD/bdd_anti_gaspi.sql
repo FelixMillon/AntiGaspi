@@ -277,14 +277,15 @@ create table commande
     on delete cascade
 )engine=innodb;
 
-create or replace table commenter  
+create table commenter  
 (
     id_commande int(5) not null,
-    date_heure datetime default sysdate(),
+    id_livreur int(5) not null,
     note int(1),
     commentaire varchar(255),
-    primary key(id_commande),
-    foreign key(id_commande) references commande(id_commande)
+    primary key(id_commande,id_livreur),
+    foreign key(id_commande) references commande(id_commande),
+    foreign key(id_livreur) references commande(id_livreur)
 )engine=innodb;
 
 create table ligne_commande  
@@ -919,10 +920,10 @@ create procedure recursemanager(
 )
 BEGIN
 WITH RECURSIVE manager_tree AS (
-    SELECT * FROM vemploye WHERE id_employe = le_id_user
+    SELECT * FROM vEmploye WHERE id_employe = le_id_user
     UNION ALL
     SELECT e.*
-    FROM vemploye e, manager_tree WHERE e.id_manager = manager_tree.id_employe
+    FROM vEmploye e, manager_tree WHERE e.id_manager = manager_tree.id_employe
 )
 SELECT * FROM manager_tree;
 
@@ -936,7 +937,7 @@ create procedure recursedemande_rh(
 )
 BEGIN
 
-select * from vdemande_rh where id_employe in (
+select * from VDemande_rh where id_employe in (
 WITH RECURSIVE manager_tree AS (
     SELECT id_employe FROM employe WHERE id_employe = le_id_user
     UNION ALL
@@ -955,7 +956,7 @@ create procedure recursedemande_autre(
 )
 BEGIN
 
-select * from vdemande_autre where id_employe in (
+select * from VDemande_autre where id_employe in (
 WITH RECURSIVE manager_tree AS (
     SELECT id_employe FROM employe WHERE id_employe = le_id_user
     UNION ALL
@@ -974,7 +975,7 @@ create procedure recursebadgeage(
 )
 BEGIN
 
-select * from vbadgeage where id_employe in (
+select * from VBadgeage where id_employe in (
 WITH RECURSIVE manager_tree AS (
     SELECT id_employe FROM employe WHERE id_employe = le_id_user
     UNION ALL
@@ -995,6 +996,8 @@ BEGIN
     DELETE FROM produit WHERE date_peremption < currentDate;
 END //
 DELIMITER ;
+
+
 
 /**************************** EVENT ON SCHEDULE ************************************/
 

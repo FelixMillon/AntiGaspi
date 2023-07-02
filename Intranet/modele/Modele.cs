@@ -1536,7 +1536,7 @@ namespace Intranet
 
         public List<VArticle> SelectAllVArticle()
         {
-            string requete = "select * from VArticle;";
+            string requete = "select * from Varticle;";
             List<VArticle> lesVArticles = new List<VArticle>();
             MySqlCommand uneCmde = null;
             try
@@ -1597,7 +1597,7 @@ namespace Intranet
 
         public VArticle SelectWhereVArticle(int id_article)
         {
-            string requete = "select * from vArticle where id_article = @id_article;";
+            string requete = "select * from Varticle where id_article = @id_article;";
             VArticle uneVArticle = null;
             MySqlCommand uneCmde = null;
             try
@@ -2111,7 +2111,7 @@ namespace Intranet
         /*      >>>>>>>> DATAJSON_DEMANDE_RH <<<<<<<<      */
         public int CountTraiteDemandeRh()
         {
-            string requete = "select count(id_demande_rh) from Archi_Demande_rh;";
+            string requete = "select count(id_demande_rh) from archi_demande_rh;";
             int Total =0;
             MySqlCommand uneCmde = null;
             try
@@ -2151,7 +2151,7 @@ namespace Intranet
 
         public int CountAccepteDemandeRh()
         {
-            string requete = "select count(id_demande_rh) from Archi_Demande_rh where etat='accepte';";
+            string requete = "select count(id_demande_rh) from archi_demande_rh where etat='accepte';";
             int Total = 0;
             MySqlCommand uneCmde = null;
             try
@@ -2191,7 +2191,7 @@ namespace Intranet
 
         public int CountNonTraiteDemandeRh()
         {
-            string requete = "select count(id_demande_rh) from Demande_rh;";
+            string requete = "select count(id_demande_rh) from demande_rh;";
             int Total = 0;
             MySqlCommand uneCmde = null;
             try
@@ -2232,7 +2232,7 @@ namespace Intranet
         /*Perso*/
         public int CountTraiteDemandeRh(int id_employe)
         {
-            string requete = "select count(id_demande_rh) from Archi_Demande_rh where id_employe = @id_employe ;";
+            string requete = "select count(id_demande_rh) from archi_demande_rh where id_employe = @id_employe ;";
             int Total =0;
             MySqlCommand uneCmde = null;
             try
@@ -2273,7 +2273,7 @@ namespace Intranet
 
         public int CountAccepteDemandeRh(int id_employe)
         {
-            string requete = "select count(id_demande_rh) from Archi_Demande_rh where etat='accepte' and id_employe = @id_employe ;";
+            string requete = "select count(id_demande_rh) from archi_demande_rh where etat='accepte' and id_employe = @id_employe ;";
             int Total = 0;
             MySqlCommand uneCmde = null;
             try
@@ -2314,7 +2314,7 @@ namespace Intranet
 
         public int CountNonTraiteDemandeRh(int id_employe)
         {
-            string requete = "select count(id_demande_rh) from Demande_rh where id_employe = @id_employe ;";
+            string requete = "select count(id_demande_rh) from demande_rh where id_employe = @id_employe ;";
             int Total = 0;
             MySqlCommand uneCmde = null;
             try
@@ -2435,7 +2435,7 @@ namespace Intranet
 
         public int CountNonTraiteDemandeAutre()
         {
-            string requete = "select count(id_demande_autre) from Demande_autre where etat='attente';";
+            string requete = "select count(id_demande_autre) from demande_autre where etat='attente';";
             int Total = 0;
             MySqlCommand uneCmde = null;
             try
@@ -2557,7 +2557,7 @@ namespace Intranet
 
         public int CountNonTraiteDemandeAutre(int id_employe)
         {
-            string requete = "select count(id_demande_autre) from Demande_autre where etat='attente' and id_employe = @id_employe;";
+            string requete = "select count(id_demande_autre) from demande_autre where etat='attente' and id_employe = @id_employe;";
             int Total = 0;
             MySqlCommand uneCmde = null;
             try
@@ -2652,7 +2652,7 @@ namespace Intranet
 
         public string DemandeRhResoluParMoisJSon()
         {
-            string requete = "select * from demande_rh_resolu_par_mois;";
+            string requete = "select * from demande_RH_resolu_par_mois;";
             string monjson ="\\\"resolution_mois\\\": {";
             List<string> leslignes = new List<string>();
             string machaine = "";

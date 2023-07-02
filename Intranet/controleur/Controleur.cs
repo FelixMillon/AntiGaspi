@@ -13,7 +13,7 @@ namespace Intranet
 {
     public class Controleur
     {
-        private static Modele unModele = new Modele("localhost", "bdd_anti_gaspi", "root", "");
+        private static Modele unModele = new Modele("192.168.23.134", "bdd_anti_gaspi", "root", "root");
 
         public static void InsertUniversel(Dictionary<string, string> donnees, string table, Boolean id_is_null)
         {
