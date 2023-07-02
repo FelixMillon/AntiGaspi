@@ -1,1 +1,77 @@
-<p>inscription works!</p>
+<div id="enveloppe-contenu" class="container" style="padding-top: 5%;">
+
+    <div class="tab-content">
+      <div class="tab-pane fade show active " id="pills-login" role="tabpanel" aria-labelledby="tab-login">
+    
+          <div style="padding-left: 20%; padding-right: 20%;">
+            <div class="row g-3">
+
+              
+              <div class="py-3 d-flex justify-content-between" style="padding-bottom: 5%;" > 
+                <button class="btn w-25" [ngClass]="type_cli == 'particulier' ? 'btn-primary' : 'btn-outline-primary'" (click)="Client()" >Client *</button>
+                <button class="btn w-25" [ngClass]="type_cli == 'entreprise' ? 'btn-primary' : 'btn-outline-primary'"  (click)="Entreprise()" >Entreprise *</button>
+                <button class="btn w-25" [ngClass]="type_cli == 'association' ? 'btn-primary' : 'btn-outline-primary'"  (click)="Association()" >Association *</button>
+              </div>
+              
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Nom *" [(ngModel)]="nom">
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Prénom *" [(ngModel)]="prenom">
+              </div>
+              
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Email *"  [(ngModel)]="email" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Mot de passe *" [(ngModel)]="mdp" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Tel *" [(ngModel)]="tel" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Adresse *" [(ngModel)]="rue" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="numéro de rue *" [(ngModel)]="numrue" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Ville *" [(ngModel)]="ville" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Code postal *" [(ngModel)]="cp" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Siren" [(ngModel)]="siren" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Libelle" [(ngModel)]="libelle" >
+              </div>
+
+              <div class="col-sm-6">
+                <input type="text" class="inscricase form-control" placeholder="Role du représentant" [(ngModel)]="role_representant" >
+              </div>
+            </div>
+
+        </div>
+
+  
+          <div class="text-center" style="padding-bottom: 2%; padding-top: 4%;">
+            <button (click)="ngOnInit()" style="margin-right: 2%;" class=" btn btn-danger btn-block mb-4 w-25">Annuler</button>
+            <button type="submit" (click)="Inscription()" style="margin-left: 2%;" class=" btn btn-primary btn-block mb-4 w-25">S'inscrire</button>
+          </div>
+  
+
+        
+    </div>
+  </div>
+  

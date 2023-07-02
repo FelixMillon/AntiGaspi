@@ -10,7 +10,7 @@ export class ServeurService {
     this.server;
   }
 
-  public server: string = `http://192.168.23.130:80`;
+  public server: string = `http://192.168.227.139:80`;
   
 
 
