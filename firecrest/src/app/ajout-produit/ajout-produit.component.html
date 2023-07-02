@@ -1,0 +1,204 @@
+<div id="enveloppe-contenu" class="container" style="padding-top: 2%;">
+
+
+    <div class="row g-3">
+
+              
+        <div class="py-3 d-flex justify-content-around" style="padding-bottom: 5%;" > 
+          <button class="btn w-25" [ngClass]="OnOff == 'cat' ? 'btn-primary' : 'btn-outline-primary'" (click)="OnCat()" >Gestion des categories </button>
+          <button class="btn w-25" [ngClass]="OnOff == 'prod' ? 'btn-primary' : 'btn-outline-primary'"  (click)="OnProd()" >Gestion des produits</button>
+        </div>
+
+    </div>
+ 
+    <div *ngIf="OnOff == 'cat' " class="d-flex justifiy-content-center" >
+        <div class="col-5" style="padding-right:1%;"> 
+            <!-- Début insert -->
+            <form method="post" action="">
+                <div class="container" >
+                        <div class="col p-4 d-flex flex-column position-static">
+    
+                                <div class="row g-3">
+                                    <div *ngIf="ModifCat != null" > {{ModifCat.libelle}}</div>
+                                    <div class="col-12">
+                                        
+                                        <input *ngIf="ModifCat != null" type="text" class="inscricase form-control" placeholder="{{ModifCat.libelle}}" [(ngModel)]="libelle_cat" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifCat == null"  type="text" class="inscricase form-control" placeholder="Libelle" [(ngModel)]="libelle_cat" [ngModelOptions]="{standalone: true}">
+
+                                    </div>	
+                                    <div class="col-12">
+                                        <textarea *ngIf="ModifCat != null" type="text" class="inscricase form-control" placeholder="{{ModifCat.description}}" cols="15" rows="5" value="" [(ngModel)]="description_cat" [ngModelOptions]="{standalone: true}"></textarea>
+                                        <textarea *ngIf="ModifCat == null" type="text" class="inscricase form-control" placeholder="Description . . ." cols="15" rows="5" value="" [(ngModel)]="description_cat" [ngModelOptions]="{standalone: true}"></textarea>
+                                    </div>	
+                                                             
+                                    <div class="text-center" style="padding-bottom: 2%; padding-top: 4%;">
+                                        <button (click)="Clear()" style="margin-right: 2%;" class=" btn btn-danger btn-block mb-4 w-25">Annuler</button>
+                                        <button *ngIf="ModifCat != null" type="submit" (click)="finmodifCat()" style="margin-left: 2%;" class=" btn btn-primary btn-block mb-4 w-50">Modifier le produit</button>
+                                        <button *ngIf="ModifCat == null" type="submit" (click)="AjoutCat()" style="margin-left: 2%;" class=" btn btn-primary btn-block mb-4 w-50">Ajouter catégorie</button>
+                                    </div>
+
+                                </div>       
+                        </div>
+                </div>
+            </form>
+            <!-- Fin insert -->
+        </div>
+
+
+        <div class="col-7"> 
+        
+            <div class="table-responsive w-100 h-75" style="height:40vh;border : 4px solid gray;  border-radius: 10px;">
+                <table class="table table-striped table-sm" >
+                    <tr class="text-center fw-bold" style="background: white;opacity : 0.57; border-bottom: 4px solid gray; ">
+                        <td>ID</td>
+                        <td>Libelle</td>
+                        <td>Description</td>
+                        <td>Action</td>
+                    </tr>
+                    
+                    <tr *ngFor="let res of Cat" class="text-center"> 
+                        <td > {{res.id_categorie}} </td>
+                        <td>{{res.libelle}}</td>
+                        <td>{{res.description}}</td> 
+                        <td> <button (click)="modifCat(res)"> <img src='assets/img/modif.png' height='30' width='30'> </button> <button (click)="SupCat(res.id_categorie)"> <img src='assets/img/supp.png' height='30' width='30'> </button>  </td>
+        
+                    </tr>
+        
+                </table>
+            </div>
+    
+
+        </div>
+    </div>
+    
+    
+    <div *ngIf="OnOff == 'prod' " class="d-flex justifiy-content-center" >
+        <div class="col-5" style="padding-right:1%;"> 
+            <!-- Début insert -->
+            <form method="post" action="">
+                <div class="container" >
+                        <div class="col p-4 d-flex flex-column position-static">
+    
+                                <div class="row g-3">
+                                
+                                    <div class="col-12">
+                                        <input *ngIf="ModifProduit != null"  type="text" class="inscricase form-control" placeholder="{{ModifProduit.libelle}}"  value="" [(ngModel)]="libelle_prod" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Nom produit *"  value="" [(ngModel)]="libelle_prod" [ngModelOptions]="{standalone: true}">
+                                    </div>  
+                                    <div class="col-12"> 
+                                        <textarea *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.description}}" cols="15" rows="5" value="" [(ngModel)]="description_prod" [ngModelOptions]="{standalone: true}"></textarea>
+                                        <textarea *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Description . . . *" cols="15" rows="5" value="" [(ngModel)]="description_prod" [ngModelOptions]="{standalone: true}"></textarea>
+                                    </div>	
+                                    <div class="col-12">
+                                        <button class="btn w-25" [ngClass]="regime_alim == 'crudivore' ? 'btn-primary' : 'btn-outline-primary'" (click)="Crudivore()" >Crudivore</button>
+                                        <button class="btn w-25" [ngClass]="regime_alim == 'vegan' ? 'btn-primary' : 'btn-outline-primary'"  (click)="Vegan()" >Vegan</button>
+                                        <button class="btn w-25" [ngClass]="regime_alim == 'vegetalien' ? 'btn-primary' : 'btn-outline-primary'"  (click)="Vegetalien()" >Vegetalien</button>
+                                        <button class="btn w-25" [ngClass]="regime_alim == 'glutenfree' ? 'btn-primary' : 'btn-outline-primary'"  (click)="Glutenfree()" >Glutenfree</button>
+                                    </div>	
+
+                                    <div class="col-sm-4">
+                                        <input *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.numrue_depot}}"  [(ngModel)]="numrue_depot" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Numéro de rue *"  [(ngModel)]="numrue_depot" [ngModelOptions]="{standalone: true}">
+                                    </div>
+
+                                    <div class="col-sm-8">
+                                        <input *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.rue_depot}}" [(ngModel)]="rue_depot" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Adresse *" [(ngModel)]="rue_depot" [ngModelOptions]="{standalone: true}">
+                                    </div>
+                        
+                                    <div class="col-sm-6">
+                                        <input *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.ville_depot}}" [(ngModel)]="ville_depot" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Ville *" [(ngModel)]="ville_depot" [ngModelOptions]="{standalone: true}">
+                                    </div>
+                    
+                                    <div class="col-sm-6">
+                                        <input *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.cp_depot}}"[(ngModel)]="cp_depot" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Code postal *" [(ngModel)]="cp_depot" [ngModelOptions]="{standalone: true}">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <input *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.prix_base}}" [(ngModel)]="prix_base" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Prix de base" [(ngModel)]="prix_base" [ngModelOptions]="{standalone: true}">
+                                    </div>
+
+
+                                    <div class="col-sm-6">
+                                        <input *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.reduction}}" [(ngModel)]="reduction" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Prix réduit" [(ngModel)]="reduction" [ngModelOptions]="{standalone: true}">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <input *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.poids_unite}}" [(ngModel)]="poids_unite" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Poids" [(ngModel)]="poids_unite" [ngModelOptions]="{standalone: true}">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <input *ngIf="ModifProduit != null" type="text" class="inscricase form-control" placeholder="{{ModifProduit.quantite}}" [(ngModel)]="quantite" [ngModelOptions]="{standalone: true}">
+                                        <input *ngIf="ModifProduit == null" type="text" class="inscricase form-control" placeholder="Quantité" [(ngModel)]="quantite" [ngModelOptions]="{standalone: true}">
+                                    </div>
+
+                                    <div class="col-sm-12 text-center">
+                                        Date de péremption
+                                        <input type="date" class="inscricase form-control" placeholder="Date de péremption" [(ngModel)]="date_peremption" [ngModelOptions]="{standalone: true}">
+                                    </div>
+
+                                    <div class="col-sm-6">
+                                        <select [(ngModel)]="id_categorie" [ngModelOptions]="{standalone: true}">
+                                                <option value="">Sélection</option>   
+                                                <option  *ngFor="let res of Cat" value="{{res.id_categorie}}">{{res.libelle}}</option>                                          
+                                        </select>
+                                    </div>
+
+
+                                                             
+                                    <div class="text-center" style="padding-bottom: 2%; padding-top: 4%;">
+                                        <button (click)="Clear()" style="margin-right: 2%;" class=" btn btn-danger btn-block mb-4 w-25">Annuler</button>
+                                        <button *ngIf="ModifProduit != null" type="submit" (click)="finmodifProduit()" style="margin-left: 2%;" class=" btn btn-primary btn-block mb-4 w-50">Modifier le produit</button>
+                                        <button *ngIf="ModifProduit == null" type="submit" (click)="AjoutProduit()" style="margin-left: 2%;" class=" btn btn-primary btn-block mb-4 w-50">Ajouter un produit</button>
+                                    </div>
+
+                                </div>       
+                        </div>
+                </div>
+            </form>
+            <!-- Fin insert -->
+        </div>
+
+
+        <div class="col-7"> 
+        
+            <div class="table-responsive w-100 h-75" style="height:40vh;border : 4px solid gray;  border-radius: 10px;">
+                <table class="table table-striped table-sm" >
+                    <tr class="text-center fw-bold" style="background: white;opacity : 0.57; border-bottom: 4px solid gray; ">
+                        <td>ID</td>
+                        <td>Produit</td>
+                        <td>Quantité</td>
+                        <td>Poids</td>
+                        <td>Date de péremption</td>
+                        <td>Catégorie</td>
+                        <td>Action</td>
+                    </tr>
+                    
+                    <tr *ngFor="let res of Produit" class="text-center"> 
+                        <td> {{res.id_produit}} </td>
+                        <td> {{res.libelle}} </td>
+                        <td> {{res.quantite}} </td>
+                        <td> {{res.poids_unite}} </td> 
+                        <td> {{res.date_peremption}} </td> 
+                        <td> {{res.lib}} </td> 
+                        <td> <button (click)="modifProduit(res)"> <img src='assets/img/modif.png' height='30' width='30'> </button> <button (click)="SupProduit(res.id_produit)" > <img src='assets/img/supp.png' height='30' width='30'> </button>  </td>
+        
+                    </tr>
+        
+                </table>
+            </div>
+    
+
+        </div>
+    </div>
+
+
+    
+    
+
+</div>

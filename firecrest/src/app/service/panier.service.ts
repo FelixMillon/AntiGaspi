@@ -9,9 +9,10 @@ export class PanierService {
   public cartItemList : any = [];
   public productList = new BehaviorSubject<any>([]);
   constructor() { }
+
   getProducts(){
     return this.productList.asObservable();
-  }
+  } 
 
   setProduct(product : any){
     this.cartItemList.push(...product);
@@ -21,8 +22,6 @@ export class PanierService {
 
   addtoCart(product : any){
   // console.log(product.id_produit);
-
-
     this.cartItemList.push(product);
     this.productList.next(this.cartItemList);
     this.getTotalPrice();
@@ -58,5 +57,8 @@ export class PanierService {
     this.cartItemList = [];
     this.productList.next(this.cartItemList);
   }
+
+
+  
 
 }

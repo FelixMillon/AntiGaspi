@@ -5,7 +5,7 @@
     "secure": false
   },
   "/Heberged_Api": {
-    "target": "http://192.168.23.130:80/",
+    "target": "http://192.168.227.139:80",
     "secure": false
   }
 }

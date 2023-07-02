@@ -14,11 +14,14 @@ import { InscriptionComponent } from './inscription/inscription.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AuthModule } from './auth/auth.module';
-import { ConnexionComponent } from './connexion/connexion.component';
 import { AvisComponent } from './avis/avis.component';
 import { UnavisComponent } from './avis/unavis/unavis.component';
 import { ListViewModule } from '@syncfusion/ej2-angular-lists';
 import { CommonModule } from '@angular/common';
+import { AjoutProduitComponent } from './ajout-produit/ajout-produit.component';
+import { ModifProfilComponent } from './modif-profil/modif-profil.component';
+import { ModerationAvisComponent } from './moderation-avis/moderation-avis.component';
+import { CompteComponent } from './compte/compte.component';
 
 
 @NgModule({
@@ -30,10 +33,13 @@ import { CommonModule } from '@angular/common';
     AccueilComponent,
     PanierComponent,
     HeaderComponent,
-    ConnexionComponent,
     InscriptionComponent,
     AvisComponent,
-    UnavisComponent
+    UnavisComponent,
+    AjoutProduitComponent,
+    ModifProfilComponent,
+    ModerationAvisComponent,
+    CompteComponent
 
   ],
   imports: [
